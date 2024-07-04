@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
+    {% set lang = request.state.lang %}
+
+    <title>
+        {% block title %}
+        {% endblock title %} - pf2.ru
+    </title>
+
+    <link rel="stylesheet" href="{{ url_for('static', path='bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='fonts/FFGoodProCond.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='fonts/Roboto.css') }}">
+
+</head>
+
+{% from "viewbox.html" import viewbox with context %}
+
+<body>
+
+<div class="wrapper">
+
+    <header class="header">
+        <div class="header__burger " onclick="openSidenav()" id="leftMenu-burger"> <span></span></div>
+
+        <div class="logo header__logo">
+            <div class="pf2-logo header__pf2-logo">
+                <a class="logo-link header__logo-link" href="/">PATHFINDER 2E</a>
+            </div>
+        </div>
+        <div class="logo header__logo logo--mobile">
+            <div class="pf2-logo header__pf2-logo">
+                 <a class="logo-link header__logo-link " href="/">PF2e</a>
+            </div>
+        </div>
+
+         <form class="search-panel" action="/search" method="get">
+             <button  class="search-panel--button" id="open-search-input-button">
+                 <img class="search-panel--icon" src="{{ url_for('static', path='icons/search.svg' ) }}" alt="{{ trans('Add to Bookmark', lang) }}">
+             </button>
+            <input type="text" class="search-panel--input" name="q" placeholder="{{ trans('Search', lang) }}" required>
+{#            <span class="search-icon"></span>#}
+        </form>
+            <div class="search-panel--dropdown" id="search-panel--dropdown">
+                <form class="search-panel--dropdown--form" action="/search" method="get" >
+                    <input type="text" class="search-panel--dropdown--input" name="q" placeholder="{{ trans('Search', lang) }}" required>
+                    <button class="search-panel--dropdown--button">{{ trans ('Search', lang) }}</button>
+                </form>
+            </div>
+
+        <div class="user-panel">
+            {% if user %}
+                <span class="user-panel--userlink" id="usermenu-logout">
+                    {{ user.username }}
+                </span>
+                <div class="user-panel--usermenu" id="logout-dropdown">
+                    <a class="textlink" href="/users/profile">
+                        {{  trans ('Magnificient Mansion', lang) }}
+                    </a>
+                    <button id="logout-button">{{ trans('Logout', lang) }} </button>
+                </div>
+            {% else %}
+
+                <span class="user-panel--userlink" id="usermenu-login">
+                    {{ trans('Login', lang) }}
+                </span>
+
+                <div class="user-panel--login" id="login-dropdown">
+                    <form class="user-panel--login--form" method="post" id="login-form" action="/users/auth/jwt/login">
+                        <label for="username">{{ trans ('Email', lang) }}</label>
+                        <input id="userpanel--username" name="username" required>
+                        <label for="password">{{ trans ('Password', lang) }}:</label>
+                        <input type="password" id="userpanel--password" name="password" required>
+                        <button class="user-panel--login--form--button" type="submit">{{ trans ('Login', lang) }}</button>
+                    </form>
+                    <button id="google-login" class="google-button">{{ trans ('Login with Google', lang) }}</button>
+                    <a class="textlink" href="{{url_for ('user_forgot_password') }}">{{ trans ('Forgot password', lang) }}</a>
+                    <a class="textlink" href="{{url_for('user_register') }}">{{ trans ('Register', lang) }}</a>
+                </div>
+            {% endif %}
+
+        </div>
+
+        <div class="nav-panel header__nav-panel">
+            <div class="lang-panel header__lang-panel">
+                <button class="lang-button header__lang-button " id="rus-lang-button" onClick="setLang('ru')">
+                    <span class="button-rus header__button-rus">Русский</span>
+                    <span class="button-rus--mobile header__button-rus">РУС</span>
+                </button>
+                <button class="lang-button header__lang-button " id="eng-lang-button" onClick="setLang('en')">
+                    <span class="button-eng header__button-eng">English</span>
+                    <span class="button-eng--mobile header__button-eng">ENG</span>
+
+                </button>
+            </div>
+
+        </div>
+    </header>
+
+    <div class="page">
+
+        <div class="leftmenu " id="leftMenu">
+            <div class="menu-content leftmenu__menu-content">
+                <div class="menu-bgc">
+                    <div class="menu-h1 leftmenu__menu-h1" id="h1-rules">
+                        <a class="menu-h1-header leftmenu__menu-h1-header " href="{{ url_for('get_rules_index') }}">
+                           {{ trans ('RULES', lang) }}
+                        </a>
+                    </div>
+
+                    <div class="inside-h1 leftmenu__inside-h1" id="h1-rules-submenu">
+
+                        <div class="menu-h2 leftmenu__menu-h2 menu-h2--active expanded-menu " id="h2-core-rulebook">
+                            <a class="menu-h2-header leftmenu__menu-h2-header"
+                               href="{{ url_for('core_rulebook_index') }}">
+                                {{ trans ('CORE RULEBOOK', lang) }}
+                            </a>
+                            <div class="clickable-menu" id="h2-core-rulebook-click">
+                                <div class="menu-h2-open-menu leftmenu__menu-h2-open-menu open-menu"
+                                     id="h2-core-rulebook-arrow"></div>
+                            </div>
+                        </div>
+
+                        <div class="inside-h2 leftmenu__inside-h2 submenu " id="h2-core-rulebook-submenu">
+
+                            <div class="menu-h3 leftmenu__menu-h3" id="h3-crb-introduction">
+                                <a href="{{ url_for('core_rulebook_chapter', chapter_name='introduction') }}"
+                                   class="menu-h3-header leftmenu__menu-h3-header ">
+                                    {{ trans ('Chapter 1: Introduction', lang) }}
+                                </a>
+                            </div>
+
+                            <div class="menu-h3 leftmenu__menu-h3 " id="h3-crb-ancestries_backgrounds">
+                                <a href="{{ url_for('core_rulebook_chapter', chapter_name='ancestries-and-backgrounds') }}"
+                                   class="menu-h3-header leftmenu__menu-h3-header ">
+                                    {{ trans ('Chapter 2: Ancestries & Backgrounds', lang) }}
+                                </a>
+                            </div>
+
+                            <div class="menu-h3 leftmenu__menu-h3 " id="h3-crb_classes">
+                                <a href="{{ url_for('core_rulebook_chapter', chapter_name='classes') }}"
+                                   class="menu-h3-header leftmenu__menu-h3-header ">
+                                    {{ trans ('Chapter 3: Classes', lang) }}
+                                </a>
+                            </div>
+
+                            <div class="menu-h3 leftmenu__menu-h3 expanded-menu " id="h3-crb_skills">
+                                <a href="{{ url_for('core_rulebook_chapter', chapter_name='skills') }}"
+                                   class="menu-h3-header leftmenu__menu-h4-header ">
+                                    {{ trans ('Chapter 4: Skills', lang) }}
+                                </a>
+                                <div class="clickable-menu" id="h3-crb_skills-click">
+                                    <div class="menu-h3-open-menu leftmenu__menu-h3-open-menu open-menu"
+                                         id="h3-crb_skills-arrow"></div>
+                                </div>
+                            </div>
+                            <div class="inside-h3 leftmenu__inside-h3 submenu " id="h3-crb_skills-submenu">
+
+                                <div class="menu-h4 leftmenu__menu-h4 " id="h3-crb_skills_general-skill-actions">
+                                    <a href="{{ url_for('core_rulebook_skill_page', skill_name='general') }}" class="menu-h4-header leftmenu__menu-h4-header ">
+                                        {{ trans('General Skill Actions', lang) }}</a>
+                                </div>
+<!--
+{{ trans ('acrobatics', lang) }}
+{{ trans ('acrobatics', lang) }}
+{{ trans ('arcana', lang) }}
+{{ trans ('athletics', lang) }}
+{{ trans ('crafting', lang) }}
+{{ trans ('deception', lang) }}
+{{ trans ('diplomacy', lang) }}
+{{ trans ('intimidation', lang) }}
+{{ trans ('lore', lang) }}
+{{ trans ('medicine', lang) }}
+{{ trans ('nature', lang) }}
+{{ trans ('occultism', lang) }}
+{{ trans ('performance', lang) }}
+{{ trans ('religion', lang) }}
+{{ trans ('society', lang) }}
+{{ trans ('stealth', lang) }}
+{{ trans ('survival', lang) }}
+{{ trans ('thievery', lang) }}
+
+-->
+
+                                {% set skills = [
+                                    'acrobatics',
+                                    'arcana',
+                                    'athletics',
+                                    'crafting',
+                                    'deception',
+                                    'diplomacy',
+                                    'intimidation',
+                                    'lore',
+                                    'medicine',
+                                    'nature',
+                                    'occultism',
+                                    'performance',
+                                    'religion',
+                                    'society',
+                                    'stealth',
+                                    'survival',
+                                    'thievery',
+                                ]%}
+                                {% for skill in skills %}
+                                    <div class="menu-h4 leftmenu__menu-h4 " id="h3-crb_skills_{{skill}}">
+                                        <a href="{{ url_for('core_rulebook_skill_page', skill_name=skill) }}" class="menu-h4-header leftmenu__menu-h4-header ">
+                                            {{ trans(skill, lang)|capitalize }}</a>
+                                    </div>
+                                {% endfor%}
+                            </div>
+
+                            <div class="menu-h3 leftmenu__menu-h3 " id="h3-crb_feats">
+                                <a href="{{ url_for('core_rulebook_chapter', chapter_name='feats') }}"
+                                   class="menu-h3-header leftmenu__menu-h3-header ">
+                                    {{ trans ('Chapter 5: Feats', lang) }}
+                                </a>
+                            </div>
+
+                            <div class="menu-h3 leftmenu__menu-h3 " id="h3-crb_equipment">
+                                <a href="{{ url_for('core_rulebook_chapter', chapter_name='equipment') }}"
+                                   class="menu-h3-header leftmenu__menu-h3-header ">
+                                    {{ trans ('Chapter 6: Equipment', lang) }}
+                                </a>
+                            </div>
+
+                            <div class="menu-h3 leftmenu__menu-h3 " id="h3-crb_spells">
+                                <a href="{{ url_for('core_rulebook_chapter', chapter_name='spells') }}"
+                                   class="menu-h3-header leftmenu__menu-h3-header ">
+                                    {{ trans ('Chapter 7: Spells', lang) }}
+                                </a>
+                            </div>
+
+{#                                                            <div class="menu-h3 leftmenu__menu-h3 " id="h3-crb_the_age_of_lost_omens">#}
+{#                                                                <a href="{{ url_for('core_rulebook_chapter', chapter_name='the-age-of-the-lost-omens') }}" class="menu-h4-header leftmenu__menu-h4-header ">#}
+{#                                                                    {{ trans ('Chapter 8: The Age of Lost Omens', lang) }}#}
+{#                                                                </a>#}
+{#                                                            </div>#}
+
+                            <div class="menu-h3 leftmenu__menu-h3 " id="h3-crb_playing_the_game">
+                                <a href="{{ url_for('core_rulebook_chapter', chapter_name='playing-the-game') }}"
+                                   class="menu-h3-header leftmenu__menu-h3-header ">
+                                    {{ trans ('Chapter 9: Playing the Game', lang) }}
+                                </a>
+                            </div>
+
+                            <div class="menu-h3 leftmenu__menu-h3 " id="h3-crb_game_mastering">
+                                <a href="{{ url_for('core_rulebook_chapter', chapter_name='game-mastering') }}"
+                                   class="menu-h3-header leftmenu__menu-h3-header ">
+                                    {{ trans ('Chapter 10: Game Mastering', lang) }}
+                                </a>
+                            </div>
+
+                            <div class="menu-h3 leftmenu__menu-h3 " id="h3-crb_crafting_and_treasure">
+                                <a href="{{ url_for('core_rulebook_chapter', chapter_name='crafting-and-treasure') }}"
+                                   class="menu-h3-header leftmenu__menu-h3-header ">
+                                    {{ trans ('Chapter 11: Crafting & Treasure', lang) }}
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="menu-h2 leftmenu__menu-h2 expanded-menu " id="h2-rules-appendix">
+                            <a class="menu-h2-header leftmenu__menu-h2-header " href="{{ url_for('appendix') }}">
+                                {{ trans ('APPENDIX', lang) }}</a>
+                            <div class="clickable-menu" id="h2-rules-appendix-click">
+                                <div class="menu-h2-open-menu leftmenu__menu-h2-open-menu open-menu"
+                                     id="h2-rules-appendix-arrow"></div>
+                            </div>
+                        </div>
+
+                        <div class="inside-h2 leftmenu__inside-h2 submenu " id="h2-rules-appendix-submenu">
+
+                            <div class="menu-h3 leftmenu__menu-h3" id="h3-rules-appendix-files">
+                                <a href="{{ url_for('files') }}" class="menu-h3-header leftmenu__menu-h3-header ">{{
+                                    trans ('Files', lang) }}</a>
+                            </div>
+                            <div class="menu-h3 leftmenu__menu-h3" id="h3-rules-appendix-conditions">
+                                <a href="{{ url_for('get_conditions') }}" class="menu-h3-header leftmenu__menu-h3-header ">{{
+                                    trans ('Conditions', lang) }}</a>
+                            </div>
+
+                            <div class="menu-h3 leftmenu__menu-h3 expanded-menu " id="h3-rules-appendix-actions">
+                                <a href="{{ url_for('get_actions') }}" class="menu-h3-header leftmenu__menu-h3-header ">{{
+                                    trans ('Actions and Activities', lang) }}</a>
+                                <div class="clickable-menu" id="h3-rules-appendix-actions-click">
+                                    <div class="menu-h3-open-menu leftmenu__menu-h3-open-menu open-menu" id="h3-rules-appendix-actions-arrow"></div>
+                                </div>
+                            </div>
+                                <div class="inside-h3 leftmenu__inside-h3 submenu " id="h3-rules-appendix-actions-submenu">
+                                    <div class="menu-h4 leftmenu__menu-h4 " id="h3-rules-appendix-actions-basic-actions">
+                                        <a href="{{ url_for('get_actions').include_query_params(tab='basic-actions') }}" class="menu-h4-header leftmenu__menu-h4-header ">
+                                        {{ trans ('Basic Actions', lang) }}</a>
+                                    </div>
+                                    <div class="menu-h4 leftmenu__menu-h4 " id="h3-rules-appendix-actions-exploration-actions">
+                                        <a href="{{ url_for('get_actions').include_query_params(tab='exploration-actions') }}" class="menu-h4-header leftmenu__menu-h4-header ">
+                                        {{ trans ('Exploration Actions', lang) }}</a>
+                                    </div>
+                                    <div class="menu-h4 leftmenu__menu-h4 " id="h3-rules-appendix-actions-donwtime-actions">
+                                        <a href="{{ url_for('get_actions').include_query_params(tab='downtime-actions') }}" class="menu-h4-header leftmenu__menu-h4-header ">
+                                        {{ trans ('Downtime Actions', lang) }}</a>
+                                    </div>
+{#                                    <div class="menu-h4 leftmenu__menu-h4 " id="h3-rules-appendix-actions-general-skill-actions">#}
+{#                                        <a href="{{ url_for('get_actions').include_query_params(tab='general-skill-actions') }}" class="menu-h4-header leftmenu__menu-h4-header ">#}
+{#                                        {{ trans ('General Skill Actions', lang) }}</a>#}
+{#                                    </div>#}
+                                </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="menu-h1 leftmenu__menu-h1" id="h1-database">
+                            <a class="menu-h1-header leftmenu__menu-h1-header " href="{{ url_for('get_database_index') }}">{{ trans ('DATABASE', lang) }}</a>
+                    </div>
+
+                    <div class="inside-h1 leftmenu__inside-h1 submenu--active" id="h1-database-submenu">
+
+                        <!--                        ancestries -->
+                        <div class="menu-h2 leftmenu__menu-h2 expanded-menu " id="h2-ancestries">
+                            <a class="menu-h2-header leftmenu__menu-h2-header" href="{{ url_for('get_ancestries') }}">{{ trans('Ancestries', lang) }}</a>
+                            <div class="clickable-menu" id="h2-ancestries-click">
+                                <div class="menu-h2-open-menu leftmenu__menu-h2-open-menu open-menu" id="h2-ancestries-arrow"></div>
+                            </div>
+                        </div>
+                        <div class="inside-h2 leftmenu__inside-h2 submenu " id="h2-ancestries-submenu">
+                            {% include 'menus/ancestries_menu.html' %}
+                        </div>
+
+                        <!--                        classes -->
+                        <div class="menu-h2 leftmenu__menu-h2 expanded-menu " id="h2-classes">
+                                <a class="menu-h2-header leftmenu__menu-h2-header" href="{{ url_for('get_list_of_items', item_type='classes') }}">{{ trans('Classes', lang) }}</a>
+                                <div class="clickable-menu" id="h2-classes-click">
+                                    <div class="menu-h2-open-menu leftmenu__menu-h2-open-menu open-menu" id="h2-classes-arrow"></div>
+                                </div>
+                            </div>
+                        <div class="inside-h2 leftmenu__inside-h2 submenu " id="h2-classes-submenu">
+                            {% include 'menus/classes_menu.html' %}
+                        </div>
+
+                        <!--                        backgrounds -->
+                        <div class="menu-h2 leftmenu__menu-h2 expanded-menu " id="h2-backgrounds">
+                                <a class="menu-h2-header leftmenu__menu-h2-header" href="{{ url_for('get_backgrounds') }}">{{ trans('Backgrounds', lang) }}</a>
+                                <div class="clickable-menu" id="h2-backgrounds-click">
+{#                                    <div class="menu-h2-open-menu leftmenu__menu-h2-open-menu open-menu" id="h2-backgrounds-arrow"></div>#}
+                                </div>
+                            </div>
+{#                        <div class="inside-h2 leftmenu__inside-h2 submenu " id="h2-backgrounds-submenu">#}
+{#                            <div class="menu-h3 leftmenu__menu-h3 " id="h3-backgrounds-general">#}
+{#                                <a href="{{ url_for('get_backgrounds').include_query_params(tab='general') }}" class="menu-h3-header leftmenu__menu-h3-header ">{{ trans('General', lang) }}</a>#}
+{#                            </div>#}
+{#                            <div class="menu-h3 leftmenu__menu-h3 " id="h3-backgrounds-regional">#}
+{#                                <a href="{{ url_for('get_backgrounds').include_query_params(tab='regional') }}" class="menu-h3-header leftmenu__menu-h3-header ">{{ trans('Regional', lang) }}</a>#}
+{#                            </div>#}
+{# <!--                            <div class="menu-h3 leftmenu__menu-h3 " id="h3-backgrounds-legacy">-->
+{#<!--                                <a href="#" class="menu-h3-header leftmenu__menu-h3-header ">{{ trans('General', lang) }}</a>-->#}
+{#<!--                            </div>--> #}
+{#                        </div>#}
+
+                         <!--                        feats -->
+                        <div class="menu-h2 leftmenu__menu-h2 expanded-menu " id="h2-feats">
+                                <a class="menu-h2-header leftmenu__menu-h2-header" href="{{ url_for('get_feats').include_query_params(tab='feats') }}">{{ trans('Feats', lang) }}</a>
+                                <div class="clickable-menu" id="h2-feats-click">
+                                    <div class="menu-h2-open-menu leftmenu__menu-h2-open-menu open-menu" id="h2-feats-arrow"></div>
+                                </div>
+                            </div>
+                        <div class="inside-h2 leftmenu__inside-h2 submenu " id="h2-feats-submenu">
+                            <div class="menu-h3 leftmenu__menu-h3 " id="h3-feats-general-feats">
+                                <a href="{{ url_for('get_feats').include_query_params(tab='general') }}" class="menu-h3-header leftmenu__menu-h3-header ">{{ trans('General Feats', lang) }}</a>
+                            </div>
+{##}
+{#                            <div class="menu-h3 leftmenu__menu-h3 expanded-menu " id="h3-feats-skills">#}
+{#                                <a href="{{ url_for('get_feats').include_query_params(tab='skill') }}" class="menu-h3-header leftmenu__menu-h3-header ">{{ trans('Skill Feats', lang) }}</a>#}
+{#                                <div class="clickable-menu" id="h3-feats-skills-click">#}
+{#                                    <div class="menu-h3-open-menu leftmenu__menu-h3-open-menu open-menu" id="h3-feats-skills-arrow"></div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <div class="inside-h3 leftmenu__inside-h3 submenu " id="h3-feats-skills-submenu">#}
+{#                                {% for skill in skills %}#}
+{#                                <div class="menu-h4 leftmenu__menu-h4 " id="h4-feats-skills-{{skill}}">#}
+{#                                    <a href="{{ url_for('get_feats').include_query_params(tab='skill') }}" class="menu-h4-header leftmenu__menu-h4-header ">#}
+{#                                        {{ trans(skill, lang)|capitalize }} </a>#}
+{#                                </div>#}
+{#                                {% endfor %}#}
+{#                            </div>#}
+
+                        </div>
+
+                        <!--                        archetypes -->
+                        <div class="menu-h2 leftmenu__menu-h2 expanded-menu " id="h2-archetypes">
+                                <a class="menu-h2-header leftmenu__menu-h2-header" href="{{ url_for('get_archetypes') }}">{{ trans('Archetypes', lang) }}</a>
+                                <div class="clickable-menu" id="h2-archetypes-click">
+                                    <div class="menu-h2-open-menu leftmenu__menu-h2-open-menu open-menu" id="h2-archetypes-arrow"></div>
+                                </div>
+                            </div>
+                        <div class="inside-h2 leftmenu__inside-h2 submenu " id="h2-archetypes-submenu">
+                            <div class="menu-h3 leftmenu__menu-h3 " id="h3-archetypes-multiclass">
+                                <a href="{{ url_for('get_archetypes').include_query_params(tab='multiclass') }}" class="menu-h3-header leftmenu__menu-h3-header ">{{ trans('Multiclass', lang) }}</a>
+                            </div>
+                        </div>
+
+                        <!--                        spells -->
+                        <div class="menu-h2 leftmenu__menu-h2 expanded-menu " id="h2-spells">
+                                <a class="menu-h2-header leftmenu__menu-h2-header" href="{{ url_for('get_spells').include_query_params(tab='spells') }}">{{ trans('Spells', lang) }}</a>
+                                <div class="clickable-menu" id="h2-spells-click">
+                                    <div class="menu-h2-open-menu leftmenu__menu-h2-open-menu open-menu" id="h2-spells-arrow"></div>
+                                </div>
+                            </div>
+                        <div class="inside-h2 leftmenu__inside-h2 submenu " id="h2-spells-submenu">
+                            <div class="menu-h3 leftmenu__menu-h3 " id="h3-spells-focus-spells">
+                                <a href="{{ url_for('get_spells').include_query_params(tab='focus-spells') }}" class="menu-h3-header leftmenu__menu-h3-header ">{{ trans('Focus Spells', lang) }}</a>
+                            </div>
+                            <div class="menu-h3 leftmenu__menu-h3 " id="h3-spells-arcane">
+                                <a href="{{ url_for('get_spells').include_query_params(tab='arcane') }}" class="menu-h3-header leftmenu__menu-h3-header ">{{ trans('Arcane', lang) }}</a>
+                            </div>
+                            <div class="menu-h3 leftmenu__menu-h3 " id="h3-spells-divine">
+                                <a href="{{ url_for('get_spells').include_query_params(tab='divine') }}" class="menu-h3-header leftmenu__menu-h3-header ">{{ trans('Divine', lang) }}</a>
+                            </div>
+                            <div class="menu-h3 leftmenu__menu-h3 " id="h3-spells-occult">
+                                <a href="{{ url_for('get_spells').include_query_params(tab='occult') }}" class="menu-h3-header leftmenu__menu-h3-header ">{{ trans('Occult', lang) }}</a>
+                            </div>
+                            <div class="menu-h3 leftmenu__menu-h3 " id="h3-spells-prima;">
+                                <a href="{{ url_for('get_spells').include_query_params(tab='primal') }}" class="menu-h3-header leftmenu__menu-h3-header ">{{ trans('Primal', lang) }}</a>
+                            </div>
+                        </div>
+
+                        <!--                        rituals -->
+                        <div class="menu-h2 leftmenu__menu-h2 " id="h2-rituals">
+                                <a class="menu-h2-header leftmenu__menu-h2-header" href="{{ url_for('get_rituals') }}">{{ trans('Rituals', lang) }}</a>
+                            </div>
+
+                        <!--                        equipment -->
+                        <div class="menu-h2 leftmenu__menu-h2 expanded-menu " id="h2-equipment">
+                                <a class="menu-h2-header leftmenu__menu-h2-header" href="{{ url_for('get_equipment') }}">{{ trans('Equipment', lang) }}</a>
+                                <div class="clickable-menu" id="h2-equipment-click">
+                                    <div class="menu-h2-open-menu leftmenu__menu-h2-open-menu open-menu" id="h2-equipment-arrow"></div>
+                                </div>
+                            </div>
+                        <div class="inside-h2 leftmenu__inside-h2 submenu " id="h2-equipment-submenu">
+                            {% include 'menus/equipment_menu.html' %}
+                        </div>
+
+                        <!--                        setting -->
+                        <div class="menu-h2 leftmenu__menu-h2 expanded-menu " id="h2-setting">
+                                <a class="menu-h2-header leftmenu__menu-h2-header" href="{{ url_for('get_setting') }}">{{ trans('Setting', lang) }}</a>
+                                <div class="clickable-menu" id="h2-setting-click">
+                                    <div class="menu-h2-open-menu leftmenu__menu-h2-open-menu open-menu" id="h2-setting-arrow"></div>
+                                </div>
+                            </div>
+                        <div class="inside-h2 leftmenu__inside-h2 submenu " id="h2-setting-submenu">
+                            <div class="menu-h3 leftmenu__menu-h3 " id="h3-setting-deities">
+                                <a href="{{ url_for('get_setting').include_query_params(tab='deities') }}" class="menu-h3-header leftmenu__menu-h3-header ">{{ trans('Deities', lang) }}</a>
+                            </div>
+                            <div class="menu-h3 leftmenu__menu-h3 " id="h3-setting-domains">
+                                <a href="{{ url_for('get_setting').include_query_params(tab='domains') }}" class="menu-h3-header leftmenu__menu-h3-header ">{{ trans('Domains', lang) }}</a>
+                            </div>
+{#                            <div class="menu-h3 leftmenu__menu-h3 " id="h3-setting-languages">#}
+{#                                <a href="#" class="menu-h3-header leftmenu__menu-h3-header ">{{ trans('Languages', lang) }}</a>#}
+{#                            </div>#}
+                        </div>
+
+                        <!--                        adventuring -->
+                        <div class="menu-h2 leftmenu__menu-h2 expanded-menu " id="h2-adventuring">
+                                <a class="menu-h2-header leftmenu__menu-h2-header" href="{{ url_for('get_adventuring') }}">{{ trans('Adventuring', lang) }}</a>
+                                <div class="clickable-menu" id="h2-adventuring-click">
+                                    <div class="menu-h2-open-menu leftmenu__menu-h2-open-menu open-menu" id="h2-adventuring-arrow"></div>
+                                </div>
+                            </div>
+                        <div class="inside-h2 leftmenu__inside-h2 submenu " id="h2-adventuring-submenu">
+                            <div class="menu-h3 leftmenu__menu-h3 " id="h3-adventuring-services">
+                                <a href="{{ url_for('get_adventuring').include_query_params(tab='services') }}" class="menu-h3-header leftmenu__menu-h3-header ">{{ trans('Services', lang) }}</a>
+                            </div>
+{#                            <div class="menu-h3 leftmenu__menu-h3 " id="h3-adventuring-afflictions">#}
+{#                                <a href="{{ url_for('get_adventuring').include_query_params(tab='afflictions') }}" class="menu-h3-header leftmenu__menu-h3-header ">{{ trans('Afflictions', lang) }}</a>#}
+{#                            </div>#}
+                            <div class="menu-h3 leftmenu__menu-h3 " id="h3-adventuring-hazards">
+                                <a href="{{ url_for('get_adventuring').include_query_params(tab='hazards') }}" class="menu-h3-header leftmenu__menu-h3-header ">{{ trans('Hazards', lang) }}</a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="main">
+            <div id="overlay"></div>
+            <div class="popup-item" id="popup"></div>
+            <div class="trait-text" id="trait-text"></div>
+            <div class="content" id="main-content">
+                <div class="content-window">
+                {% block body %}
+                {% endblock body %}
+                </div>
+            </div>
+
+            <footer class="footer">
+                <!--                    <div class="link footer__link">-->
+                <!--                        <a class="footer__textlink textlink" href="">About</a> -->
+                <!--                    </div>-->
+                <!--                    <div class="link footer__link">-->
+                <!--                        <a class="footer__textlink textlink" href="">Feedback</a> -->
+                <!--                    </div>-->
+                <div class="link footer__link">
+                    <a class="footer__textlink textlink" href="{{ url_for('get_about') }}">{{ trans ('About', lang)
+                        }}</a>
+                    <a class="footer__textlink textlink" href="{{ url_for('feedback') }}">{{ trans ('Feedback', lang)
+                        }}</a>
+                    <a class="footer__textlink textlink" href="{{ url_for('licenses') }}">{{ trans ('Licenses', lang)
+                        }}</a>
+
+                </div>
+            </footer>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- <button onclick="topFunction()" id="back-to-top-button" title="Go to top">↑ translate 'back to top' </button> -->
+<button onclick="topFunction()" id="back-to-top-button" title="Go to top">↑ {{ trans ('back to top', lang) }}</button>
+
+<script src="{{ url_for('static', path='scripts/get_item.js' ) }}"></script>
+<script src="{{ url_for('static', path='scripts/menus.js' ) }}"></script>
+<script src="{{ url_for('static', path='scripts/tabs.js' ) }}"></script>
+<script src="{{ url_for('static', path='scripts/filters.js' ) }}"></script>
+<script src="{{ url_for('static', path='scripts/traits_output.js' ) }}"></script>
+<script src="{{ url_for('static', path='scripts/users.js' ) }}"></script>
+
+
+</body>
+
+</html>

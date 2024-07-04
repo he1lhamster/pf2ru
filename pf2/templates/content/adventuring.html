@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+{{ trans('Adventuring', lang) }}
+{% endblock %}
+
+{% block body %}
+    <h1 class="h1-header">{{ trans('Adventuring', lang) }}    </h1>
+
+<div class="tabs-panel" id ="wands-tabs-panel">
+    <div class="tablink tablink--eng" data-tab="#services">
+        <div class="tab-header">{{ trans ('Services', lang) }}</div>
+    </div>
+{#    <div class="tablink tablink--eng" data-tab="#afflictions">#}
+{#        <div class="tab-header">{{ trans ('Afflictions', lang) }}</div>#}
+{#    </div>#}
+    <div class="tablink tablink--eng" data-tab="#hazards">
+        <div class="tab-header">{{ trans ('Hazards', lang) }}</div>
+    </div>
+</div>
+
+<div class="tab-content " id="services">
+
+        <div class="content-table">
+            {% for item in services %}
+                <div class="content-item">
+                    <a class="content-header" href="#{{ item.name|lower_no_spaces }}">
+                        {% if item.rus_name and lang=='ru' %}
+                            {{ item.rus_name }}
+                        {% else %}
+                            {{ item.name }}
+                        {% endif %}
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+
+        {% for item in services %}
+            <a id="{{ item.name|lower_no_spaces }}" class="anchor"></a>
+
+        <div class="item-output item-output--card">
+            <div class="item-output--card--header">
+                <a class="header-link" href="{{ url_for('get_item_page', item_type='equipment', item_id=item.id) }}">
+                {% if lang=='ru' and item.rus_name %}
+                    {{ item.rus_name }}
+                    {% else %}
+                    {{ item.name }}
+                {% endif %}
+                </a>
+            </div>
+            <div class="item-output--body">
+                {% if item.rus_text_output and lang=='ru' %}
+                    {{ item.rus_text_output|viewbox_r|to_a_links|safe }}
+                {% else %}
+                    {{ item.text_output|viewbox_r|to_a_links|safe }}
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+
+</div>
+
+
+{#<div class="tab-content " id="afflictions">#}
+{#    afflictions#}
+{#</div>#}
+
+<div class="tab-content " id="hazards">
+        <table class="need-filters table--list" id="hazards-list">
+        <thead>
+                <th class="table--list--header">Name
+                    <button class="sort-button" data-column="0">
+                        <img class="sort-button--icon" src="{{ url_for('static', path='icons/sort-arrows-icon.svg' ) }}" alt="Sort">
+                    </button>
+                </th>
+                <th class="table--list--header">Название
+                    <button class="sort-button" data-column="1">
+                        <img class="sort-button--icon" src="{{ url_for('static', path='icons/sort-arrows-icon.svg' ) }}" alt="Sort">
+                    </button>
+                </th>
+                <th class="table--list--header">Traits</th>
+                <th class="table--list--header">Дескрипторы</th>
+
+                <th class="table--list--header">{{ trans('Level', lang) }}
+                    <button class="sort-button" data-column="4">
+                        <img class="sort-button--icon" src="{{ url_for('static', path='icons/sort-arrows-icon.svg' ) }}" alt="Sort">
+                    </button>
+                </th>
+
+                <th class="table--list--header">{{ trans('Complexity', lang) }}</th>
+
+            <tr>
+<!--                NAME-->
+                <th class="filter-cell table--list--filter">
+                    <input type="text" class="filter-input" data-column="0" placeholder="">
+                </th>
+<!--                RUS NAME-->
+                <th class="filter-cell">
+                    <input type="text" class="filter-input" data-column="1" placeholder="">
+                    <br>
+                    <input type="checkbox" class="checkbox-only-rus check-checkbox" data-column="1"> есть
+                </th>
+{#                TRAITS         #}
+                <th class="filter-cell" colspan="2">
+                    <input type="text" class="filter-input--traits" data-column="2" placeholder="">
+                    <button class="filter-button" data-column="2">
+                        <img class="filter-button--icon" src="{{ url_for('static', path='icons/plus-icon.svg' ) }}" alt="Add">
+                    </button>
+                    <div class="traits-filter traits-filter--2"></div>
+                </th>
+                <!--level-->
+                <th class="filter-cell">
+                  <input type="text" id="level-input-from" class="filter-input--range filter-input--range-from" data-column="4" placeholder="From">
+                  <input type="text" id="level-input-to" class="filter-input--range filter-input--range-to" data-column="4" placeholder="To">
+                </th>
+
+                <!--complexity-->
+                <th class="filter-cell">
+                </th>
+
+
+            </tr>
+            </thead>
+        <tbody>
+    {% for item in hazards %}
+        <tr>
+            <td class="cell-traits-output" data="{{ item.name }}">
+                <span>
+                    <span class="rhombus" itemID={{ item.id }} itemType='hazards' itemLang='en' onclick="getItem(this)"></span>
+                    <a class="item-link link--popup item-link--hazards item-link--table" href="/hazards/{{ item.name|to_url }}">{{ item.name }}</a>
+                </span>
+            </td>
+            <td class="cell-traits-output" data="{{ item.rus_name|none_to_hyphen }}">
+                {% if item.rus_name %}
+                    <span>
+                        <span class="rhombus" itemID={{ item.id }} itemType='hazards' itemLang='ru' onclick="getItem(this)"></span>
+                        <a class="item-link link--popup item-link--hazards item-link--table" href="/hazards/{{ item.name|to_url }}">{{ item.rus_name|none_to_hyphen|capitalize }}</a>
+                    </span>
+                {% else %} -
+                {% endif %}
+            </td>
+            <td data="{{ item.traits_output|traits_to_text }}" class="cell-traits-output">{{ item.traits_output|to_traits_output|safe }}</td>
+            <td data="{{ item.rus_traits_output|traits_to_text }}" class="cell-traits-output">{{ item.rus_traits_output|to_traits_output|safe }}</td>
+            <td data="{{ item.type_level|lvl_to_int }}">
+                {% if lang=='ru' %}
+                    {{ item.rus_type_level|none_to_hyphen }}
+                {% else %}
+                    {{ item.type_level|none_to_hyphen }}
+                {% endif %}
+            </td>
+            <td data="{{ item.complexity }}">{{ item.complexity }}</td>
+
+        </tr>
+    {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+{% endblock %}
+

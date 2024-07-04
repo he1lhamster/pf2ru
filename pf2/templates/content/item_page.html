@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    {% if item.rus_name and lang == 'ru' %}
+        {{ item.rus_name|capitalize }}
+        {% else %}
+        {{ item.name|capitalize }}
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+
+    {% if item.rus_name and lang == 'ru' %}
+        <h1 class="h1-header">
+            {% if user.is_active %}
+                <button class="bookmark-button" itemType="{{ item_type }}" itemId="{{ item.id }}">
+                    <img class="bookmark-button--icon" src="{{ url_for('static', path='icons/feather.svg' ) }}" alt="{{ trans('Add Note', lang) }}">
+                </button>
+            {% endif %}
+            {{ item.rus_name }}
+            {% if item.actions %}
+               {{ item.actions|action_to_icon|safe }}
+            {% endif %}
+            {% if item.rus_type_level %}
+                <span class="item-type">{{ item.rus_type_level }}</span>
+            {% endif %}
+        </h1>
+
+            {% if item.rus_traits_output %}
+                <div class="item-traits" id="{{item.id}}-traits-{{ lang }}">
+                    {{ item.rus_traits_output|to_traits_output|safe }}
+                </div>
+            {% endif %}
+            <div class="item-output">
+                {{ item.rus_text_output|viewbox_r|to_a_links|safe }}
+            </div>
+
+    {% else %}
+        <h1 class="h1-header">
+            {% if user.is_active %}
+                <button class="bookmark-button" itemType="{{ item_type }}" itemId="{{ item.id }}">
+                    <img class="bookmark-button--icon" src="{{ url_for('static', path='icons/feather.svg' ) }}" alt="{{ trans('Add Note', lang) }}">
+                </button>
+            {% endif %}
+            {{ item.name }}
+            {% if item.actions %}
+               {{ item.actions|action_to_icon|safe }}
+            {% endif %}
+
+
+            {% if item.type_level %}
+                <span class="item-type">{{ item.type_level }}</span>
+            {% endif %}
+        </h1>
+            {% if item.traits_output %}
+                <div class="item-traits" id="{{item.id}}-traits-en}">
+                    {{ item.traits_output|to_traits_output|safe }}
+                </div>
+            {% endif %}
+            <div class="item-output">
+                {{ item.text_output|viewbox_r|to_a_links|safe }}
+            </div>
+
+    {% endif %}
+
+    {% if user.is_active %}
+        <!-- Create Note Popup Form -->
+        <div id="bookmark-create-note-popup-archive" class="popup-archive">
+            <div class="popup-archive-content">
+                <span class="popup-archive-close">&times;</span>
+                <h3 class="h3-header">{{ trans('Add new note for object:', lang) }}</h3>
+                <h4 class="h4-header">{{ placeholder }}</h4>
+                <form class="archive-form" id="bookmark-create-note-form">
+
+                    <input id="bookmark-item_type" name="item_type" type="hidden" value="{{ item_type }}">
+                    <input id="bookmark-item_id" name="item_id" type="hidden" value="{{ item_id }}">
+
+                    <label class="archive-form--label" for="theme_id">{{ trans('Bookshelf', lang) }} </label>
+                        <select class="archive-form--select" id="bookmark-theme_id" name="theme_id">
+                            {# ADD HERE THEMES from fetch request #}
+                        </select>
+
+                    <label class="archive-form--label" for="title">{{ trans('Title', lang) }}</label>
+                    <input class="archive-form--input" id="title" name="title" type="text" placeholder="{{ placeholder }}" required>
+                    <label class="archive-form--label" for="text">{{ trans('Text', lang) }}</label>
+                    <textarea class="archive-form--textarea" id="text" name="text"></textarea>
+                    <button class="archive-form--textarea" id="create-note-button" type="submit">{{ trans('Add Note', lang) }}</button>
+                </form>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}

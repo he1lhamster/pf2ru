@@ -1,0 +1,33 @@
+
+<div class="tabs-panel" id ="shields-tabs-panel">
+    <div class="tablink tablink--eng" data-tab="#shields">
+        <div class="tab-header">{{ trans ('Shields', lang) }}</div>
+    </div>
+    <div class="tablink tablink--eng" data-tab="#precious-material-shields">
+        <div class="tab-header">{{ trans ('Precious Material Shields', lang) }}</div>
+    </div>
+    <div class="tablink tablink--eng" data-tab="#specific-magic-shields">
+        <div class="tab-header">{{ trans ('Specific Magic Shields', lang) }}</div>
+    </div>
+
+</div>
+<div class="tab-content " id="shields">
+    {% with items=items['shields'] %}
+        {% include 'content/equipment_table.html' %}
+    {% endwith %}
+</div>
+
+
+<div class="tab-content " id="precious-material-shields">
+    {% with items=items['precious_material_shields'] %}
+        {% include 'content/equipment_table.html' %}
+    {% endwith %}
+</div>
+
+<div class="tab-content " id="specific-magic-shields">
+    {% with items=items['specific_magic_shields'] %}
+        {% include 'content/equipment_table.html' %}
+    {% endwith %}
+</div>
+
+

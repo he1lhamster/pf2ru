@@ -1,0 +1,243 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+      {% if ancestry.rus_name and lang == 'ru' %}
+      {{ ancestry.rus_name }}
+      {% else %}
+      {{ ancestry.name }}
+      {% endif %}
+
+{% endblock %}
+
+{% block body %}
+
+    <h1 class="h1-header">
+        {% if user.is_active %}
+            <button class="bookmark-button" itemType="ancestry" itemId="{{ ancestry.id }}">
+                <img class="bookmark-button--icon" src="{{ url_for('static', path='icons/feather.svg' ) }}" alt="{{ trans('Add Note', lang) }}">
+            </button>
+        {% endif %}
+
+        {% if lang == 'ru' and ancestry.rus_name %}
+            {{ ancestry.rus_name }}
+        {% else %}
+            {{ ancestry.name }}
+        {% endif %}
+    </h1>
+
+<div class="tabs-panel" id ="{{ ancestry.name|lower_no_spaces }}-tabs-panel">
+    <div class="tablink tablink--eng" data-tab="#details">
+        <div class="tab-header">{{ trans ('Details', lang) }}</div>
+    </div>
+    {% if ancestry.type == 'Ancestry' %}
+    <div class="tablink tablink--eng" data-tab="#heritages">
+        <div class="tab-header">{{ trans ('Heritages', lang) }}</div>
+    </div>
+    {% endif %}
+    <div class="tablink tablink--eng" data-tab="#feats">
+        <div class="tab-header">{{ trans ('Feats', lang) }}</div>
+    </div>
+</div>
+
+<div class="tab-content" id="details">
+    {% if lang == 'ru' and ancestry.rus_name %}
+
+
+        {% if ancestry.traits_output %}
+            <div class="item-traits" id="{{ancestry.name}}-traits-ru">
+                {{ ancestry.rus_traits_output|to_traits_output|safe }}
+            </div>
+        {%- endif %}
+        <div class="item-output">
+            {{ ancestry.rus_text_output|to_a_links|safe }}
+        </div>
+    {% else %}
+
+        {% if ancestry.traits_output %}
+            <div class="item-traits" id="{{ancestry.name}}-traits-en">
+                {{ ancestry.traits_output|to_traits_output|safe }}
+            </div>
+        {%- endif %}
+        <div class="item-output">
+            {{ ancestry.text_output|to_a_links|safe }}
+        </div>
+    {%- endif %}
+</div>
+
+<div class="tab-content" id="heritages">
+    <h1 class="h1-header">{{ trans ('Heritages', lang) }}</h1>
+
+    <div class="content-table">
+        {% for item in heritages %}
+            <div class="content-item">
+                <a class="content-header" href="#{{ ancestry.name|lower_no_spaces }}-heritage-{{ item.name|lower_no_spaces }}">
+                    {% if item.rus_name and lang=='ru' %}
+                        {{ item.rus_name }}
+                    {% else %}
+                        {{ item.name }}
+                    {% endif %}
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% for item in heritages %}
+    <a id="{{ ancestry.name|lower_no_spaces }}-heritage-{{ item.name|lower_no_spaces }}" class="anchor"></a>
+    <div class="item-output item-output--card">
+        <div class="item-output--card--header">
+            <a class="header-link" href="{{ url_for('get_item_page', item_type='heritages', item_id=item.name.lower()) }}">
+            {% if lang=='ru' and item.rus_name %}
+                {{ item.rus_name }}
+                {% else %}
+                {{ item.name }}
+            {% endif %}
+            </a>
+        </div>
+        <div class="item-output--body">
+            {% if item.rus_text_output and lang=='ru' %}
+                {{ item.rus_text_output|viewbox_r|safe }}
+            {% else %}
+                {{ item.text_output|viewbox_r|safe }}
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+
+    <h2 class="h2-header">{{ trans('Versatile Heritages', lang) }}</h2>
+    {% for item in versatile_heritages %}
+        <a class="textlink" href="{{ url_for('get_item_page', item_type='heritages', item_id=item.name.lower()) }}">{{ item.name }}</a>
+    {% endfor %}
+
+</div>
+
+<div class="tab-content" id="feats">
+    <h1 class="h1-header">{{ trans ('Feats', lang) }}</h1>
+
+    <table class="need-filters table--list" id="{{ ancestry.name|lower }}-feats-list">
+        <thead>
+                <th class="table--list--header">Name
+                    <button class="sort-button" data-column="0">
+                        <img class="sort-button--icon" src="{{ url_for('static', path='icons/sort-arrows-icon.svg' ) }}" alt="Sort">
+                    </button>
+                </th>
+                <th class="table--list--header">Название
+                    <button class="sort-button" data-column="1">
+                        <img class="sort-button--icon" src="{{ url_for('static', path='icons/sort-arrows-icon.svg' ) }}" alt="Sort">
+                    </button>
+                </th>
+                <th class="table--list--header">Traits</th>
+                <th class="table--list--header">Дескрипторы</th>
+
+                <th class="table--list--header">{{ trans('Level', lang) }}
+                    <button class="sort-button" data-column="4">
+                        <img class="sort-button--icon" src="{{ url_for('static', path='icons/sort-arrows-icon.svg' ) }}" alt="Sort">
+                    </button>
+                </th>
+                <th class="table--list--header">{{ trans('Actions', lang) }}</th>
+                <th class="table--list--header">{{ trans('Prerequisites', lang) }}</th>
+            <tr>
+<!--                NAME-->
+                <th class="filter-cell table--list--filter">
+                    <input type="text" class="filter-input" data-column="0" placeholder="">
+                </th>
+<!--                RUS NAME-->
+                <th class="filter-cell">
+                    <input type="text" class="filter-input" data-column="1" placeholder="">
+                    <br>
+                    <input type="checkbox" class="checkbox-only-rus check-checkbox" data-column="1"> есть
+                </th>
+<!--                Traits-->
+                <th class="filter-cell" colspan="2">
+                    <input type="text" class="filter-input--traits" data-column="2" placeholder="">
+                    <button class="filter-button" data-column="2">
+                        <img class="filter-button--icon" src="{{ url_for('static', path='icons/plus-icon.svg' ) }}" alt="Add">
+                    </button>
+                    <div class="traits-filter traits-filter--2"></div>
+                </th>
+                <!--Level-->
+                <th class="filter-cell">
+                  <input type="text" id="input-from" class="filter-input--range filter-input--range-from" data-column="4" placeholder="From">
+                  <input type="text" id="input-to" class="filter-input--range filter-input--range-to" data-column="4" placeholder="To">
+                </th>
+                <!--Actions-->
+                <th class="filter-cell table-action-filter-cell">
+                    <span class="action-filter" data-column="5" data="1">
+                        <img class="action-icon action-icon--filter" src="{{ url_for('static', path='icons/1action.png' ) }}" alt="1">
+                    </span>
+                    <span class="action-filter" data-column="5" data="2">
+                        <img class="action-icon action-icon--filter" src="{{ url_for('static', path='icons/2actions.png' ) }}" alt="2">
+                    </span>
+                    <span class="action-filter" data-column="5" data="3">
+                        <img class="action-icon action-icon--filter" src="{{ url_for('static', path='icons/3actions.png' ) }}" alt="3">
+                    </span>
+                    <span class="action-filter" data-column="5" data="4">
+                        <img class="action-icon action-icon--filter" src="{{ url_for('static', path='icons/0action.png' ) }}" alt="4">
+                    </span>
+                    <span class="action-filter" data-column="5" data="5">
+                        <img class="action-icon action-icon--filter" src="{{ url_for('static', path='icons/reaction.png' ) }}" alt="5">
+                    </span>
+                </th>
+                <!--prerequisites-->
+                <th class="filter-cell">
+                </th>
+            </tr>
+            </thead>
+        <tbody>
+    {% for item in feats %}
+        <tr>
+            <td class="cell-traits-output" data="{{ item.name }}">
+                <span>
+                    <span class="rhombus" itemID={{ item.id }} itemType='feats' itemLang='en' onclick="getItem(this)"></span>
+                    <a class="item-link link--popup item-link--feats item-link--table" href="/feats/{{ item.name|to_url }}">{{ item.name }}</a>
+                </span>
+            </td>
+            <td class="cell-traits-output" data="{{ item.rus_name|none_to_hyphen }}">
+                {% if item.rus_name %}
+                    <span>
+                        <span class="rhombus" itemID={{ item.id }} itemType='feats' itemLang='ru' onclick="getItem(this)"></span>
+                        <a class="item-link link--popup item-link--feats item-link--table" href="/feats/{{ item.name|to_url }}">{{ item.rus_name|none_to_hyphen|capitalize }}</a>
+                    </span>
+                {% else %} -
+                {% endif %}
+            </td>
+            <td data="{{ item.traits_output|traits_to_text }}" class="cell-traits-output">{{ item.traits_output|to_traits_output|safe }}</td>
+            <td data="{{ item.rus_traits_output|traits_to_text }}" class="cell-traits-output">{{ item.rus_traits_output|to_traits_output|safe }}</td>
+            <td data="{{ item.level|lvl_to_int }}"> {{ item.level }} </td>
+            <td data="{{item.actions|action_to_value}}">{{ item.actions|action_to_icon|safe }}</td>
+            <td data="{{ item.prerequisite|none_to_hyphen|to_text }}"> <span>{{ item.prerequisite|none_to_hyphen|to_a_links|safe }} </span></td>
+        </tr>
+    {% endfor %}
+        </tbody>
+    </table>
+
+    {% if user.is_active %}
+        <!-- Create Note Popup Form -->
+        <div id="bookmark-create-note-popup-archive" class="popup-archive">
+            <div class="popup-archive-content">
+                <span class="popup-archive-close">&times;</span>
+                <h3 class="h3-header">{{ trans('Add new note for object:', lang) }}</h3>
+                <h4 class="h4-header">{{ placeholder }}</h4>
+                <form class="archive-form" id="bookmark-create-note-form">
+
+                    <input id="bookmark-item_type" name="item_type" type="hidden" value="ancestries">
+                    <input id="bookmark-item_id" name="item_id" type="hidden" value="{{ ancestry.id }}">
+
+                    <label class="archive-form--label" for="theme_id">{{ trans('Bookshelf', lang) }} </label>
+                        <select class="archive-form--select" id="bookmark-theme_id" name="theme_id">
+                            {# ADD HERE THEMES from fetch request #}
+                        </select>
+
+                    <label class="archive-form--label" for="title">{{ trans('Title', lang) }}</label>
+                    <input class="archive-form--input" id="title" name="title" type="text" placeholder="{{ placeholder }}" required>
+                    <label class="archive-form--label" for="text">{{ trans('Text', lang) }}</label>
+                    <textarea class="archive-form--textarea" id="text" name="text"></textarea>
+                    <button class="archive-form--textarea" id="create-note-button" type="submit">{{ trans('Add Note', lang) }}</button>
+                </form>
+            </div>
+        </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,25 @@
+
+
+<div class="item-box" id="{{item.id}}-{{lang}}-item-box">
+    <div class="item-header">
+        <span class="item-header-name" id="{{item.id}}-name-{{lang}}">
+            {{ item.name }}
+            {% if item.actions %}
+               {{ item.actions|action_to_icon|safe }}
+            {% endif %}
+        </span>
+        {% if item.type_level %}
+            <span class="item-header-level" id="{{item.id}}-level-{{lang}}">
+                {{ item.type_level }}
+            </span>
+        {%- endif %}
+    </div>
+    {% if item.traits_output %}
+        <div class="item-traits" id="{{item.id}}-traits-{{lang}}">
+            {{ item.traits_output|to_traits_output|safe }}
+        </div>
+    {%- endif %}
+
+    <div class="item-box-in" id="{{item.id}}-text-{{lang}}">{{ item.text_output|safe }}</div>
+
+</div>

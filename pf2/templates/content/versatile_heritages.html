@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ trans ('Versatile Heritages', lang) }}
+{% endblock %}
+
+
+{% block body %}
+<h1 class="h1-header">{{ trans ('Versatile Heritages',lang) }}</h1>
+
+    <div class="content-table">
+            {% for item in vers_heritages %}
+                <div class="content-item">
+                    <a class="content-header" href="#vers-heritage-{{ item.name }}">
+                        {% if item.rus_name and lang=='ru' %}
+                            {{ item.rus_name|capitalize }}
+                        {% else %}
+                            {{ item.name|capitalize }}
+                        {% endif %}
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+
+        {% for item in vers_heritages %}
+            <a id="vers-heritage-{{ item.name }}" class="anchor"></a>
+            <div class="item-output item-output--card">
+                <div class="item-output--card--header">
+                    <a class="header-link" href="{{ url_for('get_versatile_heritage', heritage_id=item.id) }}">
+                        {% if lang=='ru' and item.rus_name %}
+                           {{ item.rus_name }}
+                        {% else %}
+                            {{ item.name }}
+                        {% endif %}
+                    {{ item.actions|action_to_icon|safe }}
+                    </a>
+                </div>
+                {% if item.rus_traits_output and lang=='ru' %}
+                    <div class="item-traits" id="{{item.name|lower_no_spaces}}-traits-{{lang}}">
+                        {{ item.rus_traits_output|to_traits_output|safe }}
+                    </div>
+                {% elif item.traits_output %}
+                    <div class="item-traits" id="{{item.name|lower_no_spaces}}-traits-{{lang}}">
+                        {{ item.traits_output|to_traits_output|safe }}
+                    </div>
+                {% endif %}
+
+                <div class="item-output--body">
+                    {% if lang=='ru' and item.rus_name %}
+                        {{ item.rus_text_output|viewbox_r|to_a_links|safe }}
+                    {% else %}
+                        {{ item.text_output|viewbox_r|safe }}
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+{% endblock %}

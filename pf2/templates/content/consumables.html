@@ -1,0 +1,86 @@
+
+<div class="tabs-panel" id ="consumables-tabs-panel">
+
+    <div class="tablink tablink--eng" data-tab="#magical-ammunition">
+        <div class="tab-header">{{ trans ('Magical Ammunition', lang) }}</div>
+    </div>
+    <div class="tablink tablink--eng" data-tab="#oils">
+        <div class="tab-header">{{ trans ('Oils', lang) }}</div>
+    </div>
+    <div class="tablink tablink--eng" data-tab="#potions">
+        <div class="tab-header">{{ trans ('Potions', lang) }}</div>
+    </div>
+    <div class="tablink tablink--eng" data-tab="#scrolls">
+        <div class="tab-header">{{ trans ('Scrolls', lang) }}</div>
+    </div>
+    <div class="tablink tablink--eng" data-tab="#talismans">
+        <div class="tab-header">{{ trans ('Talismans', lang) }}</div>
+    </div>
+    <div class="tablink tablink--eng" data-tab="#other-consumables">
+        <div class="tab-header">{{ trans ('Other', lang) }}</div>
+    </div>
+    <div class="tablink tablink--eng" data-tab="#consumables">
+        <div class="tab-header">{{ trans ('Consumables', lang) }}</div>
+    </div>
+</div>
+
+<div class="tab-content" id="consumables">
+    {% with items=items['consumables'] %}
+        {% include 'content/equipment_table.html' %}
+    {% endwith %}
+</div>
+
+<div class="tab-content" id="magical-ammunition">
+    {% with items=items['magical_ammunition'] %}
+        {% include 'content/equipment_table.html' %}
+    {% endwith %}
+</div>
+
+<div class="tab-content" id="oils">
+    {% with items=items['oils'] %}
+        {% include 'content/equipment_table.html' %}
+    {% endwith %}
+</div>
+
+<div class="tab-content" id="potions">
+    {% with items=items['potions'] %}
+        {% include 'content/equipment_table.html' %}
+    {% endwith %}
+</div>
+
+<div class="tab-content" id="scrolls">
+    {% with items=items['scrolls'] %}
+        {% for item in items %}
+        <div class="item-output item-output--card">
+            <div class="item-output--card--header">
+                <a class="header-link" href="{{ url_for('get_item_page', item_type='equipment', item_id=item.name) }}">
+                {% if lang=='ru' and item.rus_name %}
+                    {{ item.rus_name }}
+                    {% else %}
+                    {{ item.name }}
+                {% endif %}
+                    </a>
+            </div>
+            <div class="item-output--body">
+                {% if item.rus_text_output and lang=='ru' %}
+                    {{ item.rus_text_output|viewbox_r|to_a_links|safe }}
+                {% else %}
+                    {{ item.text_output|viewbox_r|to_a_links|safe }}
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    {% endwith %}
+</div>
+
+<div class="tab-content" id="talismans">
+    {% with items=items['talismans'] %}
+        {% include 'content/equipment_table.html' %}
+    {% endwith %}
+</div>
+
+<div class="tab-content" id="other-consumables">
+    {% with items=items['other_consumables'] %}
+        {% include 'content/equipment_table.html' %}
+    {% endwith %}
+</div>

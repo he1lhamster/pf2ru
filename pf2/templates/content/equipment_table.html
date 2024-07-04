@@ -1,0 +1,261 @@
+    <table class="need-filters table--list" id="{{ item_type }}-list">
+        <thead>
+                <th class="table--list--header">Name
+                    <button class="sort-button" data-column="0">
+                        <img class="sort-button--icon" src="{{ url_for('static', path='icons/sort-arrows-icon.svg' ) }}" alt="Sort">
+                    </button>
+                </th>
+                <th class="table--list--header">Название
+                    <button class="sort-button" data-column="1">
+                        <img class="sort-button--icon" src="{{ url_for('static', path='icons/sort-arrows-icon.svg' ) }}" alt="Sort">
+                    </button>
+                </th>
+                <th class="table--list--header">Traits</th>
+                <th class="table--list--header">Дескрипторы</th>
+
+                <th class="table--list--header">{{ trans('Level', lang) }}
+                    <button class="sort-button" data-column="4">
+                        <img class="sort-button--icon" src="{{ url_for('static', path='icons/sort-arrows-icon.svg' ) }}" alt="Sort">
+                    </button>
+                </th>
+
+                <th class="table--list--header">{{ trans('Price', lang) }}
+                    <button class="sort-button" data-column="5">
+                        <img class="sort-button--icon" src="{{ url_for('static', path='icons/sort-arrows-icon.svg' ) }}" alt="Sort">
+                    </button>
+                </th>
+                <th class="table--list--header">{{ trans('Bulk', lang) }}</th>
+
+                {% if item_type == 'Armor' %}
+                    <th class="table--list--header" data-column="7">{{ trans('AC', lang) }}
+                    <button class="sort-button" data-column="7">
+                        <img class="sort-button--icon" src="{{ url_for('static', path='icons/sort-arrows-icon.svg' ) }}" alt="Sort">
+                    </button>
+                    </th>
+                    <th class="table--list--header" data-column="8">{{ trans('Str Req.', lang) }}
+                    <button class="sort-button" data-column="8">
+                        <img class="sort-button--icon" src="{{ url_for('static', path='icons/sort-arrows-icon.svg' ) }}" alt="Sort">
+                    </button>
+                    </th>
+                    <th class="table--list--header">{{ trans('Armor Group', lang) }}</th>
+                {% endif %}
+
+                {% if item_type == 'Shields' %}
+                    <th class="table--list--header" data-column="7">{{ trans('AC', lang) }}
+                    <button class="sort-button" data-column="7">
+                        <img class="sort-button--icon" src="{{ url_for('static', path='icons/sort-arrows-icon.svg' ) }}" alt="Sort">
+                    </button>
+                    </th>
+                {% endif %}
+
+                {% if item_type == 'Weapons Melee' %}
+                    <th class="table--list--header">{{ trans('Damage', lang) }}</th>
+                    <th class="table--list--header">{{ trans('Weapon Category', lang) }}</th>
+                    <th class="table--list--header">{{ trans('Weapon Group', lang) }}</th>
+
+                {% endif %}
+                {% if item_type == 'Weapons Ranged' %}
+                    <th class="table--list--header">{{ trans('Damage', lang) }}</th>
+                    <th class="table--list--header">{{ trans('Weapon Category', lang) }}</th>
+                    <th class="table--list--header">{{ trans('Weapon Group', lang) }}</th>
+                    <th class="table--list--header">{{ trans('Range', lang) }}</th>
+
+                {% endif %}
+
+            <tr>
+<!--                NAME-->
+                <th class="filter-cell table--list--filter">
+                    <input type="text" class="filter-input" data-column="0" placeholder="">
+                </th>
+<!--                RUS NAME-->
+                <th class="filter-cell">
+                    <input type="text" class="filter-input" data-column="1" placeholder="">
+                    <br>
+                    <input type="checkbox" class="checkbox-only-rus check-checkbox" data-column="1"> есть
+                </th>
+{#                TRAITS         #}
+                <th class="filter-cell" colspan="2">
+                    <input type="text" class="filter-input--traits" data-column="2" placeholder="">
+                    <button class="filter-button" data-column="2">
+                        <img class="filter-button--icon" src="{{ url_for('static', path='icons/plus-icon.svg' ) }}" alt="Add">
+                    </button>
+                    <div class="traits-filter traits-filter--2"></div>
+                </th>
+                <!--level-->
+                <th class="filter-cell">
+                  <input type="text" id="level-input-from" class="filter-input--range filter-input--range-from" data-column="4" placeholder="From">
+                  <input type="text" id="level-input-to" class="filter-input--range filter-input--range-to" data-column="4" placeholder="To">
+                </th>
+
+                <!--Price-->
+                <th class="filter-cell">
+                  <input type="text" id="price-input-from" class="filter-input--range filter-input--range-from" data-column="5" placeholder="From">
+                  <input type="text" id="price-input-to" class="filter-input--range filter-input--range-to" data-column="5" placeholder="To">
+                </th>
+                <!--Bulk-->
+                <th class="filter-cell">
+                </th>
+
+                {% if item_type == 'Armor' %}
+                    <!--AC-->
+                    <th class="filter-cell">
+                    </th>
+                    <!--STR REQ-->
+                    <th class="filter-cell">
+                    </th>
+                    <!--Armor Group-->
+                    <th class="filter-cell">
+                    </th>
+                {% endif %}
+                {% if item_type == 'Shields' %}
+                    <!--AC-->
+                    <th class="filter-cell">
+                    </th>
+                {% endif %}
+                {% if item_type == 'Weapons Melee' %}
+                    <!--Damage-->
+                    <th class="filter-cell">
+                    </th>
+                    <!--Weapon Category-->
+                    <th class="filter-cell">
+                    </th>
+                    <!--Weapon Group-->
+                    <th class="filter-cell">
+                    </th>
+                {% endif %}
+
+                {% if item_type == 'Weapons Ranged' %}
+                    <!--Damage-->
+                    <th class="filter-cell">
+                    </th>
+                    <!--Weapon Category-->
+                    <th class="filter-cell">
+                    </th>
+                    <!--Weapon Group-->
+                    <th class="filter-cell">
+                    </th>
+                     <!--Range-->
+                    <th class="filter-cell">
+                    </th>
+                {% endif %}
+
+            </tr>
+            </thead>
+        <tbody>
+    {% for item in items %}
+        <tr>
+            <td class="cell-traits-output" data="{{ item.name }}">
+                {% if item_type in ['Weapons Melee', 'Weapons Ranged'] %}
+                    <span>
+                    <span class="rhombus" itemID={{ item.id }} itemType='weapons' itemLang='en' onclick="getItem(this)"></span>
+                    <a class="item-link link--popup item-link--equipment item-link--table" href="/weapons/{{ item.name|to_url }}">{{ item.name|capitalize }}</a>
+                    </span>
+                {% elif item_type == 'Armor' %}
+                    <span>
+                    <span class="rhombus" itemID={{ item.id }} itemType='armor' itemLang='en' onclick="getItem(this)"></span>
+                    <a class="item-link link--popup item-link--equipment item-link--table" href="/armor/{{ item.name|to_url }}">{{ item.name|capitalize }}</a>
+                    </span>
+                {% elif item_type == 'Shields' %}
+                    <span>
+                    <span class="rhombus" itemID={{ item.id }} itemType='shields' itemLang='en' onclick="getItem(this)"></span>
+                    <a class="item-link link--popup item-link--equipment item-link--table" href="/shields/{{ item.name|to_url }}">{{ item.name|capitalize }}</a>
+                    </span>
+
+                {% else %}
+                    <span>
+                    <span class="rhombus" itemID={{ item.id }} itemType='equipment' itemLang='en' onclick="getItem(this)"></span>
+                    <a class="item-link link--popup item-link--equipment item-link--table" href="/equipment/{{ item.name|to_url }}">{{ item.name|capitalize }}</a>
+                    </span>
+                {% endif %}
+            </td>
+            <td class="cell-traits-output" data="{{ item.rus_name|none_to_hyphen }}">
+                {% if item.rus_name %}
+                    {% if item_type in ['Weapons Melee', 'Weapons Ranged'] %}
+                            <span>
+                            <span class="rhombus" itemID={{ item.id }} itemType='weapons' itemLang='ru' onclick="getItem(this)"></span>
+                            <a class="item-link link--popup item-link--equipment item-link--table" href="/weapons/{{ item.name|to_url }}">{{ item.rus_name|capitalize }}</a>
+                            </span>
+                        {% elif item_type == 'Armor' %}
+                            <span>
+                            <span class="rhombus" itemID={{ item.id }} itemType='armor' itemLang='ru' onclick="getItem(this)"></span>
+                            <a class="item-link link--popup item-link--equipment item-link--table" href="/armor/{{ item.name|to_url }}">{{ item.rus_name|capitalize }}</a>
+                            </span>
+                        {% elif item_type == 'Shields' %}
+                            <span>
+                            <span class="rhombus" itemID={{ item.id }} itemType='shields' itemLang='ru' onclick="getItem(this)"></span>
+                            <a class="item-link link--popup item-link--equipment item-link--table" href="/shields/{{ item.name|to_url }}">{{ item.rus_name|capitalize }}</a>
+                            </span>
+
+                        {% else %}
+                            <span>
+                            <span class="rhombus" itemID={{ item.id }} itemType='equipment' itemLang='ru' onclick="getItem(this)"></span>
+                            <a class="item-link link--popup item-link--equipment item-link--table" href="/equipment/{{ item.name|to_url }}">{{ item.rus_name|capitalize }}</a>
+                            </span>
+                    {% endif %}
+                {% else %} -
+                {% endif %}
+            </td>
+            <td data="{{ item.traits_output|traits_to_text }}" class="cell-traits-output">{{ item.traits_output|to_traits_output|safe }}</td>
+            <td data="{{ item.rus_traits_output|traits_to_text }}" class="cell-traits-output">{{ item.rus_traits_output|to_traits_output|safe }}</td>
+            <td data="{{ item.type_level|lvl_to_int }}">
+                {% if lang=='ru' %}
+                    {{ item.rus_type_level|none_to_hyphen }}
+                {% else %}
+                    {{ item.type_level|none_to_hyphen }}
+                {% endif %}
+            </td>
+            {% if item.variants %}
+            <td data="{{ item.price|price_to_val }}">{{ item.variants[0].price|none_to_hyphen }} - {{ item.variants[-1].price|none_to_hyphen }}</td>
+                {% else %}
+            <td data="{{ item.price|price_to_val }}">{{ item.price|none_to_hyphen }} </td>
+            {% endif %}
+            <td data="{{item.bulk|none_to_hyphen }}">{{ item.bulk|none_to_hyphen }}</td>
+
+            {% if item_type == 'Armor' %}
+                <td data="{{item.ac|none_to_hyphen }}">{{ item.ac|none_to_hyphen }} </td>
+                <td data="{{item.strength_req|none_to_hyphen }}">{{ item.strength_req|none_to_hyphen }} </td>
+                <td data="{{item.armor_group|to_text }}">{{ item.armor_group|to_a_links|safe }} </td>
+            {% endif %}
+
+            {% if item_type == 'Shields' %}
+                <td data="{{item.ac|none_to_hyphen }}">{{ item.ac|none_to_hyphen }} </td>
+            {% endif %}
+
+            {% if item_type == 'Weapons Melee' %}
+                <td data="{{item.damage|none_to_hyphen }}">{{ item.damage|none_to_hyphen }} </td>
+                <td data="{{item.weapon_category|none_to_hyphen }}">{{ item.weapon_category|none_to_hyphen }} </td>
+                <td data="{{item.weapon_group|to_text }}">{{ item.weapon_group|to_a_links|safe }} </td>
+            {% endif %}
+
+            {% if item_type == 'Weapons Ranged' %}
+                <td data="{{item.damage|none_to_hyphen }}">{{ item.damage|none_to_hyphen }} </td>
+                <td data="{{item.weapon_category|none_to_hyphen }}">{{ item.weapon_category|none_to_hyphen }} </td>
+                <td data="{{item.weapon_group|to_text }}">{{ item.weapon_group|to_a_links|safe }} </td>
+                <td data="{{item.range|none_to_hyphen }}">{{ item.range|none_to_hyphen }} </td>
+            {% endif %}
+        </tr>
+        {% for variant in item.variants %}
+            <tr>
+                <td class="cell-traits-output--variant" data="{{ variant.name }}">
+                    <a class="item-link link--popup item-link--equipment item-link--table" href="/equipment/{{ item.name|to_url }}">{{ variant.name|capitalize }}</a>
+                </td>
+                <td class="cell-traits-output--variant" data="{{ variant.rus_name|none_to_hyphen }}">
+                    {% if variant.rus_name %}
+                         <a class="item-link link--popup item-link--equipment item-link--table" href="/equipment/{{ item.name|to_url }}">{{ variant.rus_name|capitalize }}</a>
+                    {% else %} -
+                    {% endif %}
+                </td>
+                <td></td>
+                <td></td>
+                <td data="{{ variant.level|lvl_to_int }}">
+                        {{ variant.level|none_to_hyphen }}
+                </td>
+                <td data="{{ variant.price|price_to_val }}">{{ variant.price|none_to_hyphen }} </td>
+                <td data="{{variant.bulk|none_to_hyphen }}">{{ variant.bulk|none_to_hyphen }}</td>
+            </tr>
+        {% endfor %}
+
+
+    {% endfor %}
+        </tbody>
+    </table>

@@ -1,0 +1,261 @@
+<!-- Alchemical Items -->
+    <div class="menu-h3 leftmenu__menu-h3 expanded-menu " id="h3-equipment-alchemical-items">
+        <a href="{{ url_for('get_list_of_items', item_type='alchemical-items').include_query_params(tab='alchemical-items') }}" class="menu-h3-header leftmenu__menu-h3-header ">{{ trans('Alchemical Items', lang) }}</a>
+        <div class="clickable-menu" id="h3-equipment-alchemical-items-click">
+            <div class="menu-h3-open-menu leftmenu__menu-h3-open-menu open-menu" id="h3-equipment-alchemical-items-arrow"></div>
+        </div>
+    </div>
+    <div class="inside-h3 leftmenu__inside-h3 submenu " id="h3-equipment-alchemical-items-submenu">
+{#        <div class="menu-h4 leftmenu__menu-h4 " id="h4-equipment-alchemical-items-ammunition">#}
+{#            <a href="{{ url_for('get_list_of_items', item_type='alchemical-items').include_query_params(tab='alchemical-ammunition') }}" class="menu-h4-header leftmenu__menu-h4-header ">#}
+{#                {{ trans('Alchemical Ammunition', lang) }} </a>#}
+{#        </div>#}
+      <div class="menu-h4 leftmenu__menu-h4 " id="h4-equipment-alchemical-items-bombs">
+            <a href="{{ url_for('get_list_of_items', item_type='alchemical-items').include_query_params(tab='alchemical-bombs') }}" class="menu-h4-header leftmenu__menu-h4-header ">
+                {{ trans('Alchemical Bombs', lang) }} </a>
+        </div>
+      <div class="menu-h4 leftmenu__menu-h4 " id="h4-equipment-alchemical-items-elixirs">
+            <a href="{{ url_for('get_list_of_items', item_type='alchemical-items').include_query_params(tab='alchemical-elixirs') }}" class="menu-h4-header leftmenu__menu-h4-header ">
+                {{ trans('Alchemical Elixirs', lang) }} </a>
+        </div>
+      <div class="menu-h4 leftmenu__menu-h4 " id="h4-equipment-alchemical-items-poisons">
+            <a href="{{ url_for('get_list_of_items', item_type='alchemical-items').include_query_params(tab='alchemical-poisons') }}" class="menu-h4-header leftmenu__menu-h4-header ">
+                {{ trans('Alchemical Poisons', lang) }} </a>
+        </div>
+      <div class="menu-h4 leftmenu__menu-h4 " id="h4-equipment-alchemical-items-tools">
+            <a href="{{ url_for('get_list_of_items', item_type='alchemical-items').include_query_params(tab='alchemical-tools') }}" class="menu-h4-header leftmenu__menu-h4-header ">
+                {{ trans('Alchemical Tools', lang) }} </a>
+        </div>
+
+    </div>
+
+<!-- Adventuring Gear -->
+    <div class="menu-h3 leftmenu__menu-h3 " id="h3-equipment-adventuring-gear">
+        <a href="{{ url_for('get_list_of_items', item_type='adventuring-gear')}}" class="menu-h3-header leftmenu__menu-h3-header ">{{ trans('Adventuring Gear', lang) }}</a>
+    </div>
+
+<!-- Armor -->
+    <div class="menu-h3 leftmenu__menu-h3 expanded-menu " id="h3-equipment-armor">
+        <a href="{{ url_for('get_list_of_items', item_type='armor').include_query_params(tab='armor') }}" class="menu-h3-header leftmenu__menu-h3-header ">{{ trans('Armor', lang) }}</a>
+        <div class="clickable-menu" id="h3-equipment-armor-click">
+            <div class="menu-h3-open-menu leftmenu__menu-h3-open-menu open-menu" id="h3-equipment-armor-arrow"></div>
+        </div>
+    </div>
+    <div class="inside-h3 leftmenu__inside-h3 submenu " id="h3-equipment-armor-submenu">
+        <div class="menu-h4 leftmenu__menu-h4 " id="h4-equipment-armor-basic-magic-armor">
+            <a href="{{ url_for('get_list_of_items', item_type='armor').include_query_params(tab='basic-magic-armor') }}" class="menu-h4-header leftmenu__menu-h4-header ">
+                {{ trans('Basic Magic Armor', lang) }} </a>
+        </div>
+      <div class="menu-h4 leftmenu__menu-h4 " id="h4-equipment-armor-specializations">
+            <a href="{{ url_for('get_list_of_items', item_type='armor').include_query_params(tab='armor-specializations') }}" class="menu-h4-header leftmenu__menu-h4-header ">
+                {{ trans('Armor Specializations', lang) }} </a>
+        </div>
+      <div class="menu-h4 leftmenu__menu-h4 " id="h4-equipment-armor-precious-material-armor">
+            <a href="{{ url_for('get_list_of_items', item_type='armor').include_query_params(tab='precious-material-armor') }}" class="menu-h4-header leftmenu__menu-h4-header ">
+                {{ trans('Precious Material Armor', lang) }} </a>
+        </div>
+      <div class="menu-h4 leftmenu__menu-h4 " id="h4-equipment-armor-specific-magic-armor">
+            <a href="{{ url_for('get_list_of_items', item_type='armor').include_query_params(tab='specific-magic-armor') }}" class="menu-h4-header leftmenu__menu-h4-header ">
+                {{ trans('Specific Magic Armor', lang) }} </a>
+        </div>
+    </div>
+
+<!-- Consumables -->
+    <div class="menu-h3 leftmenu__menu-h3 expanded-menu " id="h3-equipment-consumables">
+        <a href="{{ url_for('get_list_of_items', item_type='consumables').include_query_params(tab='consumables') }}" class="menu-h3-header leftmenu__menu-h3-header ">{{ trans('Consumables', lang) }}</a>
+        <div class="clickable-menu" id="h3-equipment-consumables-click">
+            <div class="menu-h3-open-menu leftmenu__menu-h3-open-menu open-menu" id="h3-equipment-consumables-arrow"></div>
+        </div>
+    </div>
+    <div class="inside-h3 leftmenu__inside-h3 submenu " id="h3-equipment-consumables-submenu">
+        <div class="menu-h4 leftmenu__menu-h4 " id="h4-equipment-consumables-ammunition">
+            <a href="{{ url_for('get_list_of_items', item_type='consumables').include_query_params(tab='magical-ammunition') }}" class="menu-h4-header leftmenu__menu-h4-header ">
+                {{ trans('Magical Ammunition', lang) }} </a>
+        </div>
+      <div class="menu-h4 leftmenu__menu-h4 " id="h4-equipment-consumables-oils">
+            <a href="{{ url_for('get_list_of_items', item_type='consumables').include_query_params(tab='oils') }}" class="menu-h4-header leftmenu__menu-h4-header ">
+                {{ trans('Oils', lang) }} </a>
+        </div>
+      <div class="menu-h4 leftmenu__menu-h4 " id="h4-equipment-consumables-potions">
+            <a href="{{ url_for('get_list_of_items', item_type='consumables').include_query_params(tab='potions') }}" class="menu-h4-header leftmenu__menu-h4-header ">
+                {{ trans('Potions', lang) }} </a>
+        </div>
+      <div class="menu-h4 leftmenu__menu-h4 " id="h4-equipment-consumables-scrolls">
+            <a href="{{ url_for('get_list_of_items', item_type='consumables').include_query_params(tab='scrolls') }}" class="menu-h4-header leftmenu__menu-h4-header ">
+                {{ trans('Scrolls', lang) }} </a>
+        </div>
+      <div class="menu-h4 leftmenu__menu-h4 " id="h4-equipment-consumables-talismans">
+            <a href="{{ url_for('get_list_of_items', item_type='consumables').include_query_params(tab='talismans') }}" class="menu-h4-header leftmenu__menu-h4-header ">
+                {{ trans('Talismans', lang) }} </a>
+        </div>
+      <div class="menu-h4 leftmenu__menu-h4 " id="h4-equipment-consumables-other">
+            <a href="{{ url_for('get_list_of_items', item_type='consumables').include_query_params(tab='other-consumables') }}" class="menu-h4-header leftmenu__menu-h4-header ">
+                {{ trans('Other', lang) }} </a>
+        </div>
+    </div>
+
+<!-- Held Items -->
+    <div class="menu-h3 leftmenu__menu-h3 " id="h3-equipment-held-items">
+        <a href="{{ url_for('get_list_of_items', item_type='held-items') }}" class="menu-h3-header leftmenu__menu-h3-header ">{{ trans('Held Items', lang) }}</a>
+    </div>
+
+<!-- Materials -->
+{#    <div class="menu-h3 leftmenu__menu-h3 expanded-menu " id="h3-equipment-materials">#}
+    <div class="menu-h3 leftmenu__menu-h3 " id="h3-equipment-materials">
+
+        <a href="{{ url_for('get_list_of_items', item_type='materials') }}" class="menu-h3-header leftmenu__menu-h3-header ">{{ trans('Materials', lang) }}</a>
+{#        <div class="clickable-menu" id="h3-equipment-materials-click">#}
+{#            <div class="menu-h3-open-menu leftmenu__menu-h3-open-menu open-menu" id="h3-equipment-materials-arrow"></div>#}
+{#        </div>#}
+    </div>
+{#    <div class="inside-h3 leftmenu__inside-h3 submenu " id="h3-equipment-materials-submenu">#}
+{#        <div class="menu-h4 leftmenu__menu-h4 " id="h4-equipment-materials-adamantine">#}
+{#            <a href="#" class="menu-h4-header leftmenu__menu-h4-header ">#}
+{#                {{ trans('Adamantine', lang) }} </a>#}
+{#        </div>#}
+{#      <div class="menu-h4 leftmenu__menu-h4 " id="h4-equipment-materials-cold-iron">#}
+{#            <a href="#" class="menu-h4-header leftmenu__menu-h4-header ">#}
+{#                {{ trans('Cold Iron', lang) }} </a>#}
+{#        </div>#}
+{#      <div class="menu-h4 leftmenu__menu-h4 " id="h4-equipment-materials-darkwood">#}
+{#            <a href="#" class="menu-h4-header leftmenu__menu-h4-header ">#}
+{#                {{ trans('Darkwood', lang) }} </a>#}
+{#        </div>#}
+{#      <div class="menu-h4 leftmenu__menu-h4 " id="h4-equipment-materials-dragon-hide">#}
+{#            <a href="#" class="menu-h4-header leftmenu__menu-h4-header ">#}
+{#                {{ trans('Dragon Hide', lang) }} </a>#}
+{#        </div>#}
+{#      <div class="menu-h4 leftmenu__menu-h4 " id="h4-equipment-materials-mithral">#}
+{#            <a href="#" class="menu-h4-header leftmenu__menu-h4-header ">#}
+{#                {{ trans('Mithral', lang) }} </a>#}
+{#        </div>#}
+{#      <div class="menu-h4 leftmenu__menu-h4 " id="h4-equipment-materials-orichalcum">#}
+{#            <a href="#" class="menu-h4-header leftmenu__menu-h4-header ">#}
+{#                {{ trans('Orichalcum', lang) }} </a>#}
+{#        </div>#}
+{#      <div class="menu-h4 leftmenu__menu-h4 " id="h4-equipment-materials-silver">#}
+{#            <a href="#" class="menu-h4-header leftmenu__menu-h4-header ">#}
+{#                {{ trans('Silver', lang) }} </a>#}
+{#        </div>#}
+{#    </div>#}
+
+<!-- Runes -->
+    <div class="menu-h3 leftmenu__menu-h3 expanded-menu " id="h3-equipment-runes">
+        <a href="{{ url_for('get_list_of_items', item_type='runes') }}" class="menu-h3-header leftmenu__menu-h3-header ">{{ trans('Runes', lang) }}</a>
+        <div class="clickable-menu" id="h3-equipment-runes-click">
+            <div class="menu-h3-open-menu leftmenu__menu-h3-open-menu open-menu" id="h3-equipment-runes-arrow"></div>
+        </div>
+    </div>
+    <div class="inside-h3 leftmenu__inside-h3 submenu " id="h3-equipment-runes-submenu">
+          <div class="menu-h4 leftmenu__menu-h4 " id="h4-equipment-runes-fundamental-armor-runes">
+                <a href="{{ url_for('get_list_of_items', item_type='runes').include_query_params(tab='fundamental-armor-runes') }}" class="menu-h4-header leftmenu__menu-h4-header ">
+                    {{ trans('Fundamental Armor Runes', lang) }} </a>
+            </div>
+            <div class="menu-h4 leftmenu__menu-h4 " id="h4-equipment-runes-armor-property-runes">
+                <a href="{{ url_for('get_list_of_items', item_type='runes').include_query_params(tab='armor-property-runes') }}" class="menu-h4-header leftmenu__menu-h4-header ">
+                    {{ trans('Armor Property Runes', lang) }} </a>
+            </div>
+
+          <div class="menu-h4 leftmenu__menu-h4 " id="h4-equipment-runes-fundamental-weapon-runes">
+                <a href="{{ url_for('get_list_of_items', item_type='runes').include_query_params(tab='fundamental-weapon-runes') }}" class="menu-h4-header leftmenu__menu-h4-header ">
+                    {{ trans('Fundamental Weapon Runes', lang) }} </a>
+            </div>
+          <div class="menu-h4 leftmenu__menu-h4 " id="h4-equipment-runes-weapon-property-runes">
+                <a href="{{ url_for('get_list_of_items', item_type='runes').include_query_params(tab='weapon-property-runes') }}" class="menu-h4-header leftmenu__menu-h4-header ">
+                    {{ trans('Weapon Property Runes', lang) }} </a>
+            </div>
+
+    </div>
+
+<!-- Shields -->
+    <div class="menu-h3 leftmenu__menu-h3 expanded-menu " id="h3-equipment-shields">
+        <a href="{{ url_for('get_list_of_items', item_type='shields').include_query_params(tab='shields') }}" class="menu-h3-header leftmenu__menu-h3-header ">{{ trans('Shields', lang) }}</a>
+        <div class="clickable-menu" id="h3-equipment-shields-click">
+            <div class="menu-h3-open-menu leftmenu__menu-h3-open-menu open-menu" id="h3-equipment-shields-arrow"></div>
+        </div>
+    </div>
+    <div class="inside-h3 leftmenu__inside-h3 submenu " id="h3-equipment-shields-submenu">
+      <div class="menu-h4 leftmenu__menu-h4 " id="h4-equipment-shields-precious-material-shields">
+            <a href="{{ url_for('get_list_of_items', item_type='shields').include_query_params(tab='precious-material-shields') }}" class="menu-h4-header leftmenu__menu-h4-header ">
+                {{ trans('Precious Material Shields', lang) }} </a>
+        </div>
+      <div class="menu-h4 leftmenu__menu-h4 " id="h4-equipment-shields-specific-magic-shields">
+            <a href="{{ url_for('get_list_of_items', item_type='shields').include_query_params(tab='specific-magic-shields') }}" class="menu-h4-header leftmenu__menu-h4-header ">
+                {{ trans('Specific Magic Shields', lang) }} </a>
+        </div>
+    </div>
+
+<!-- Snares -->
+    <div class="menu-h3 leftmenu__menu-h3 " id="h3-equipment-snares">
+        <a href="{{ url_for('get_list_of_items', item_type='snares') }}" class="menu-h3-header leftmenu__menu-h3-header ">{{ trans('Snares', lang) }}</a>
+    </div>
+
+<!-- Staves -->
+    <div class="menu-h3 leftmenu__menu-h3 " id="h3-equipment-staves">
+        <a href="{{ url_for('get_list_of_items', item_type='staves') }}" class="menu-h3-header leftmenu__menu-h3-header ">{{ trans('Staves', lang) }}</a>
+    </div>
+
+<!-- Structures -->
+    <div class="menu-h3 leftmenu__menu-h3 " id="h3-equipment-structures">
+        <a href="{{ url_for('get_list_of_items', item_type='structures') }}" class="menu-h3-header leftmenu__menu-h3-header ">{{ trans('Structures', lang) }}</a>
+    </div>
+
+<!-- Wands -->
+    <div class="menu-h3 leftmenu__menu-h3 expanded-menu " id="h3-equipment-wands">
+        <a href="{{ url_for('get_list_of_items', item_type='wands') }}" class="menu-h3-header leftmenu__menu-h3-header ">{{ trans('Wands', lang) }}</a>
+        <div class="clickable-menu" id="h3-equipment-wands-click">
+            <div class="menu-h3-open-menu leftmenu__menu-h3-open-menu open-menu" id="h3-equipment-wands-arrow"></div>
+        </div>
+    </div>
+    <div class="inside-h3 leftmenu__inside-h3 submenu " id="h3-equipment-wands-submenu">
+      <div class="menu-h4 leftmenu__menu-h4 " id="h4-equipment-wands-magic-wands">
+            <a href="{{ url_for('get_list_of_items', item_type='wands').include_query_params(tab='magic-wands') }}" class="menu-h4-header leftmenu__menu-h4-header ">
+                {{ trans('Magic Wands', lang) }} </a>
+        </div>
+      <div class="menu-h4 leftmenu__menu-h4 " id="h4-equipment-wands-speciality-wands">
+            <a href="{{ url_for('get_list_of_items', item_type='wands').include_query_params(tab='speciality-wands') }}" class="menu-h4-header leftmenu__menu-h4-header ">
+                {{ trans('Speciality Wands', lang) }} </a>
+        </div>
+    </div>
+
+<!-- Weapons -->
+    <div class="menu-h3 leftmenu__menu-h3 expanded-menu " id="h3-equipment-weapons">
+        <a href="{{ url_for('get_list_of_items', item_type='weapons').include_query_params(tab='weapons') }}" class="menu-h3-header leftmenu__menu-h3-header ">{{ trans('Weapons', lang) }}</a>
+        <div class="clickable-menu" id="h3-equipment-weapons-click">
+            <div class="menu-h3-open-menu leftmenu__menu-h3-open-menu open-menu" id="h3-equipment-weapons-arrow"></div>
+        </div>
+    </div>
+    <div class="inside-h3 leftmenu__inside-h3 submenu " id="h3-equipment-weapons-submenu">
+        <div class="menu-h4 leftmenu__menu-h4 " id="h4-equipment-weapons-basic-magic-weapons">
+            <a href="{{ url_for('get_list_of_items', item_type='weapons').include_query_params(tab='basic-magic-weapons') }}" class="menu-h4-header leftmenu__menu-h4-header ">
+                {{ trans('Basic Magic Weapons', lang) }} </a>
+        </div>
+      <div class="menu-h4 leftmenu__menu-h4 " id="h4-equipment-weapon-specializations">
+            <a href="{{ url_for('get_list_of_items', item_type='weapons').include_query_params(tab='weapon-specializations') }}" class="menu-h4-header leftmenu__menu-h4-header ">
+                {{ trans('Weapon Specializations', lang) }} </a>
+        </div>
+      <div class="menu-h4 leftmenu__menu-h4 " id="h4-equipment-weapons-precious-material-weapons">
+            <a href="{{ url_for('get_list_of_items', item_type='weapons').include_query_params(tab='precious-material-weapons') }}" class="menu-h4-header leftmenu__menu-h4-header ">
+                {{ trans('Precious Material Weapon', lang) }} </a>
+        </div>
+      <div class="menu-h4 leftmenu__menu-h4 " id="h4-equipment-weapons-specific-magic-weapons">
+            <a href="{{ url_for('get_list_of_items', item_type='weapons').include_query_params(tab='specific-magic-weapons') }}" class="menu-h4-header leftmenu__menu-h4-header ">
+                {{ trans('Specific Magic Weapon', lang) }} </a>
+        </div>
+    </div>
+
+<!-- Worn Item -->
+    <div class="menu-h3 leftmenu__menu-h3 expanded-menu " id="h3-equipment-worn-items">
+        <a href="{{ url_for('get_list_of_items', item_type='worn-items').include_query_params(tab='worn-items') }}" class="menu-h3-header leftmenu__menu-h3-header ">{{ trans('Worn Items', lang) }}</a>
+        <div class="clickable-menu" id="h3-equipment-worn-items-click">
+            <div class="menu-h3-open-menu leftmenu__menu-h3-open-menu open-menu" id="h3-equipment-worn-items-arrow"></div>
+        </div>
+    </div>
+    <div class="inside-h3 leftmenu__inside-h3 submenu " id="h3-equipment-worn-items-submenu">
+      <div class="menu-h4 leftmenu__menu-h4 " id="h4-equipment-worn-items-companion-items">
+            <a href="{{ url_for('get_list_of_items', item_type='worn-items').include_query_params(tab='companion-items') }}" class="menu-h4-header leftmenu__menu-h4-header ">
+                {{ trans('Companion Items', lang) }} </a>
+        </div>
+
+    </div>
+

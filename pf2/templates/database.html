@@ -1,0 +1,297 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ trans('Database', lang) }}
+{% endblock %}
+
+
+{% block body %}
+    <h1 class="h1-header">{{ trans('Database', lang) }}</h1>
+    <div class="groupped-box">
+    <div class="group-block" id="ancestries-block">
+        <h2 class="group-header">
+            <a href="{{ url_for('get_ancestries') }}" class="header-link ">{{ trans ('Ancestries', lang) }}</a>
+        </h2>
+        <div class="content-table content-table--menu-list">
+            <div class="content-item"><a
+                    href="{{ url_for ('get_ancestry', ancestry_id='dwarf').include_query_params(tab='details') }}"
+                    class="content-header ">{{ trans('Dwarf', lang) }}</a>
+            </div>
+
+            <div class="content-item"><a
+                    href="{{ url_for ('get_ancestry', ancestry_id='elf').include_query_params(tab='details') }}"
+                    class="content-header ">{{ trans('Elf', lang) }}</a>
+            </div>
+
+            <div class="content-item"><a
+                    href="{{ url_for ('get_ancestry', ancestry_id='gnome').include_query_params(tab='details') }}"
+                    class="content-header ">{{ trans('Gnome', lang) }}</a>
+            </div>
+
+            <div class="content-item"><a
+                    href="{{ url_for ('get_ancestry', ancestry_id='goblin').include_query_params(tab='details') }}"
+                    class="content-header ">{{ trans('Goblin', lang) }}</a>
+            </div>
+
+            <div class="content-item"><a
+                    href="{{ url_for ('get_ancestry', ancestry_id='halfling').include_query_params(tab='details') }}"
+                    class="content-header ">{{ trans('Halfling', lang) }}</a>
+            </div>
+
+            <div class="content-item"><a
+                    href="{{ url_for ('get_ancestry', ancestry_id='human').include_query_params(tab='details') }}"
+                    class="content-header ">{{ trans('Human', lang) }}</a>
+            </div>
+
+            <div class="content-item"><a
+                    href="{{ url_for ('get_ancestry', ancestry_id='catfolk').include_query_params(tab='details') }}"
+                    class="content-header ">{{ trans('Catfolk', lang) }}</a>
+            </div>
+
+            <div class="content-item"><a
+                    href="{{ url_for ('get_ancestry', ancestry_id='kobold').include_query_params(tab='details') }}"
+                    class="content-header ">{{ trans('Kobold', lang) }}</a>
+            </div>
+
+            <div class="content-item"><a
+                    href="{{ url_for ('get_ancestry', ancestry_id='orc').include_query_params(tab='details') }}"
+                    class="content-header ">{{ trans('Orc', lang) }}</a>
+            </div>
+
+            <div class="content-item"><a
+                    href="{{ url_for ('get_ancestry', ancestry_id='ratfolk').include_query_params(tab='details') }}"
+                    class="content-header ">{{ trans('Ratfolk', lang) }}</a>
+            </div>
+
+            <div class="content-item"><a
+                    href="{{ url_for ('get_ancestry', ancestry_id='tengu').include_query_params(tab='details') }}"
+                    class="content-header ">{{ trans('Tengu', lang) }}</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="group-block" id="versatile-heritages-block">
+        <h2 class="group-header">
+            <a href="{{ url_for ('get_versatile_heritages') }}"
+               class="header-link">{{ trans('Versatile Heritages', lang) }}</a>
+        </h2>
+        <div class="content-table content-table--menu-list">
+            <div class="content-item"><a href="{{ url_for ('get_versatile_heritage', heritage_id='changeling') }}"
+                                         class="content-header ">{{ trans('Changeling', lang) }} </a></div>
+
+            <div class="content-item"><a href="{{ url_for ('get_versatile_heritage', heritage_id='dhampir') }}"
+                                         class="content-header ">{{ trans('Dhampir', lang) }} </a></div>
+
+            <div class="content-item"><a href="{{ url_for ('get_versatile_heritage', heritage_id='aasimar') }}"
+                                         class="content-header ">{{ trans('Aasimar', lang) }} </a></div>
+
+            <div class="content-item"><a href="{{ url_for ('get_versatile_heritage', heritage_id='duskwalker') }}"
+                                         class="content-header ">{{ trans('Duskwalker', lang) }} </a></div>
+
+            <div class="content-item"><a href="{{ url_for ('get_versatile_heritage', heritage_id='tiefling') }}"
+                                         class="content-header ">{{ trans('Tiefling', lang) }} </a></div>
+        </div>
+    </div>
+
+    <div class="group-block" id="classes-block">
+        <h2 class="group-header">
+            <a class="header-link"
+               href="{{ url_for('get_list_of_items', item_type='classes') }}">{{ trans('Classes', lang) }}</a>
+        </h2>
+        <div class="content-table content-table--menu-list">
+            <div class="content-item"><a
+                    href="{{ url_for ('get_class_', class_id='alchemist').include_query_params(tab='details') }}"
+                    class="content-header ">{{ trans('Alchemist', lang) }}</a>
+            </div>
+
+            <div class="content-item"><a
+                    href="{{ url_for ('get_class_', class_id='barbarian').include_query_params(tab='details') }}"
+                    class="content-header ">{{ trans('Barbarian', lang) }}</a>
+            </div>
+
+            <div class="content-item"><a
+                    href="{{ url_for ('get_class_', class_id='bard').include_query_params(tab='details') }}"
+                    class="content-header ">{{ trans('Bard', lang) }}</a>
+            </div>
+
+            <div class="content-item"><a
+                    href="{{ url_for ('get_class_', class_id='champion').include_query_params(tab='details') }}"
+                    class="content-header ">{{ trans('Champion', lang) }}</a>
+            </div>
+
+            <div class="content-item"><a
+                    href="{{ url_for ('get_class_', class_id='cleric').include_query_params(tab='details') }}"
+                    class="content-header ">{{ trans('Cleric', lang) }}</a>
+            </div>
+
+            <div class="content-item"><a
+                    href="{{ url_for ('get_class_', class_id='druid').include_query_params(tab='details') }}"
+                    class="content-header ">{{ trans('Druid', lang) }}</a>
+            </div>
+
+            <div class="content-item"><a
+                    href="{{ url_for ('get_class_', class_id='fighter').include_query_params(tab='details') }}"
+                    class="content-header ">{{ trans('Fighter', lang) }}</a>
+            </div>
+
+            <div class="content-item"><a
+                    href="{{ url_for ('get_class_', class_id='monk').include_query_params(tab='details') }}"
+                    class="content-header ">{{ trans('Monk', lang) }}</a>
+            </div>
+
+            <div class="content-item"><a
+                    href="{{ url_for ('get_class_', class_id='ranger').include_query_params(tab='details') }}"
+                    class="content-header ">{{ trans('Ranger', lang) }}</a>
+            </div>
+
+            <div class="content-item"><a
+                    href="{{ url_for ('get_class_', class_id='rogue').include_query_params(tab='details') }}"
+                    class="content-header ">{{ trans('Rogue', lang) }}</a>
+            </div>
+
+            <div class="content-item"><a
+                    href="{{ url_for ('get_class_', class_id='sorcerer').include_query_params(tab='details') }}"
+                    class="content-header ">{{ trans('Sorcerer', lang) }}</a>
+            </div>
+
+            <div class="content-item"><a
+                    href="{{ url_for ('get_class_', class_id='wizard').include_query_params(tab='details') }}"
+                    class="content-header ">{{ trans('Wizard', lang) }}</a>
+            </div>
+
+            <div class="content-item"><a
+                    href="{{ url_for ('get_class_', class_id='investigator').include_query_params(tab='details') }}"
+                    class="content-header ">{{ trans('Investigator', lang) }}</a>
+            </div>
+
+            <div class="content-item"><a
+                    href="{{ url_for ('get_class_', class_id='oracle').include_query_params(tab='details') }}"
+                    class="content-header ">{{ trans('Oracle', lang) }}</a>
+            </div>
+
+            <div class="content-item"><a
+                    href="{{ url_for ('get_class_', class_id='swashbuckler').include_query_params(tab='details') }}"
+                    class="content-header ">{{ trans('Swashbuckler', lang) }}</a>
+            </div>
+
+            <div class="content-item"><a
+                    href="{{ url_for ('get_class_', class_id='witch').include_query_params(tab='details') }}"
+                    class="content-header ">{{ trans('Witch', lang) }}</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="group-block" id="backgrounds-block">
+        <h2 class="group-header">
+            <a class="header-link" href="{{ url_for('get_backgrounds') }}">{{ trans('Backgrounds', lang) }}</a>
+        </h2>
+    </div>
+
+    <div class="group-block" id="feats-block">
+        <h2 class="group-header">
+            <a class="header-link" href="{{ url_for('get_feats') }}">{{ trans('Feats', lang) }}</a>
+        </h2>
+    </div>
+
+    <div class="group-block" id="archetypes-block">
+        <h2 class="group-header">
+            <a class="header-link" href="{{ url_for('get_archetypes') }}">{{ trans('Archetypes', lang) }}</a>
+        </h2>
+    </div>
+
+    <div class="group-block" id="spells-block">
+        <h2 class="group-header">
+            <a class="header-link"
+               href="{{ url_for('get_spells').include_query_params(tab='spells') }}">{{ trans('Spells', lang) }}</a>
+        </h2>
+        <div class="content-table content-table--menu-list">
+            <div class="content-item"><a href="{{ url_for('get_spells').include_query_params(tab='focus-spells') }}"
+                                         class="content-header">{{ trans('Focus Spells', lang) }}</a></div>
+
+            <div class="content-item"><a href="{{ url_for('get_spells').include_query_params(tab='arcane') }}"
+                                         class="content-header">{{ trans('Arcane', lang) }}</a>
+            </div>
+            <div class="content-item"><a href="{{ url_for('get_spells').include_query_params(tab='divine') }}"
+                                         class="content-header">{{ trans('Divine', lang) }}</a>
+            </div>
+            <div class="content-item"><a href="{{ url_for('get_spells').include_query_params(tab='occult') }}"
+                                         class="content-header">{{ trans('Occult', lang) }}</a>
+            </div>
+            <div class="content-item"><a href="{{ url_for('get_spells').include_query_params(tab='primal') }}"
+                                         class="content-header">{{ trans('Primal', lang) }}</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="group-block" id="rituals-block">
+        <h2 class="group-header">
+            <a class="header-link" href="{{ url_for('get_rituals') }}">{{ trans('Rituals', lang) }}</a>
+        </h2>
+    </div>
+
+    <div class="group-block" id="equipment-block">
+        <h2 class="group-header">
+            <a class="header-link" href="{{ url_for('get_equipment') }}">{{ trans('Equipment', lang) }}</a>
+        </h2>
+        <div class="content-table content-table--menu-list">
+            <div class="content-item"><a
+                    href="{{ url_for('get_list_of_items', item_type='alchemical-items').include_query_params(tab='alchemical-items') }}"
+                    class="content-header">{{ trans('Alchemical Items', lang) }}</a> </div>
+                <div class="content-item"><a href="{{ url_for('get_list_of_items', item_type='adventuring-gear') }}"
+                                             class="content-header">{{ trans('Adventuring Gear', lang) }}</a></div>
+                <div class="content-item"><a
+                        href="{{ url_for('get_list_of_items', item_type='armor').include_query_params(tab='armor') }}"
+                        class="content-header">{{ trans('Armor', lang) }}</a></div>
+                <div class="content-item"><a
+                        href="{{ url_for('get_list_of_items', item_type='consumables').include_query_params(tab='consumables') }}"
+                        class="content-header">{{ trans('Consumables', lang) }}</a></div>
+                <div class="content-item"><a href="{{ url_for('get_list_of_items', item_type='held-items') }}"
+                                             class="content-header">{{ trans('Held Items', lang) }}</a></div>
+                <div class="content-item"><a href="{{ url_for('get_list_of_items', item_type='materials') }}"
+                                             class="content-header">{{ trans('Materials', lang) }}</a></div>
+                <div class="content-item"><a href="{{ url_for('get_list_of_items', item_type='runes') }}"
+                                             class="content-header">{{ trans('Runes', lang) }}</a></div>
+                <div class="content-item"><a
+                        href="{{ url_for('get_list_of_items', item_type='shields').include_query_params(tab='shields') }}"
+                        class="content-header">{{ trans('Shields', lang) }}</a></div>
+                <div class="content-item"><a href="{{ url_for('get_list_of_items', item_type='snares') }}"
+                                             class="content-header">{{ trans('Snares', lang) }}</a></div>
+                <div class="content-item"><a href="{{ url_for('get_list_of_items', item_type='staves') }}"
+                                             class="content-header">{{ trans('Staves', lang) }}</a></div>
+                <div class="content-item"><a href="{{ url_for('get_list_of_items', item_type='structures') }}"
+                                             class="content-header">{{ trans('Structures', lang) }}</a></div>
+                <div class="content-item"><a href="{{ url_for('get_list_of_items', item_type='wands') }}"
+                                             class="content-header">{{ trans('Wands', lang) }}</a></div>
+                <div class="content-item"><a
+                        href="{{ url_for('get_list_of_items', item_type='weapons').include_query_params(tab='weapons') }}"
+                        class="content-header">{{ trans('Weapons', lang) }}</a></div>
+                <div class="content-item"><a
+                        href="{{ url_for('get_list_of_items', item_type='worn-items').include_query_params(tab='worn-items') }}"
+                        class="content-header">{{ trans('Worn Items', lang) }}</a></div>
+            </div>
+        </div>
+
+    <div class="group-block" id="setting-block">
+        <h2 class="group-header">
+            <a class="header-link" href="{{ url_for('get_setting') }}">{{ trans('Setting', lang) }}</a>
+        </h2>
+    </div>
+        <div class="content-table content-table--menu-list">
+            <div class="content-item"><a href="{{ url_for('get_setting').include_query_params(tab='deities') }}" class="content-header ">{{ trans('Deities', lang) }}</a></div>
+            <div class="content-item"><a href="{{ url_for('get_setting').include_query_params(tab='domains') }}" class="content-header ">{{ trans('Domains', lang) }}</a></div>
+        </div>
+
+    <div class="group-block" id="adventuring-block">
+        <h2 class="group-header">
+            <a class="header-link" href="{{ url_for('get_adventuring') }}">{{ trans('Adventuring', lang) }}</a>
+        </h2>
+    </div>
+        <div class="content-table content-table--menu-list">
+            <div class="content-item"><a href="{{ url_for('get_adventuring').include_query_params(tab='services') }}" class="content-header ">{{ trans('Services', lang) }}</a></div>
+            <div class="content-item"><a href="{{ url_for('get_adventuring').include_query_params(tab='hazards') }}" class="content-header ">{{ trans('Hazards', lang) }}</a></div>
+
+        </div>
+
+    </div>
+
+{% endblock %}

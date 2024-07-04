@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ trans ('Conditions', lang) }}
+{% endblock %}
+
+{% block body %}
+<h1 class="h1-header">{{ trans ('Conditions',lang) }}</h1>
+    <div class="content-table">
+            {% for item in conditions %}
+                <div class="content-item">
+                    <a class="content-header" href="#condition-{{ item.name }}">
+                        {% if item.rus_name and lang=='ru' %}
+                            {{ item.rus_name }}
+                        {% else %}
+                            {{ item.name }}
+                        {% endif %}
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+
+{% for item in conditions %}
+    <a id="condition-{{ item.name }}" class="anchor"></a>
+    <div class="item-output item-output--card">
+        <div class="item-output--card--header">
+            <a class="header-link" href="{{ url_for('get_item_page', item_type='conditions', item_id=item.name|lower) }}">
+                {% if lang=='ru' and item.rus_name %}
+                   {{ item.rus_name }}
+                {% else %}
+                       {{ item.name }}
+                {% endif %}
+            </a>
+        </div>
+        <div class="item-output--body">
+            {% if lang=='ru' and item.rus_name %}
+                {{ item.rus_text_output|to_a_links|safe }}
+            {% else %}
+                {{ item.text_output|to_a_links|safe }}
+            {% endif %}
+        </div>
+    </div>
+
+{% endfor %}
+    
+    
+{% endblock %}

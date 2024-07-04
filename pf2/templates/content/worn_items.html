@@ -1,0 +1,23 @@
+
+<div class="tabs-panel" id ="worn-items-tabs-panel">
+    <div class="tablink tablink--eng" data-tab="#worn-items">
+        <div class="tab-header">{{ trans ('Worn Items', lang) }}</div>
+    </div>
+    <div class="tablink tablink--eng" data-tab="#companion-items">
+        <div class="tab-header">{{ trans ('Companion Items', lang) }}</div>
+    </div>
+</div>
+
+<div class="tab-content " id="worn-items">
+    {% with items=items['other_worn_items'] %}
+        {% include 'content/equipment_table.html' %}
+    {% endwith %}
+</div>
+
+<div class="tab-content " id="companion-items">
+    {% with items=items['companion_items'] %}
+        {% include 'content/equipment_table.html' %}
+    {% endwith %}
+</div>
+
+

@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ trans ('Archetypes', lang) }}
+{% endblock %}
+
+
+{% block body %}
+<h1 class="h1-header">{{ trans ('Archetypes',lang) }}</h1>
+
+<a class="textlink" href="{{ url_for('core_rulebook_chapter', chapter_name='classes') }}#archetypes">{{ trans ('Click here to see rules for Archetypes.', lang) }} </a>
+
+<div class="tabs-panel" id ="backgrounds-tabs-panel">
+    <div class="tablink tablink--eng" data-tab="#all-archetypes">
+        <div class="tab-header">{{ trans ('Archetypes', lang) }}</div>
+    </div>
+    <div class="tablink tablink--eng" data-tab="#multiclass">
+        <div class="tab-header">{{ trans ('Multiclass', lang) }}</div>
+    </div>
+</div>
+
+<div class="tab-content " id="all-archetypes">
+    <div class="content-table">
+        {% for item in other_archetypes %}
+            <div class="content-item">
+                <a class="content-header" href="#archetype-{{ item.name|lower_no_spaces }}">
+                    {% if item.rus_name and lang=='ru' %}
+                        {{ item.rus_name }}
+                    {% else %}
+                        {{ item.name }}
+                    {% endif %}
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+{% for item in other_archetypes %}
+    <a id="archetype-{{ item.name|lower_no_spaces }}" class="anchor"></a>
+    <div class="item-output item-output--card">
+        <div class="item-output--card--header">
+            <a class="header-link" href="{{ url_for('get_item_page', item_type='archetypes', item_id=item.name|lower_no_spaces) }}">
+                {% if lang=='ru' and item.rus_name %}
+                   {{ item.rus_name }}
+                {% else %}
+                       {{ item.name }}
+                {% endif %}
+            </a>
+            <span class="item-type" style="margin-left:auto; margin-right:0">{{ trans('Archetype', lang) }} {{ item.level }}</span>
+        </div>
+        <div class="item-output--body">
+            {{ item.dedication_feat|viewbox_r|to_a_links|safe }}
+        </div>
+    </div>
+
+{% endfor %}
+</div>
+
+
+<div class="tab-content " id="multiclass">
+<div class="content-table">
+        {% for item in multiclass_archetypes %}
+            <div class="content-item">
+                <a class="content-header" href="#archetype-{{ item.name|lower_no_spaces }}">
+                    {% if item.rus_name and lang=='ru' %}
+                        {{ item.rus_name }}
+                    {% else %}
+                        {{ item.name }}
+                    {% endif %}
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+
+{% for item in multiclass_archetypes %}
+        <a id="archetype-{{ item.name|lower_no_spaces }}" class="anchor"></a>
+    <div class="item-output item-output--card">
+        <div class="item-output--card--header">
+            <a class="header-link" href="{{ url_for('get_item_page', item_type='archetypes', item_id=item.name|lower_no_spaces) }}">
+                {% if lang=='ru' and item.rus_name %}
+                   {{ item.rus_name }}
+                {% else %}
+                       {{ item.name }}
+                {% endif %}
+            </a>
+            <span class="item-type" style="margin-left:auto; margin-right:0">{{ trans('Archetype', lang) }} {{ item.level }}</span>
+        </div>
+        <div class="item-output--body">
+            {{ item.dedication_feat|viewbox_r|safe }}
+        </div>
+    </div>
+
+{% endfor %}
+</div>
+
+{% endblock %}

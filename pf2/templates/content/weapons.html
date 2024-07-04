@@ -1,0 +1,111 @@
+
+<div class="tabs-panel" id ="weapons-tabs-panel">
+    <div class="tablink tablink--eng" data-tab="#weapons">
+        <div class="tab-header">{{ trans ('Weapons', lang) }}</div>
+    </div>
+    <div class="tablink tablink--eng" data-tab="#basic-magic-weapons">
+        <div class="tab-header">{{ trans ('Basic Magic Weapons', lang) }}</div>
+    </div>
+    <div class="tablink tablink--eng" data-tab="#weapon-specializations">
+        <div class="tab-header">{{ trans ('Weapon Specializations', lang) }}</div>
+    </div>
+    <div class="tablink tablink--eng" data-tab="#precious-material-weapons">
+        <div class="tab-header">{{ trans ('Precious Material Weapons', lang) }}</div>
+    </div>
+    <div class="tablink tablink--eng" data-tab="#specific-magic-weapons">
+        <div class="tab-header">{{ trans ('Specific Magic Weapons', lang) }}</div>
+    </div>
+
+</div>
+<div class="tab-content " id="weapons">
+
+    <h2 class="h2-header">{{ trans ('Melee Weapons', lang) }}</h2>
+    {% with items=items['weapons_melee'], item_type='Weapons Melee' %}
+        {% include 'content/equipment_table.html' %}
+    {% endwith %}
+
+    <h2 class="h2-header">{{ trans ('Ranged Weapons', lang) }}</h2>
+    {% with items=items['weapons_ranged'], item_type='Weapons Ranged' %}
+        {% include 'content/equipment_table.html' %}
+    {% endwith %}
+</div>
+
+<div class="tab-content " id="basic-magic-weapons">
+    {% with items=items['basic_magic_weapons'] %}
+        {% for item in items %}
+        <div class="item-output item-output--card">
+            <div class="item-output--card--header">
+                <a class="header-link" href="{{ url_for('get_item_page', item_type='equipment', item_id=item.id) }}">
+                {% if lang=='ru' and item.rus_name %}
+                    {{ item.rus_name }}
+                    {% else %}
+                    {{ item.name }}
+                {% endif %}
+                </a>
+            </div>
+            <div class="item-output--body">
+                {% if item.rus_text_output and lang=='ru' %}
+                    {{ item.rus_text_output|viewbox_r|to_a_links|safe }}
+                {% else %}
+                    {{ item.text_output|viewbox_r|to_a_links|safe }}
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    {% endwith %}
+</div>
+
+<div class="tab-content " id="weapon-specializations">
+    {% with items=items['weapon_specializations'] %}
+
+        <div class="content-table">
+            {% for item in items %}
+                <div class="content-item">
+                    <a class="content-header" href="#{{ item.name|lower_no_spaces }}">
+                        {% if item.rus_name and lang=='ru' %}
+                            {{ item.rus_name }}
+                        {% else %}
+                            {{ item.name }}
+                        {% endif %}
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+
+        {% for item in items %}
+        <a id="{{ item.name|lower_no_spaces }}" class="anchor"></a>
+        <div class="item-output item-output--card">
+            <div class="item-output--card--header">
+                <a class="header-link" href="{{ url_for('get_item_page', item_type='weapongroups', item_id=item.id) }}">
+                {% if lang=='ru' and item.rus_name %}
+                    {{ item.rus_name }}
+                    {% else %}
+                    {{ item.name }}
+                {% endif %}
+                </a>
+            </div>
+            <div class="item-output--body">
+                {% if item.rus_text_output and lang=='ru' %}
+                    {{ item.rus_text_output|viewbox_r|to_a_links|safe }}
+                {% else %}
+                    {{ item.text_output|viewbox_r|to_a_links|safe }}
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    {% endwith %}
+</div>
+
+<div class="tab-content " id="precious-material-weapons">
+    {% with items=items['precious_material_weapons'] %}
+        {% include 'content/equipment_table.html' %}
+    {% endwith %}
+</div>
+
+<div class="tab-content " id="specific-magic-weapons">
+    {% with items=items['specific_magic_weapons'] %}
+        {% include 'content/equipment_table.html' %}
+    {% endwith %}
+</div>
+
+

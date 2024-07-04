@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ trans('Magnificient Mansion', lang) }}
+{% endblock %}
+
+
+{% block body %}
+<h1 class="h1-header">{{ trans('Magnificient Mansion', lang) }}</h1>
+
+{{ trans('Welcome', lang) }}, {{ user.username }}!
+
+<div class="tabs-panel" id ="profile-tabs-panel">
+    <div class="tablink" data-tab="#alter-self-tab">
+        <div class="tab-header">{{ trans ('Alter Self', lang) }}</div>
+    </div>
+    <div class="tablink" data-tab="#library-tab">
+        <div class="tab-header">{{ trans ('Library', lang) }}</div>
+    </div>
+</div>
+
+    <div class="tab-content" id="alter-self-tab">
+        <form class="alter-self-form feedback-form" id="updateUserForm">
+            <input type="hidden" id="update-email" name="email" value="{{ user.email }}">
+            <label class="feedback-label" for="username">{{ trans('New Username:', lang) }}</label>
+            <input class="feedback-input" type="text" id="update-username" name="username">
+
+{#            {% if not user.oauth_accounts %}#}
+{#                <label class="feedback-label" for="password">{{ trans('New Password:', lang) }}</label>#}
+{#                <input class="feedback-input" type="password" id="update-password" name="password">#}
+{#            {% endif %}#}
+
+            <button class="feedback-button" type="submit" id="submit-update-user-button">{{ trans('Alter Self', lang) }}</button>
+        </form>
+    </div>
+
+<div class="tab-content" id="library-tab">
+    <h1 class="h1-header">{{ trans('Library', lang) }}</h1>
+
+    <h2 class="h2-header">{{ trans('Bookshelves', lang) }}
+        <button id="create-theme-button" class="create-theme-button">
+            <img class="create-theme-button--icon" src="/static/icons/plus-icon-color.svg" alt="Add">
+            {{ trans ('Create new shelf', lang) }}
+        </button>
+    </h2>
+
+
+    <div id="create-theme-popup-archive" class="popup-archive">
+        <div class="popup-archive-content">
+            <span class="popup-archive-close">&times;</span>
+            <form class="archive-form" id="themeForm">
+                <label class="archive-form--label" for="name">{{ trans('Name:', lang) }}</label><br>
+                <input class="archive-form--input" type="text" id="name" name="name" required><br><br>
+                <label class="archive-form--label" for="description">{{ trans('Description:', lang) }}</label><br>
+                <textarea class="archive-form--textarea" id="description" name="description" rows="4" required></textarea><br><br>
+                <button class="archive-form--button" type="submit">{{ trans ('Create Bookshelf', lang) }}</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="archive-themes" id="archive-themes">
+
+    </div>
+
+    <!-- Create Note Popup Form -->
+    {# TODO: re-compose form    #}
+    <div id="create-note-popup-archive" class="popup-archive">
+        <div class="popup-archive-content">
+            <span class="popup-archive-close">&times;</span>
+            <form class="archive-form" id="create-note-form">
+                <label for="item_type">Item Type:</label>
+                <select id="item_type" name="item_type">
+                    <option value="ancestry">Ancestry</option>
+                    <option value="spell">Spell</option>
+                    <option value="equipment">Equipment</option>
+                </select>
+                <label for="item_id">Item ID:</label>
+                <input id="item_id" name="item_id" type="number" list="item_id_list" min="100" max="130">
+                <datalist id="item_id_list">
+                    <!-- Dynamically generate options from 100 to 130 -->
+                    ${Array.from({ length: 31 }, (_, i) => `<option value="${100 + i}">${100 + i}</option>`).join('')}
+                </datalist>
+                <label for="title">Title:</label>
+                <input id="title" name="title" type="text" required>
+                <label for="text">Text:</label>
+                <textarea id="text" name="text"></textarea>
+                <button type="submit">Add Note</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Change Theme Popup Form -->
+    <div id="change-theme-popup-archive" class="popup-archive">
+        <div class="popup-archive-content">
+            <h2>{{ trans('Choose a bookshelf', lang) }}</h2>
+            <div id="theme-list"></div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

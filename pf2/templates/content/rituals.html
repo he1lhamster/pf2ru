@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+{{ trans('Rituals', lang) }}
+{% endblock %}
+
+{% block body %}
+    <h1 class="h1-header">{{ trans('Rituals', lang) }}    </h1>
+<p>
+    <a href="{{ url_for('core_rulebook_chapter', chapter_name='spells') }}#rituals">{{ trans('Click here for the full rules on Rituals.', lang) }}</a>
+</p>
+
+
+    <table class="need-filters table--list" id="rituals-list">
+        <thead>
+                <th class="table--list--header">Name
+                    <button class="sort-button" data-column="0">
+                        <img class="sort-button--icon" src="{{ url_for('static', path='icons/sort-arrows-icon.svg' ) }}" alt="Sort">
+                    </button>
+                </th>
+                <th class="table--list--header">Название
+                    <button class="sort-button" data-column="1">
+                        <img class="sort-button--icon" src="{{ url_for('static', path='icons/sort-arrows-icon.svg' ) }}" alt="Sort">
+                    </button>
+                </th>
+                <th class="table--list--header">Traits</th>
+                <th class="table--list--header">Дескрипторы</th>
+
+                <th class="table--list--header">{{ trans('Level', lang) }}
+                    <button class="sort-button" data-column="4">
+                        <img class="sort-button--icon" src="{{ url_for('static', path='icons/sort-arrows-icon.svg' ) }}" alt="Sort">
+                    </button>
+                </th>
+
+                <th class="table--list--header">{{ trans('School', lang) }}</th>
+                <th class="table--list--header">{{ trans('Primary Check', lang) }}</th>
+                <th class="table--list--header">{{ trans('Secondary Casters', lang) }}</th>
+                <th class="table--list--header">{{ trans('Secondary Check', lang) }}</th>
+
+
+            <tr>
+<!--                NAME-->
+                <th class="filter-cell table--list--filter">
+                    <input type="text" class="filter-input" data-column="0" placeholder="">
+                </th>
+<!--                RUS NAME-->
+                <th class="filter-cell">
+                    <input type="text" class="filter-input" data-column="1" placeholder="">
+                    <br>
+                    <input type="checkbox" class="checkbox-only-rus check-checkbox" data-column="1"> есть
+                </th>
+{#                TRAITS         #}
+                <th class="filter-cell" colspan="2">
+                    <input type="text" class="filter-input--traits" data-column="2" placeholder="">
+                    <button class="filter-button" data-column="2">
+                        <img class="filter-button--icon" src="{{ url_for('static', path='icons/plus-icon.svg' ) }}" alt="Add">
+                    </button>
+                    <div class="traits-filter traits-filter--2"></div>
+                </th>
+                <!--level-->
+                <th class="filter-cell">
+                  <input type="text" id="input-from" class="filter-input--range filter-input--range-from" data-column="4" placeholder="From">
+                  <input type="text" id="input-to" class="filter-input--range filter-input--range-to" data-column="4" placeholder="To">
+                </th>
+                <!--School-->
+                <th class="filter-cell">
+                </th>
+                <!--primary check-->
+                <th class="filter-cell">
+                </th>
+                <!--secondary casters-->
+                <th class="filter-cell">
+                </th>
+                <!--secondary check-->
+                <th class="filter-cell">
+                </th>
+            </tr>
+            </thead>
+        <tbody>
+    {% for item in rituals %}
+        <tr>
+            <td class="cell-traits-output" data="{{ item.name }}">
+                <span>
+                    <span class="rhombus" itemID={{ item.id }} itemType='rituals' itemLang='en' onclick="getItem(this)"></span>
+                    <a class="item-link link--popup item-link--rituals item-link--table" href="/rituals/{{ item.name|to_url }}">{{ item.name }}</a>
+                </span>
+            </td>
+            <td class="cell-traits-output" data="{{ item.rus_name|none_to_hyphen }}">
+                {% if item.rus_name %}
+                    <span>
+                        <span class="rhombus" itemID={{ item.id }} itemType='rituals' itemLang='ru' onclick="getItem(this)"></span>
+                        <a class="item-link link--popup item-link--rituals item-link--table" href="/rituals/{{ item.name|to_url }}">{{ item.rus_name|none_to_hyphen|capitalize }}</a>
+                    </span>
+                {% else %} -
+                {% endif %}
+            </td>
+            <td data="{{ item.traits_output|traits_to_text }}" class="cell-traits-output">{{ item.traits_output|to_traits_output|safe }}</td>
+            <td data="{{ item.rus_traits_output|traits_to_text }}" class="cell-traits-output">{{ item.rus_traits_output|to_traits_output|safe }}</td>
+            <td data="{{ item.level|lvl_to_int }}">
+                {% if lang=='ru' %}
+                    {{ item.rus_type_level }}
+                {% else %}
+                    {{ item.type_level }}
+                {% endif %}
+            </td>
+            <td data="{{item.school|none_to_hyphen}}">{{ item.school|none_to_hyphen}}</td>
+            <td data="{{item.primary_check|to_text|safe}}">{{ item.primary_check|to_a_links|safe}}</td>
+            <td data="{{item.secondary_casters|none_to_hyphen}}">{{ item.secondary_casters|none_to_hyphen}}</td>
+            <td data="{{item.secondary_check|none_to_hyphen|to_text|safe}}">{{ item.secondary_check|none_to_hyphen|to_a_links|safe}}</td>
+
+
+        </tr>
+    {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}

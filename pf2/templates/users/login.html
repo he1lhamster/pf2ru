@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ trans('Login', lang) }}
+{% endblock %}
+
+
+{% block body %}
+<h1 class="h1-header">{{ trans('Login', lang) }}</h1>
+
+<form class="feedback-form" method="post" action="/users/auth/jwt/login" id="page-login-form">
+
+    <label class="feedback-label" for="username">{{ trans ('Email', lang) }}</label>
+    <input class="feedback-input" id="username" name="username" required>
+
+    <label class="feedback-label" for="password">{{ trans ('Password', lang) }}:</label>
+    <input class="feedback-input" type="password" id="password" name="password" required>
+
+    <button class="feedback-button" type="submit">{{ trans ('Login', lang) }}</button>
+</form>
+    <a class="textlink" href="{{url_for ('user_forgot_password') }}">{{ trans ('Forgot password', lang) }}</a>
+    <a class="textlink" href="{{url_for('user_register') }}">{{ trans ('Register', lang) }}</a>
+    <button style="width: 80%;" id="google-login" class="google-button">{{ trans ('Login with Google', lang) }}</button>
+
+    <script>
+        document.getElementById('page-login-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const loginForm = event.target
+
+            const formData = new FormData(loginForm);
+            const response = await fetch('/users/auth/jwt/login', {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (response.ok) {
+                window.location.reload();
+            } else {
+                alert('Не удалось войти. Проверьте правильность ввода.');
+            }
+
+        });
+    </script>
+
+{% endblock %}

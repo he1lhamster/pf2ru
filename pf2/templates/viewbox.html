@@ -1,0 +1,88 @@
+
+{% macro viewbox (type, id, name, lang=lang, level='') -%}
+
+<script>
+    (async () => {
+
+        let api_url;
+
+        if (`{{ lang }}` === 'ru') {
+            api_url = `/api/{{ type|to_url }}/{{ id }}?lang=ru`;
+        } else {
+            api_url = `/api/{{ type|to_url }}/{{ id }}?lang=en`;
+        }
+        try {
+            const response = await fetch(api_url, {
+                method: 'GET'
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            let data = await response.json();
+
+            data = JSON.parse(data)
+
+            if (data && Object.keys(data).length > 0) {
+                let actionDictionary = {
+                    '[one-action]': '1',
+                    '[two-actions]': '2',
+                    '[three-actions]': '3',
+                    '[free-action]': '4',
+                    '[reaction]': '5',
+                };
+
+                if (data.actions) {
+                    for (let key in actionDictionary) {
+                        data.actions = data.actions.replace(key, actionDictionary[key]);
+                    }
+                    document.getElementById('{{type}}-{{id}}-name-{{lang}}').innerHTML =  `${data.name} <span class="action-icon">${data.actions}</span>`
+
+                } else {
+                    document.getElementById('{{type}}-{{id}}-name-{{lang}}').innerHTML = data.name;
+                }
+
+                if (`{{  level  }}` !== '') {
+                    document.getElementById('{{type}}-{{id}}-level-{{lang}}').innerHTML = data.type_level.split(' ')[0] + ` {{ level }}`;
+                } else if (data.type_level) {
+                    document.getElementById('{{type}}-{{id}}-level-{{lang}}').innerHTML = data.type_level;
+                }
+                if (data.traits_output) {
+                    document.getElementById('{{type}}-{{id}}-traits-{{lang}}').innerHTML = data.traits_output;
+                    document.getElementById('{{type}}-{{id}}-traits-{{lang}}').style.display = "flex";
+                }
+
+                document.getElementById('{{type}}-{{id}}-text-{{lang}}').innerHTML = data.text_output;
+                if (data.text_output.includes('viewbox')) {
+                    const text_output = document.getElementById('{{type}}-{{id}}-text-{{lang}}').innerHTML
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(text_output, 'text/html');
+                    const scripts = doc.querySelectorAll('script')
+                    scripts.forEach(oldScript => {
+                        const newScript = document.createElement('script');
+                        newScript.textContent = oldScript.textContent;
+                        Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
+                        document.body.appendChild(newScript);
+                        newScript.parentNode.removeChild(newScript);
+                    });
+                }
+
+            }
+        } catch (error) {
+            document.getElementById('{{type}}-{{id}}-{{lang}}-item-box').remove();
+        }
+    })();
+</script>
+
+
+<div class="viewbox--item-box item-box" id="{{type}}-{{id}}-{{lang}}-item-box">
+    <div class="item-header">
+        <span class="item-header-name" id="{{type}}-{{id}}-name-{{lang}}"></span>
+        <span class="item-header-level" id="{{type}}-{{id}}-level-{{lang}}"></span>
+    </div>
+    <div class="item-traits" id="{{type}}-{{id}}-traits-{{lang}}" style="display: none"></div>
+    <div class="item-box-in"  id="{{type}}-{{id}}-text-{{lang}}"> {{ "loading..."|viewbox_r|safe }}</div>
+</div>
+
+{% endmacro %}

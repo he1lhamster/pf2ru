@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ trans('Verify User', lang) }}
+{% endblock %}
+
+{% block body %}
+<h1 class="h1-header">{{ trans('Verify User', lang) }}</h1>
+
+<p>{{ trans('Verifying... ', lang) }}</p>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const token = urlParams.get('token');
+            const response = await fetch('/users/auth/verify', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ 'token': token})
+            });
+            if (response.ok) {
+                alert('Верификация успешна. Перенапраляю на страницу входа')
+                window.location.href = '/users/login'
+            }
+        });
+    </script>
+
+{% endblock %}

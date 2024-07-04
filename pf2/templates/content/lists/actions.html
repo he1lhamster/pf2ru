@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ trans ('Actions', lang) }}
+{% endblock %}
+
+
+{% block body %}
+<h1 class="h1-header">{{ trans ('ACTIONS',lang) }}</h1>
+
+<div class="content">
+
+<input type="checkbox" data-column="1" class="check-checkbox"> только с переводом
+
+    <table class="need-filters inner" id="actions-table">
+        <thead>
+            <tr class="table-header">
+                <th>Name</th>
+                <th>Наименование</th>
+                <th>Traits</th>
+                <th>Дескрипторы</th>
+                <th>{{ trans ('Actions', lang) }}</th>
+            </tr>
+            <tr>
+                <th class="filter-cell">
+                    <input type="text" class="filter-input" data-column="0" placeholder="filter">
+                    <button class="sort-button" data-column="0">Sort</button>
+                </th>
+                <th class="filter-cell">
+                    <input type="text" class="filter-input" data-column="1" placeholder="фильтр">
+                    <button class="sort-button" data-column="1">Сорт</button>
+                </th>
+                <th class="filter-cell">
+                    <input type="text" class="trait-filter" data-column="2" placeholder="traits">
+                </th>
+                <th class="filter-cell">
+                    <input type="text" class="trait-filter" data-column="3" placeholder="дескрипторы">
+                </th>
+                <th class="filter-cell">
+                  <span class="action-filter" data-column="4" data="1">1</span>
+                  <span class="action-filter" data-column="4" data="2">2</span>
+                  <span class="action-filter" data-column="4" data="3">3</span>
+                  <span class="action-filter" data-column="4" data="4">4</span>
+                  <span class="action-filter" data-column="4" data="5">5</span>
+                  <span class="action-filter" data-column="4" data="6">6</span>
+                </th>
+            </tr>
+        </thead>
+            {% for row in %}
+
+        <tbody>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+
+<div class="tabs-panel" id ="actions-tabs-panel">
+    <div class="tablink tablink--eng" data-tab="#eng-tab">
+        <div class="tab-header">English</div>
+    </div>
+    {% if rus_items %}
+        <div class="tablink tablink--rus" data-tab="#rus-tab">
+            <div class="tab-header">На русском</div>
+        </div>
+    {% endif %}
+</div>
+
+<div class="tab-content tab-content--active" id="eng-tab">
+    <h2 class="h2-header">Action List</h2>
+        <table class="need-filters">
+            <thead>
+                <th>Name</th>
+                <th>Actions</th>
+
+            <tr>
+                <th><input type="text" class="filter-input" data-column="0" placeholder="name">
+                    <button class="sort-button" data-column="1">Sort by Name</button></th>
+                <th><input type="text" class="filter-input" data-column="1" placeholder="actions">
+                    <button class="sort-button" data-column="2">Sort by Actions</button></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ item.name }}</td>
+                <td><span class="action-icon">{{ item.actions|action_to_icon }}</span></td>
+            </tr>
+            {% endfor %}
+            </tbody>
+
+        </table>
+</div>
+
+{% if rus_items %}
+<div class="tab-content" id="rus-tab">
+    <h2 class="h2-header">Список действий</h2>
+        <table class="need-filters">
+            <thead>
+            <tr>
+                <th>Название</th>
+                <th>Действия</th>
+            </tr>
+            <tr>
+                <th>
+                    <input type="text" class="filter-input" data-column="0" placeholder="название">
+                    <button class="sort-button" data-column="0">↑Сорт↓</button>
+                </th>
+                <th>
+                    <input type="text" class="filter-input" data-column="1" placeholder="действия">
+                    <button class="sort-button" data-column="1">↑Сорт</button>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in rus_items %}
+            <tr>
+                <td data="{{ item.rus_name }}">{{ item.rus_name }}</td>
+                <td data="{{ item.actions|action_to_value }}"><span class="action-icon">{{ item.actions|action_to_icon }}</span></td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+</div>
+{% endif %}
+
+{% endblock %}

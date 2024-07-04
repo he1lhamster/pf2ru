@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ trans('Rules Index', lang) }}
+{% endblock %}
+
+{% block body %}
+<h1 class="h1-header">{{ trans('Rules Index', lang) }}</h1>
+
+<h2 class="h2-header">{{ trans('CORE RULEBOOK', lang) }} </h2>
+
+<div class="index-item">
+    <a href="{{ url_for('core_rulebook_chapter', chapter_name='introduction') }}"
+       class="menu-h3-header leftmenu__menu-h3-header ">
+        {{ trans ('Chapter 1: Introduction', lang) }}
+    </a>
+
+    <a href="{{ url_for('core_rulebook_chapter', chapter_name='ancestries-and-backgrounds') }}"
+       class="menu-h3-header leftmenu__menu-h3-header ">
+        {{ trans ('Chapter 2: Ancestries & Backgrounds', lang) }}
+    </a>
+
+    <a href="{{ url_for('core_rulebook_chapter', chapter_name='classes') }}"
+       class="menu-h3-header leftmenu__menu-h3-header ">
+        {{ trans ('Chapter 3: Classes', lang) }}
+    </a>
+
+    <a href="{{ url_for('core_rulebook_chapter', chapter_name='skills') }}"
+       class="menu-h3-header leftmenu__menu-h4-header ">
+        {{ trans ('Chapter 4: Skills', lang) }}
+    </a>
+
+    <a href="{{ url_for('core_rulebook_chapter', chapter_name='feats') }}"
+       class="menu-h3-header leftmenu__menu-h3-header ">
+        {{ trans ('Chapter 5: Feats', lang) }}
+    </a>
+
+    <a href="{{ url_for('core_rulebook_chapter', chapter_name='equipment') }}"
+       class="menu-h3-header leftmenu__menu-h3-header ">
+        {{ trans ('Chapter 6: Equipment', lang) }}
+    </a>
+
+    <a href="{{ url_for('core_rulebook_chapter', chapter_name='spells') }}"
+       class="menu-h3-header leftmenu__menu-h3-header ">
+        {{ trans ('Chapter 7: Spells', lang) }}
+    </a>
+
+    <a href="{{ url_for('core_rulebook_chapter', chapter_name='the-age-of-lost-omens') }}"
+       class="menu-h3-header leftmenu__menu-h3-header ">
+        {{ trans ('Chapter 8: The Age of Lost Omens', lang) }}
+    </a>
+
+    <a href="{{ url_for('core_rulebook_chapter', chapter_name='playing-the-game') }}"
+       class="menu-h3-header leftmenu__menu-h3-header ">
+        {{ trans ('Chapter 9: Playing the Game', lang) }}
+    </a>
+
+    <a href="{{ url_for('core_rulebook_chapter', chapter_name='game-mastering') }}"
+       class="menu-h3-header leftmenu__menu-h3-header ">
+        {{ trans ('Chapter 10: Game Mastering', lang) }}
+    </a>
+
+    <a href="{{ url_for('core_rulebook_chapter', chapter_name='crafting-and-treasure') }}"
+       class="menu-h3-header leftmenu__menu-h3-header ">
+        {{ trans ('Chapter 11: Crafting & Treasure', lang) }}
+    </a>
+</div>
+
+{% endblock %}

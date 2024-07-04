@@ -1,0 +1,39 @@
+
+<div class="tabs-panel" id ="runes-tabs-panel">
+    <div class="tablink tablink--eng" data-tab="#fundamental-armor-runes">
+        <div class="tab-header">{{ trans ('Fundamental Armor Runes', lang) }}</div>
+    </div>
+    <div class="tablink tablink--eng" data-tab="#armor-property-runes">
+        <div class="tab-header">{{ trans ('Armor Property Runes', lang) }}</div>
+    </div>
+    <div class="tablink tablink--eng" data-tab="#fundamental-weapon-runes">
+        <div class="tab-header">{{ trans ('Fundamental Weapon Runes', lang) }}</div>
+    </div>
+    <div class="tablink tablink--eng" data-tab="#weapon-property-runes">
+        <div class="tab-header">{{ trans ('Weapon Property Runes', lang) }}</div>
+    </div>
+
+</div>
+<div class="tab-content " id="fundamental-armor-runes">
+    {% with items=items['fundamental_armor_runes'] %}
+        {% include 'content/equipment_table.html' %}
+    {% endwith %}
+</div>
+<div class="tab-content " id="armor-property-runes">
+    {% with items=items['armor_property_runes'] %}
+        {% include 'content/equipment_table.html' %}
+    {% endwith %}
+</div>
+<div class="tab-content " id="fundamental-weapon-runes">
+    {% with items=items['fundamental_weapon_runes'] %}
+        {% include 'content/equipment_table.html' %}
+    {% endwith %}
+</div>
+<div class="tab-content " id="weapon-property-runes">
+    {% with items=items['weapon_property_runes'] %}
+        {% include 'content/equipment_table.html' %}
+    {% endwith %}
+</div>
+</div>
+
+

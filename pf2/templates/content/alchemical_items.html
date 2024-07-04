@@ -1,0 +1,57 @@
+
+<div class="tabs-panel" id ="alchemical-items-tabs-panel">
+    <div class="tablink tablink--eng" data-tab="#alchemical-items">
+        <div class="tab-header">{{ trans ('Alchemical Items', lang) }}</div>
+    </div>
+{#    <div class="tablink tablink--eng" data-tab="#alchemical-ammunition">#}
+{#        <div class="tab-header">{{ trans ('Alchemical Ammunition', lang) }}</div>#}
+{#    </div>#}
+    <div class="tablink tablink--eng" data-tab="#alchemical-bombs">
+        <div class="tab-header">{{ trans ('Alchemical Bombs', lang) }}</div>
+    </div>
+    <div class="tablink tablink--eng" data-tab="#alchemical-elixirs">
+        <div class="tab-header">{{ trans ('Alchemical Elixirs', lang) }}</div>
+    </div>
+    <div class="tablink tablink--eng" data-tab="#alchemical-poisons">
+        <div class="tab-header">{{ trans ('Alchemical Poisons', lang) }}</div>
+    </div>
+    <div class="tablink tablink--eng" data-tab="#alchemical-tools">
+        <div class="tab-header">{{ trans ('Alchemical Tools', lang) }}</div>
+    </div>
+</div>
+
+<div class="tab-content" id="alchemical-items">
+    {% with items=items['alchemical-items'] %}
+        {% include 'content/equipment_table.html' %}
+    {% endwith %}
+</div>
+
+{#<div class="tab-content" id="alchemical-ammunition">#}
+{#    {% with items=items['alchemical_ammunition'] %}#}
+{#        {% include 'content/equipment_table.html' %}#}
+{#    {% endwith %}#}
+{#</div>#}
+
+<div class="tab-content" id="alchemical-bombs">
+    {% with items=items['alchemical_bombs'] %}
+        {% include 'content/equipment_table.html' %}
+    {% endwith %}
+</div>
+
+<div class="tab-content" id="alchemical-elixirs">
+    {% with items=items['alchemical_elixirs'] %}
+        {% include 'content/equipment_table.html' %}
+    {% endwith %}
+</div>
+
+<div class="tab-content" id="alchemical-poisons">
+    {% with items=items['alchemical_poisons'] %}
+        {% include 'content/equipment_table.html' %}
+    {% endwith %}
+</div>
+
+<div class="tab-content" id="alchemical-tools">
+    {% with items=items['alchemical_tools'] %}
+        {% include 'content/equipment_table.html' %}
+    {% endwith %}
+</div>

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ trans ('Files', lang) }}
+{% endblock %}
+
+
+{% block body %}
+<h1 class="h1-header">{{ trans ('Files', lang) }}</h1>
+
+<h2 class="h2-header">{{ trans ('Character Sheets', lang) }}</h2>
+
+ {% for file in pc_sheets %}
+        <li><a class="download-link" href="{{ file.url }}" download> {{ file.filename }} </a></li>
+    {% endfor %}
+
+<h2 class="h2-header">{{ trans ('Actions Sheets', lang) }}</h2>
+ {% for file in actions_sheets %}
+            <li><a class="download-link" href="{{ file.url }}" download> {{ file.filename }} </a></li>
+
+    {% endfor %}
+
+{% endblock %}

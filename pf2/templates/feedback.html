@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ trans('Feedback', lang) }}
+{% endblock %}
+
+
+{% block body %}
+<h1 class="h1-header">{{ trans('Feedback', lang) }}</h1>
+
+    <script src="{{ url_for('static', path='scripts/captcha.js' ) }}"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+        <form class="feedback-form" id="feedbackForm" method="post">
+            <label class="feedback-label" for="theme">{{ trans('Theme', lang) }}:</label>
+            <input class="feedback-input" type="text" id="theme" name="theme" required>
+
+            <label class="feedback-label" for="category">{{ trans('Category', lang) }}:</label>
+            <select class="feedback-select" id="category" name="category" required>
+                <option value="tech">Технические проблемы (Technical problems)</option>
+                <option value="db">Проблемы с контентом (Content issues)</option>
+                <option value="coop">Сотрудничество (Cooperation)</option>
+                <option value="other">Другое (Other)</option>
+            </select>
+
+            <label class="feedback-label" for="email">{{ trans('Email', lang) }}:</label>
+            <input class="feedback-input" type="email" id="email" name="email" required>
+
+            <label class="feedback-label" for="text_message">{{ trans('Message', lang) }}:</label>
+            <textarea class="feedback-textarea" id="text_message" name="text_message" required ></textarea>
+            <div class="g-recaptcha" data-sitekey="6Lf4eX4bAAAAAB21mWQbn_0foXHMTySJYS-RXy_z" data-callback="captchaVerified"></div>
+{#            <div class="g-recaptcha" data-sitekey="6LfKbOkpAAAAAI13j_PeUQoxHLt6IfDPcE5c4N2N" data-callback="captchaVerified"></div><br>#}
+
+            {% if lang=='ru' %}
+                 Все поля обязательны для заполнения.
+            {% else %}
+                All fields are required.
+            {% endif %}
+            <br>
+            <br>
+            <button class="feedback-button feedback-button--disabled " type="submit" id="sendButton">{{ trans('Send', lang) }}</button>
+        </form>
+
+
+{% endblock %}

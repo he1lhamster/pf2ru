@@ -1,0 +1,42 @@
+
+<div class="tabs-panel" id ="wands-tabs-panel">
+    <div class="tablink tablink--eng" data-tab="#magic-wands">
+        <div class="tab-header">{{ trans ('Magic Wands', lang) }}</div>
+    </div>
+    <div class="tablink tablink--eng" data-tab="#speciality-wands">
+        <div class="tab-header">{{ trans ('Speciality Wands', lang) }}</div>
+    </div>
+</div>
+
+<div class="tab-content " id="magic-wands">
+    {% with items=items['magic_wands'] %}
+        {% for item in items %}
+        <div class="item-output item-output--card">
+            <div class="item-output--card--header">
+                <a class="header-link" href="{{ url_for('get_item_page', item_type='equipment', item_id=item.id) }}">
+                {% if lang=='ru' and item.rus_name %}
+                    {{ item.rus_name }}
+                    {% else %}
+                    {{ item.name }}
+                {% endif %}
+                </a>
+            </div>
+            <div class="item-output--body">
+                {% if item.rus_text_output and lang=='ru' %}
+                    {{ item.rus_text_output|viewbox_r|to_a_links|safe }}
+                {% else %}
+                    {{ item.text_output|viewbox_r|to_a_links|safe }}
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    {% endwith %}
+</div>
+
+<div class="tab-content " id="speciality-wands">
+    {% with items=items['speciality_wands'] %}
+        {% include 'content/equipment_table.html' %}
+    {% endwith %}
+</div>
+
+

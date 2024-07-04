@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ trans('Search Results', lang) }}
+{% endblock %}
+
+{% block body %}
+<h1 class="h1-header">{{ trans('Search Results for: ', lang) }} {{ query }}</h1>
+
+{% if results %}
+    {% for item in results %}
+        <div class="item-output--card item-output--card--no-margin">
+            <div class="item-output--search-card">
+                <a class="item-output--search-result" href="{{ url_for ('get_item_page', item_type=item.item_type|type_to_route, item_id=item.name|lower) }}">
+                    {% if lang=='ru' and item.rus_name %}
+                        {{ item.rus_name|upper }}
+                    {% else %}
+                        {{ item.name|upper }}
+                    {% endif %}
+                </a>
+                <span class="item-level">
+                    {% if lang=='ru' and item.rus_type_level %}
+                        {{ item.rus_type_level|capitalize }}
+                    {% elif item.type_level %}
+                        {{ item.type_level|capitalize }}
+                    {% else %}
+                        {{ item.item_type|type_output(lang)|capitalize }}
+                    {% endif %}
+                </span>
+            </div>
+         <div class="item-traits">
+             {% if lang=='ru' and item.rus_traits_output %}
+                     {{ item.rus_traits_output|to_traits_output|safe }}
+             {% elif item.traits_output %}
+                     {{ item.traits_output|to_traits_output|safe }}
+             {% endif %}
+         </div>
+    </div>
+    {% endfor %}
+{% else %}
+
+<p>{{  trans('Nothing found.', lang) }}</p>
+
+{% endif %}
+
+{% endblock %}

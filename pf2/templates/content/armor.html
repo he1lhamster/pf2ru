@@ -1,0 +1,105 @@
+
+<div class="tabs-panel" id ="armor-tabs-panel">
+    <div class="tablink tablink--eng" data-tab="#armor">
+        <div class="tab-header">{{ trans ('Armor', lang) }}</div>
+    </div>
+    <div class="tablink tablink--eng" data-tab="#basic-magic-armor">
+        <div class="tab-header">{{ trans ('Basic Magic Armor', lang) }}</div>
+    </div>
+    <div class="tablink tablink--eng" data-tab="#armor-specializations">
+        <div class="tab-header">{{ trans ('Armor Specializations', lang) }}</div>
+    </div>
+    <div class="tablink tablink--eng" data-tab="#precious-material-armor">
+        <div class="tab-header">{{ trans ('Precious Material Armor', lang) }}</div>
+    </div>
+    <div class="tablink tablink--eng" data-tab="#specific-magic-armor">
+        <div class="tab-header">{{ trans ('Specific Magic Armor', lang) }}</div>
+    </div>
+
+</div>
+<div class="tab-content " id="armor">
+    {% with items=items['armor'] %}
+        {% include 'content/equipment_table.html' %}
+    {% endwith %}
+</div>
+
+<div class="tab-content " id="basic-magic-armor">
+    {% with items=items['basic_magic_armor'] %}
+        {% for item in items %}
+        <div class="item-output item-output--card">
+            <div class="item-output--card--header">
+                <a class="header-link" href="{{ url_for('get_item_page', item_type='equipment', item_id=item.id) }}">
+                {% if lang=='ru' and item.rus_name %}
+                    {{ item.rus_name }}
+                    {% else %}
+                    {{ item.name }}
+                {% endif %}
+                </a>
+            </div>
+            <div class="item-output--body">
+                {% if item.rus_text_output and lang=='ru' %}
+                    {{ item.rus_text_output|viewbox_r|to_a_links|safe }}
+                {% else %}
+                    {{ item.text_output|viewbox_r|to_a_links|safe }}
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    {% endwith %}
+</div>
+
+<div class="tab-content " id="armor-specializations">
+    {% with items=items['armor_specializations'] %}
+
+         <div class="content-table">
+            {% for item in items %}
+                <div class="content-item">
+                    <a class="content-header" href="#{{ item.name|lower_no_spaces }}">
+                        {% if item.rus_name and lang=='ru' %}
+                            {{ item.rus_name }}
+                        {% else %}
+                            {{ item.name }}
+                        {% endif %}
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+
+        {% for item in items %}
+        <a id="{{ item.name|lower_no_spaces }}" class="anchor"></a>
+
+        <div class="item-output item-output--card">
+            <div class="item-output--card--header">
+                <a class="header-link" href="{{ url_for('get_item_page', item_type='armorgroups', item_id=item.id) }}">
+                {% if lang=='ru' and item.rus_name %}
+                    {{ item.rus_name }}
+                    {% else %}
+                    {{ item.name }}
+                {% endif %}
+                </a>
+            </div>
+            <div class="item-output--body">
+                {% if item.rus_text_output and lang=='ru' %}
+                    {{ item.rus_text_output|viewbox_r|to_a_links|safe }}
+                {% else %}
+                    {{ item.text_output|viewbox_r|to_a_links|safe }}
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    {% endwith %}
+</div>
+
+<div class="tab-content " id="precious-material-armor">
+    {% with items=items['precious_material_armor'], item_type='precious_material_armor' %}
+        {% include 'content/equipment_table.html' %}
+    {% endwith %}
+</div>
+
+<div class="tab-content " id="specific-magic-armor">
+    {% with items=items['specific_magic_armor'], item_type='specific_magic_armor' %}
+        {% include 'content/equipment_table.html' %}
+    {% endwith %}
+</div>
+
+

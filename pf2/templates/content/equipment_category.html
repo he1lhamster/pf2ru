@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+{{ trans(item_type, lang) }}
+{% endblock %}
+
+{% block body %}
+    <h1 class="h1-header">{{ trans(item_type, lang) }}    </h1>
+
+{% if item_type == 'Alchemical Items' %}
+    {% include 'content/alchemical_items.html' %}
+
+{% elif item_type == 'Adventuring Gear' %}
+    {% with items=items['adventuring-gear'] %}
+        {% include 'content/equipment_table.html' %}
+    {% endwith %}
+
+{% elif item_type == 'Armor' %}
+    {% include 'content/armor.html' %}
+
+{% elif item_type == 'Consumables' %}
+    {% include 'content/consumables.html' %}
+
+{% elif item_type == 'Weapons' %}
+    {% include 'content/weapons.html' %}
+
+{% elif item_type == 'Held Items' %}
+   {% with items=items['held-items'] %}
+        {% include 'content/equipment_table.html' %}
+    {% endwith %}
+
+{% elif item_type == 'Worn Items' %}
+    {% include 'content/worn_items.html' %}
+
+{% elif item_type == 'Shields' %}
+    {% include 'content/shields.html' %}
+
+{% elif item_type == 'Runes' %}
+    {% include 'content/runes.html' %}
+
+{% elif item_type == 'Wands' %}
+    {% include 'content/wands.html' %}
+
+{% elif item_type == 'Materials' %}
+   {% with items=items['materials'] %}
+        {% include 'content/equipment_table.html' %}
+    {% endwith %}
+
+{% elif item_type == 'Snares' %}
+   {% with items=items['snares'] %}
+        {% include 'content/equipment_table.html' %}
+    {% endwith %}
+
+{% elif item_type == 'Structures' %}
+   {% with items=items['structures'] %}
+        {% include 'content/equipment_table.html' %}
+    {% endwith %}
+
+{% elif item_type == 'Staves' %}
+   {% with items=items['staves'] %}
+        {% include 'content/equipment_table.html' %}
+    {% endwith %}
+
+
+{% endif %}
+
+{% endblock %}

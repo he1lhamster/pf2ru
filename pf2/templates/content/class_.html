@@ -1,0 +1,753 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {% if class_.rus_name and lang == 'ru' %}
+      {{ class_.rus_name }}
+      {% else %}
+      {{ class_.name }}
+  {% endif %}
+{% endblock %}
+
+{% block body %}
+    <h1 class="h1-header">
+        {% if user.is_active %}
+            <button class="bookmark-button" itemType="classes" itemId="{{ class_.id }}">
+                <img class="bookmark-button--icon" src="{{ url_for('static', path='icons/feather.svg' ) }}" alt="{{ trans('Add Note', lang) }}">
+            </button>
+        {% endif %}
+
+      {% if class_.rus_name and lang == 'ru' %}
+      {{ class_.rus_name }}
+      {% else %}
+      {{ class_.name }}
+      {% endif %}
+    </h1>
+
+    <div class="tabs-panel" id ="{{ class_.name|lower_no_spaces }}-tabs-panel">
+        <div class="tablink tablink--eng" data-tab="#details">
+            <div class="tab-header">{{ trans ('Details', lang) }}</div>
+        </div>
+        <div class="tablink tablink--eng" data-tab="#feats">
+            <div class="tab-header">{{ trans ('Feats', lang) }}</div>
+        </div>
+        {% if spells %}
+            <div class="tablink tablink--eng" data-tab="#focus-spells">
+                <div class="tab-header">{{ trans ('Focus Spells', lang) }}</div>
+            </div>
+        {% endif %}
+
+        {% if class_.id == 1 %}
+            <div class="tablink tablink--eng" data-tab="#research-fields">
+                <div class="tab-header">{{ trans ('Research Fields', lang) }}</div>
+            </div>
+        {% elif class_.id == 2 %}
+            <div class="tablink tablink--eng" data-tab="#instincts">
+                <div class="tab-header">{{ trans ('Instincts', lang) }}</div>
+            </div>
+        {% elif class_.id == 3 %}
+            <div class="tablink tablink--eng" data-tab="#muses">
+                <div class="tab-header">{{ trans ('Muses', lang) }}</div>
+            </div>
+        {% elif class_.id == 4 %}
+            <div class="tablink tablink--eng" data-tab="#causes">
+                <div class="tab-header">{{ trans ('Causes', lang) }}</div>
+            </div>
+            <div class="tablink tablink--eng" data-tab="#tenets">
+                <div class="tab-header">{{ trans ('Tenets', lang) }}</div>
+            </div>
+        {% elif class_.id == 5 %}
+            <div class="tablink tablink--eng" data-tab="#doctrines">
+                <div class="tab-header">{{ trans ('Doctrines', lang) }}</div>
+            </div>
+        {% elif class_.id == 6 %}
+            <div class="tablink tablink--eng" data-tab="#druidic-orders">
+                <div class="tab-header">{{ trans ('Druidic Orders', lang) }}</div>
+            </div>
+        {% elif class_.id == 9 %}
+            <div class="tablink tablink--eng" data-tab="#hunters-edges">
+                <div class="tab-header">{{ trans ("Hunter's edges", lang) }}</div>
+            </div>
+        {% elif class_.id == 10 %}
+            <div class="tablink tablink--eng" data-tab="#rackets">
+                <div class="tab-header">{{ trans ('Rackets', lang) }}</div>
+            </div>
+        {% elif class_.id == 11 %}
+            <div class="tablink tablink--eng" data-tab="#bloodlines">
+                <div class="tab-header">{{ trans ('Bloodlines', lang) }}</div>
+            </div>
+        {% elif class_.id == 12 %}
+            <div class="tablink tablink--eng" data-tab="#arcane-schools">
+                <div class="tab-header">{{ trans ('Arcane Schools', lang) }}</div>
+            </div>
+            <div class="tablink tablink--eng" data-tab="#arcane-thesises">
+                <div class="tab-header">{{ trans ('Arcane Thesises', lang) }}</div>
+            </div>
+{# -----------------------APG ----------------------- #}
+        {% elif class_.id == 13 %}
+            <div class="tablink tablink--eng" data-tab="#methodologies">
+                <div class="tab-header">{{ trans ('Methodologies', lang) }}</div>
+            </div>
+        {% elif class_.id == 14 %}
+            <div class="tablink tablink--eng" data-tab="#mysteries">
+                <div class="tab-header">{{ trans ('Mysteries', lang) }}</div>
+            </div>
+        {% elif class_.id == 15 %}
+            <div class="tablink tablink--eng" data-tab="#styles">
+                <div class="tab-header">{{ trans ('Styles', lang) }}</div>
+            </div>
+        {% elif class_.id == 16 %}
+            <div class="tablink tablink--eng" data-tab="#patrons">
+                <div class="tab-header">{{ trans ('Patrons', lang) }}</div>
+            </div>
+            <div class="tablink tablink--eng" data-tab="#lessons">
+                <div class="tab-header">{{ trans ('Lessons', lang) }}</div>
+            </div>
+        {% endif %}
+
+    </div>
+
+    <div class="tab-content " id="details">
+        {% if lang == 'ru' and class_.rus_name %}
+            {% if class_.traits_output %}
+                <div class="item-traits" id="{{class_.name}}-traits-ru">
+                    {{ class_.rus_traits_output|to_traits_output|safe }}
+                </div>
+            {%- endif %}
+            <div class="item-output">
+                {{ class_.rus_text_output|viewbox_r|safe }}
+            </div>
+        {% else %}
+
+            {% if class_.traits_output %}
+                <div class="item-traits" id="{{class_.name}}-traits-en">
+                    {{ class_.traits_output|to_traits_output|safe }}
+                </div>
+            {%- endif %}
+            <div class="item-output">
+                {{ class_.text_output|viewbox_r|safe }}
+            </div>
+        {%- endif %}
+    </div>
+
+    <div class="tab-content " id="feats">
+    <h1 class="h1-header">{{ trans ('Feats', lang) }}</h1>
+
+    <table class="need-filters table--list" id="{{ class_.name }}-feats">
+        <thead>
+                <th class="table--list--header">Name
+                    <button class="sort-button" data-column="0">
+                        <img class="sort-button--icon" src="{{ url_for('static', path='icons/sort-arrows-icon.svg' ) }}" alt="Sort">
+                    </button>
+                </th>
+                <th class="table--list--header">Название
+                    <button class="sort-button" data-column="1">
+                        <img class="sort-button--icon" src="{{ url_for('static', path='icons/sort-arrows-icon.svg' ) }}" alt="Sort">
+                    </button>
+                </th>
+                <th class="table--list--header">Traits</th>
+                <th class="table--list--header">Дескрипторы</th>
+
+                <th class="table--list--header">{{ trans('Level', lang) }}
+                    <button class="sort-button" data-column="4">
+                        <img class="sort-button--icon" src="{{ url_for('static', path='icons/sort-arrows-icon.svg' ) }}" alt="Sort">
+                    </button>
+                </th>
+                <th class="table--list--header">{{ trans('Actions', lang) }}</th>
+                <th class="table--list--header">{{ trans('Prerequisites', lang) }}</th>
+            <tr>
+<!--                NAME-->
+                <th class="filter-cell table--list--filter">
+                    <input type="text" class="filter-input" data-column="0" placeholder="">
+                </th>
+<!--                RUS NAME-->
+                <th class="filter-cell">
+                    <input type="text" class="filter-input" data-column="1" placeholder="">
+                    <br>
+                    <input type="checkbox" class="checkbox-only-rus check-checkbox" data-column="1"> есть
+                </th>
+<!--                Traits-->
+                <th class="filter-cell" colspan="2">
+                    <input type="text" class="filter-input--traits" data-column="2" placeholder="">
+                    <button class="filter-button" data-column="2">
+                        <img class="filter-button--icon" src="{{ url_for('static', path='icons/plus-icon.svg' ) }}" alt="Add">
+                    </button>
+                    <div class="traits-filter traits-filter--2"></div>
+                </th>
+                <!--Level-->
+                <th class="filter-cell">
+                  <input type="text" id="input-from" class="filter-input--range filter-input--range-from" data-column="4" placeholder="From">
+                  <input type="text" id="input-to" class="filter-input--range filter-input--range-to" data-column="4" placeholder="To">
+                </th>
+                <!--Actions-->
+                <th class="filter-cell table-action-filter-cell">
+                    <span class="action-filter" data-column="5" data="1">
+                        <img class="action-icon action-icon--filter" src="{{ url_for('static', path='icons/1action.png' ) }}" alt="1">
+                    </span>
+                    <span class="action-filter" data-column="5" data="2">
+                        <img class="action-icon action-icon--filter" src="{{ url_for('static', path='icons/2actions.png' ) }}" alt="2">
+                    </span>
+                    <span class="action-filter" data-column="5" data="3">
+                        <img class="action-icon action-icon--filter" src="{{ url_for('static', path='icons/3actions.png' ) }}" alt="3">
+                    </span>
+                    <span class="action-filter" data-column="5" data="4">
+                        <img class="action-icon action-icon--filter" src="{{ url_for('static', path='icons/0action.png' ) }}" alt="4">
+                    </span>
+                    <span class="action-filter" data-column="5" data="5">
+                        <img class="action-icon action-icon--filter" src="{{ url_for('static', path='icons/reaction.png' ) }}" alt="5">
+                    </span>
+                </th>
+                <!--prerequisites-->
+                <th class="filter-cell">
+                </th>
+            </tr>
+            </thead>
+        <tbody>
+
+    {% for item in feats %}
+        <tr>
+            <td class="cell-traits-output" data="{{ item.name }}">
+                <span>
+                    <span class="rhombus" itemID={{ item.id }} itemType='feats' itemLang='en' onclick="getItem(this)"></span>
+                    <a class="item-link link--popup item-link--feats item-link--table" href="/feats/{{ item.name|to_url }}">{{ item.name }}</a>
+                </span>
+            </td>
+            <td class="cell-traits-output" data="{{ item.rus_name|none_to_hyphen }}">
+                {% if item.rus_name %}
+                    <span>
+                        <span class="rhombus" itemID={{ item.id }} itemType='feats' itemLang='ru' onclick="getItem(this)"></span>
+                        <a class="item-link link--popup item-link--feats item-link--table" href="/feats/{{ item.name|to_url }}">{{ item.rus_name|none_to_hyphen|capitalize }}</a>
+                    </span>
+                {% else %} -
+                {% endif %}
+            </td>
+            <td data="{{ item.traits_output|traits_to_text }}" class="cell-traits-output">{{ item.traits_output|to_traits_output|safe }}</td>
+            <td data="{{ item.rus_traits_output|traits_to_text }}" class="cell-traits-output">{{ item.rus_traits_output|to_traits_output|safe }}</td>
+            <td data="{{ item.level|lvl_to_int }}"> {{ item.level }} </td>
+            <td data="{{item.actions|action_to_value}}">{{ item.actions|action_to_icon|safe }}</td>
+            <td data="{{ item.prerequisite|none_to_hyphen|to_text }}"> <span>{{ item.prerequisite|none_to_hyphen|to_a_links|safe }} </span></td>
+        </tr>
+    {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+    <div class="tab-content " id="focus-spells">
+    <h1 class="h1-header">{{ trans ('Focus Spells', lang) }}</h1>
+    <table class="need-filters table--list" id="{{ class_.name }}-focus-spells">
+        <thead>
+                <th class="table--list--header">Name
+                    <button class="sort-button" data-column="0">
+                        <img class="sort-button--icon" src="{{ url_for('static', path='icons/sort-arrows-icon.svg' ) }}" alt="Sort">
+                    </button>
+                </th>
+                <th class="table--list--header">Название
+                    <button class="sort-button" data-column="1">
+                        <img class="sort-button--icon" src="{{ url_for('static', path='icons/sort-arrows-icon.svg' ) }}" alt="Sort">
+                    </button>
+                </th>
+                <th class="table--list--header">Traits</th>
+                <th class="table--list--header">Дескрипторы</th>
+
+                <th class="table--list--header">{{ trans('Level', lang) }}
+                    <button class="sort-button" data-column="4">
+                        <img class="sort-button--icon" src="{{ url_for('static', path='icons/sort-arrows-icon.svg' ) }}" alt="Sort">
+                    </button>
+                </th>
+                <th class="table--list--header">{{ trans('Cast', lang) }}</th>
+
+            <tr>
+<!--                NAME-->
+                <th class="filter-cell table--list--filter">
+                    <input type="text" class="filter-input" data-column="0" placeholder="">
+                </th>
+<!--                RUS NAME-->
+                <th class="filter-cell">
+                    <input type="text" class="filter-input" data-column="1" placeholder="">
+                    <br>
+                    <input type="checkbox" class="checkbox-only-rus check-checkbox" data-column="1"> есть
+                </th>
+<!--                Traits-->
+                <th class="filter-cell" colspan="2">
+                    <input type="text" class="filter-input--traits" data-column="2" placeholder="">
+                    <button class="filter-button" data-column="2">
+                        <img class="filter-button--icon" src="{{ url_for('static', path='icons/plus-icon.svg' ) }}" alt="Add">
+                    </button>
+                    <div class="traits-filter traits-filter--2"></div>
+                </th>
+                <!--Level-->
+                <th class="filter-cell">
+                  <input type="text" id="input-from" class="filter-input--range filter-input--range-from" data-column="4" placeholder="From">
+                  <input type="text" id="input-to" class="filter-input--range filter-input--range-to" data-column="4" placeholder="To">
+                </th>
+                <!--Actions-->
+                <th class="filter-cell table-action-filter-cell">
+                    <span class="action-filter" data-column="5" data="1">
+                        <img class="action-icon action-icon--filter" src="{{ url_for('static', path='icons/1action.png' ) }}" alt="1">
+                    </span>
+                    <span class="action-filter" data-column="5" data="2">
+                        <img class="action-icon action-icon--filter" src="{{ url_for('static', path='icons/2actions.png' ) }}" alt="2">
+                    </span>
+                    <span class="action-filter" data-column="5" data="3">
+                        <img class="action-icon action-icon--filter" src="{{ url_for('static', path='icons/3actions.png' ) }}" alt="3">
+                    </span>
+                    <span class="action-filter" data-column="5" data="4">
+                        <img class="action-icon action-icon--filter" src="{{ url_for('static', path='icons/0action.png' ) }}" alt="4">
+                    </span>
+                    <span class="action-filter" data-column="5" data="5">
+                        <img class="action-icon action-icon--filter" src="{{ url_for('static', path='icons/reaction.png' ) }}" alt="5">
+                    </span>
+                </th>
+
+            </tr>
+            </thead>
+        <tbody>
+
+    {% for item in spells %}
+        <tr>
+            <td class="cell-traits-output" data="{{ item.name }}">
+                <span>
+                    <span class="rhombus" itemID={{ item.id }} itemType='spells' itemLang='en' onclick="getItem(this)"></span>
+                    <a class="item-link link--popup item-link--spells item-link--table" href="/spells/{{ item.name|to_url }}">{{ item.name }}</a>
+                </span>
+            </td>
+            <td class="cell-traits-output" data="{{ item.rus_name|none_to_hyphen }}">
+                {% if item.rus_name %}
+                    <span>
+                        <span class="rhombus" itemID={{ item.id }} itemType='spells' itemLang='ru' onclick="getItem(this)"></span>
+                        <a class="item-link link--popup item-link--spells item-link--table" href="/spells/{{ item.name|to_url }}">{{ item.rus_name|none_to_hyphen|capitalize }}</a>
+                    </span>
+                {% else %} -
+                {% endif %}
+            </td>
+            <td data="{{ item.traits_output|traits_to_text }}" class="cell-traits-output">{{ item.traits_output|to_traits_output|safe }}</td>
+            <td data="{{ item.rus_traits_output|traits_to_text }}" class="cell-traits-output">{{ item.rus_traits_output|to_traits_output|safe }}</td>
+            <td data="{{ item.level|lvl_to_int }}"> {{ item.level }} </td>
+            <td data="{{item.actions|action_to_value}}">{{ item.actions|action_to_icon|safe }}</td>
+        </tr>
+    {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+        {% if class_.id == 1 %}
+            <div class="tab-content " id="research-fields">
+                <h1 class="h1-header">{{ trans ('Research Fields', lang) }}</h1>
+                <div class="content-table">
+                  {% for item in alchemistresearchfields %}
+                        <div class="content-item">
+                            <a class="content-header" href="#alchemistresearchfield-{{ item.name|lower_no_spaces }}">
+                                {% if item.rus_name and lang=='ru' %}
+                                    {{ item.rus_name }}
+                                {% else %}
+                                    {{ item.name }}
+                                {% endif %}
+                            </a>
+                        </div>
+                  {% endfor %}
+                </div>
+                {% for item in alchemistresearchfields %}
+                    <a id="alchemistresearchfield-{{ item.name|lower_no_spaces }}" class="anchor"></a>
+
+                    <div class="item-output item-output--card">
+                        <div class="item-output--card--header">
+                            <a class="header-link" href="{{ url_for('get_item_page', item_type='alchemistresearchfields', item_id=item.id) }}">
+                            {% if item.rus_name and lang=='ru' %}
+                                {{ item.rus_name }}
+                                {% else %}
+                                {{ item.name }}
+                            {% endif %}
+                            </a>
+                        </div>
+                        {% if item.rus_text_output and lang=='ru' %}
+                            {{ item.rus_text_output|viewbox_r|to_a_links|safe }}
+                        {% else %}
+                            {{ item.text_output|viewbox_r|to_a_links|safe }}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% elif class_.id == 2 %}
+            <div class="tab-content " id="instincts">
+                <h1 class="h1-header">{{ trans ('Instincts', lang) }}</h1>
+                    {% for item in barbarianinstincts %}
+                        <div class="item-output item-output--card">
+                        <div class="item-output--card--header">
+                            {% if item.rus_name and lang=='ru' %}
+                                {{ item.rus_name }}
+                                {% else %}
+                                {{ item.name }}
+                            {% endif %}
+                            </a>
+                        </div>
+                            {% if item.rus_text_output and lang=='ru' %}
+                                {{ item.rus_text_output|viewbox_r|to_a_links|safe }}
+                            {% else %}
+                                {{ item.text_output|viewbox_r|to_a_links|safe }}
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+
+        {% elif class_.id == 3 %}
+            <div class="tab-content " id="muses">
+                <h1 class="h1-header">{{ trans ('Muses', lang) }}</h1>
+                {% for item in bardmuses %}
+                    <div class="item-output item-output--card">
+                    <div class="item-output--card--header">
+                        <a class="header-link" href="{{ url_for('get_item_page', item_type='bardmuses', item_id=item.id) }}">
+                        {% if item.rus_name and lang=='ru' %}
+                            {{ item.rus_name }}
+                            {% else %}
+                            {{ item.name }}
+                        {% endif %}
+                        </a>
+                    </div>
+                        {% if item.rus_text_output and lang=='ru' %}
+                            {{ item.rus_text_output|viewbox_r|to_a_links|safe }}
+                        {% else %}
+                            {{ item.text_output|viewbox_r|to_a_links|safe }}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+            </div>
+        {% elif class_.id == 4 %}
+            <div class="tab-content " id="causes">
+                <h1 class="h1-header">{{ trans ('Causes', lang) }}</h1>
+                {% for item in championcauses %}
+                    <div class="item-output item-output--card">
+                    <div class="item-output--card--header">
+                        <a class="header-link" href="{{ url_for('get_item_page', item_type='championcauses', item_id=item.id) }}">
+                        {% if item.rus_name and lang=='ru' %}
+                            {{ item.rus_name }}
+                            {% else %}
+                            {{ item.name }}
+                        {% endif %}
+                        </a>
+                    </div>
+                        {% if item.rus_text_output and lang=='ru' %}
+                            {{ item.rus_text_output|viewbox_r|to_a_links|safe }}
+                        {% else %}
+                            {{ item.text_output|viewbox_r|to_a_links|safe }}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+            </div>
+            <div class="tab-content " id="tenets">
+                <h1 class="h1-header">{{ trans ('Tenets', lang) }}</h1>
+                {% for item in championtenets %}
+                    <div class="item-output item-output--card">
+                    <div class="item-output--card--header">
+                        <a class="header-link" href="{{ url_for('get_item_page', item_type='championtenets', item_id=item.id) }}">
+                        {% if item.rus_name and lang=='ru' %}
+                            {{ item.rus_name }}
+                            {% else %}
+                            {{ item.name }}
+                        {% endif %}
+                        </a>
+                    </div>
+                        {% if item.rus_text_output and lang=='ru' %}
+                            {{ item.rus_text_output|viewbox_r|to_a_links|safe }}
+                        {% else %}
+                            {{ item.text_output|viewbox_r|to_a_links|safe }}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% elif class_.id == 5 %}
+            <div class="tab-content " id="doctrines">
+                <h1 class="h1-header">{{ trans ('Doctrines', lang) }}</h1>
+                {% for item in clericdoctrines %}
+                    <div class="item-output item-output--card">
+                    <div class="item-output--card--header">
+                        <a class="header-link" href="{{ url_for('get_item_page', item_type='clericdoctrines', item_id=item.id) }}">
+                        {% if item.rus_name and lang=='ru' %}
+                            {{ item.rus_name }}
+                            {% else %}
+                            {{ item.name }}
+                        {% endif %}
+                        </a>
+                    </div>
+                        {% if item.rus_text_output and lang=='ru' %}
+                            {{ item.rus_text_output|viewbox_r|to_a_links|safe }}
+                        {% else %}
+                            {{ item.text_output|viewbox_r|to_a_links|safe }}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% elif class_.id == 6 %}
+            <div class="tab-content " id="druidic-orders">
+                <h1 class="h1-header">{{ trans ('Druidic Orders', lang) }}</h1>
+                {% for item in druidicorders %}
+                    <div class="item-output item-output--card">
+                    <div class="item-output--card--header">
+                        <a class="header-link" href="{{ url_for('get_item_page', item_type='druidicorders', item_id=item.id) }}">
+                        {% if item.rus_name and lang=='ru' %}
+                            {{ item.rus_name }}
+                            {% else %}
+                            {{ item.name }}
+                        {% endif %}
+                        </a>
+                    </div>
+                        {% if item.rus_text_output and lang=='ru' %}
+                            {{ item.rus_text_output|viewbox_r|to_a_links|safe }}
+                        {% else %}
+                            {{ item.text_output|viewbox_r|to_a_links|safe }}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% elif class_.id == 9 %}
+            <div class="tab-content " id="hunters-edges">
+                <h1 class="h1-header">{{ trans ("Hunter's edges", lang) }}</h1>
+                {% for item in rangerhuntersedges %}
+                    <div class="item-output item-output--card">
+                    <div class="item-output--card--header">
+                        <a class="header-link" href="{{ url_for('get_item_page', item_type='rangerhuntersedges', item_id=item.id) }}">
+                        {% if item.rus_name and lang=='ru' %}
+                            {{ item.rus_name }}
+                            {% else %}
+                            {{ item.name }}
+                        {% endif %}
+                        </a>
+                    </div>
+                        {% if item.rus_text_output and lang=='ru' %}
+                            {{ item.rus_text_output|viewbox_r|to_a_links|safe }}
+                        {% else %}
+                            {{ item.text_output|viewbox_r|to_a_links|safe }}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% elif class_.id == 10 %}
+            <div class="tab-content " id="rackets">
+                <h1 class="h1-header">{{ trans ('Rackets', lang) }}</h1>
+                {% for item in roguerackets %}
+                    <div class="item-output item-output--card">
+                    <div class="item-output--card--header">
+                        <a class="header-link" href="{{ url_for('get_item_page', item_type='roguerackets', item_id=item.id) }}">
+                        {% if item.rus_name and lang=='ru' %}
+                            {{ item.rus_name }}
+                            {% else %}
+                            {{ item.name }}
+                        {% endif %}
+                        </a>
+                    </div>
+                        {% if item.rus_text_output and lang=='ru' %}
+                            {{ item.rus_text_output|viewbox_r|to_a_links|safe }}
+                        {% else %}
+                            {{ item.text_output|viewbox_r|to_a_links|safe }}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% elif class_.id == 11 %}
+            <div class="tab-content " id="bloodlines">
+                <h1 class="h1-header">{{ trans ('Bloodlines', lang) }}</h1>
+                {% for item in sorcererbloodlines %}
+                    <div class="item-output item-output--card">
+                    <div class="item-output--card--header">
+                        <a class="header-link" href="{{ url_for('get_item_page', item_type='sorcererbloodlines', item_id=item.id) }}">
+                        {% if item.rus_name and lang=='ru' %}
+                            {{ item.rus_name }}
+                            {% else %}
+                            {{ item.name }}
+                        {% endif %}
+                        </a>
+                    </div>
+                        {% if item.rus_text_output and lang=='ru' %}
+                            {{ item.rus_text_output|viewbox_r|to_a_links|safe }}
+                        {% else %}
+                            {{ item.text_output|viewbox_r|to_a_links|safe }}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% elif class_.id == 12 %}
+            <div class="tab-content " id="arcane-schools">
+                <h1 class="h1-header">{{ trans ('Arcane Schools', lang) }}</h1>
+                {% for item in wizardarcaneschools %}
+                    <div class="item-output item-output--card">
+                    <div class="item-output--card--header">
+                        <a class="header-link" href="{{ url_for('get_item_page', item_type='wizardarcaneschools', item_id=item.id) }}">
+                        {% if item.rus_name and lang=='ru' %}
+                            {{ item.rus_name }}
+                            {% else %}
+                            {{ item.name }}
+                        {% endif %}
+                        </a>
+                    </div>
+                        {% if item.rus_text_output and lang=='ru' %}
+                            {{ item.rus_text_output|viewbox_r|to_a_links|safe }}
+                        {% else %}
+                            {{ item.text_output|viewbox_r|to_a_links|safe }}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="tab-content " id="arcane-thesises">
+                <h1 class="h1-header">{{ trans ('Arcane Thesises', lang) }}</h1>
+                {% for item in wizardarcanethesises %}
+                    <div class="item-output item-output--card">
+                    <div class="item-output--card--header">
+                        <a class="header-link" href="{{ url_for('get_item_page', item_type='wizardarcanethesises', item_id=item.id) }}">
+                        {% if item.rus_name and lang=='ru' %}
+                            {{ item.rus_name }}
+                            {% else %}
+                            {{ item.name }}
+                        {% endif %}
+                        </a>
+                    </div>
+                        {% if item.rus_text_output and lang=='ru' %}
+                            {{ item.rus_text_output|viewbox_r|to_a_links|safe }}
+                        {% else %}
+                            {{ item.text_output|viewbox_r|to_a_links|safe }}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+{# -----------------------APG ----------------------- #}
+        {% elif class_.id == 13 %}
+            <div class="tab-content " id="methodologies">
+                <h1 class="h1-header">{{ trans ('Methodologies', lang) }}</h1>
+                {% for item in investigatormethodologies %}
+                    <div class="item-output item-output--card">
+                    <div class="item-output--card--header">
+                        <a class="header-link" href="{{ url_for('get_item_page', item_type='investigatormethodologies', item_id=item.id) }}">
+                        {% if item.rus_name and lang=='ru' %}
+                            {{ item.rus_name }}
+                            {% else %}
+                            {{ item.name }}
+                        {% endif %}
+                        </a>
+                    </div>
+                        {% if item.rus_text_output and lang=='ru' %}
+                            {{ item.rus_text_output|viewbox_r|to_a_links|safe }}
+                        {% else %}
+                            {{ item.text_output|viewbox_r|to_a_links|safe }}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% elif class_.id == 14 %}
+            <div class="tab-content " id="mysteries">
+                <h1 class="h1-header">{{ trans ('Mysteries', lang) }}</h1>
+                {% for item in oraclemysteries %}
+                    <div class="item-output item-output--card">
+                    <div class="item-output--card--header">
+                        <a class="header-link" href="{{ url_for('get_item_page', item_type='oraclemysteries', item_id=item.id) }}">
+                        {% if item.rus_name and lang=='ru' %}
+                            {{ item.rus_name }}
+                            {% else %}
+                            {{ item.name }}
+                        {% endif %}
+                        </a>
+                    </div>
+                        {% if item.rus_text_output and lang=='ru' %}
+                            {{ item.rus_text_output|viewbox_r|to_a_links|safe }}
+                        {% else %}
+                            {{ item.text_output|viewbox_r|to_a_links|safe }}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% elif class_.id == 15 %}
+            <div class="tab-content " id="styles">
+                <h1 class="h1-header">{{ trans ('Styles', lang) }}</h1>
+                {% for item in swashbucklerstyles %}
+                    <div class="item-output item-output--card">
+                    <div class="item-output--card--header">
+                        <a class="header-link" href="{{ url_for('get_item_page', item_type='swashbucklerstyles', item_id=item.id) }}">
+                        {% if item.rus_name and lang=='ru' %}
+                            {{ item.rus_name }}
+                            {% else %}
+                            {{ item.name }}
+                        {% endif %}
+                        </a>
+                    </div>
+                        {% if item.rus_text_output and lang=='ru' %}
+                            {{ item.rus_text_output|viewbox_r|to_a_links|safe }}
+                        {% else %}
+                            {{ item.text_output|viewbox_r|to_a_links|safe }}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% elif class_.id == 16 %}
+            <div class="tab-content " id="patrons">
+                <h1 class="h1-header">{{ trans ('Patrons', lang) }}</h1>
+                {% for item in witchpatrons %}
+                    <div class="item-output item-output--card">
+                    <div class="item-output--card--header">
+                        <a class="header-link" href="{{ url_for('get_item_page', item_type='witchpatrons', item_id=item.id) }}">
+                        {% if item.rus_name and lang=='ru' %}
+                            {{ item.rus_name }}
+                            {% else %}
+                            {{ item.name }}
+                        {% endif %}
+                        </a>
+                    </div>
+                        {% if item.rus_text_output and lang=='ru' %}
+                            {{ item.rus_text_output|viewbox_r|to_a_links|safe }}
+                        {% else %}
+                            {{ item.text_output|viewbox_r|to_a_links|safe }}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="tab-content " id="lessons">
+                <h1 class="h1-header">{{ trans ('Lessons', lang) }}</h1>
+                {% for item in witchlessons %}
+                    <div class="item-output item-output--card">
+                    <div class="item-output--card--header">
+                        <a class="header-link" href="{{ url_for('get_item_page', item_type='witchlessons', item_id=item.id) }}">
+                        {% if item.rus_name and lang=='ru' %}
+                            {{ item.rus_name }}
+                            {% else %}
+                            {{ item.name }}
+                        {% endif %}
+                        </a>
+                    </div>
+                        {% if item.rus_text_output and lang=='ru' %}
+                            {{ item.rus_text_output|viewbox_r|to_a_links|safe }}
+                        {% else %}
+                            {{ item.text_output|viewbox_r|to_a_links|safe }}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+
+    {% if user.is_active %}
+        <!-- Create Note Popup Form -->
+        <div id="bookmark-create-note-popup-archive" class="popup-archive">
+            <div class="popup-archive-content">
+                <span class="popup-archive-close">&times;</span>
+                <h3 class="h3-header">{{ trans('Add new note for object:', lang) }}</h3>
+                <h4 class="h4-header">{{ placeholder }}</h4>
+                <form class="archive-form" id="bookmark-create-note-form">
+
+                    <input id="bookmark-item_type" name="item_type" type="hidden" value="classes">
+                    <input id="bookmark-item_id" name="item_id" type="hidden" value="{{ class_.id }}">
+
+                    <label class="archive-form--label" for="theme_id">{{ trans('Bookshelf', lang) }} </label>
+                        <select class="archive-form--select" id="bookmark-theme_id" name="theme_id">
+                            {# ADD HERE THEMES from fetch request #}
+                        </select>
+
+                    <label class="archive-form--label" for="title">{{ trans('Title', lang) }}</label>
+                    <input class="archive-form--input" id="title" name="title" type="text" placeholder="{{ placeholder }}" required>
+                    <label class="archive-form--label" for="text">{{ trans('Text', lang) }}</label>
+                    <textarea class="archive-form--textarea" id="text" name="text"></textarea>
+                    <button class="archive-form--textarea" id="create-note-button" type="submit">{{ trans('Add Note', lang) }}</button>
+                </form>
+            </div>
+        </div>
+    {% endif %}
+
+
+{% endblock %}

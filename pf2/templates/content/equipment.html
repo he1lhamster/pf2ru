@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+{{ trans('Equipment', lang) }}
+{% endblock %}
+
+{% block body %}
+    <h1 class="h1-header">{{ trans('Equipment', lang) }}    </h1>
+<p>
+    <a href="{{ url_for('core_rulebook_chapter', chapter_name='equipment') }}">{{ trans('Click here for the full rules on Equipment.', lang) }}</a>
+</p>
+
+
+<div class="content-table" id ="equipment-tabs-panel">
+    <div class="content-item" data="#alchemical-items">
+        <a class="content-header" href="{{ url_for('get_list_of_items', item_type='alchemical-items') }}">
+            <div class="tab-header">{{ trans ('Alchemical Items', lang) }}</div>
+        </a>
+    </div>
+    <div class="content-item" data="#adventuring-gear">
+        <a class="content-header" href="{{ url_for('get_list_of_items', item_type='adventuring-gear') }}">
+            <div class="tab-header">{{ trans ('Adventuring Gear', lang) }}</div>
+        </a>
+    </div>
+
+    <div class="content-item" data="#consumables">
+        <a class="content-header" href="{{ url_for('get_list_of_items', item_type='consumables') }}">
+            <div class="tab-header">{{ trans ('Consumables', lang) }}</div>
+        </a>
+    </div>
+
+    <div class="content-item" data="#held-items">
+        <a class="content-header" href="{{ url_for('get_list_of_items', item_type='held-items') }}">
+            <div class="tab-header">{{ trans ('Held Items', lang) }}</div>
+        </a>
+    </div>
+    <div class="content-item" data="#worn-items">
+        <a class="content-header" href="{{ url_for('get_list_of_items', item_type='worn-items') }}">
+            <div class="tab-header">{{ trans ('Worn Items', lang) }}</div>
+        </a>
+    </div>
+
+    <div class="content-item" data="#armor">
+        <a class="content-header" href="{{ url_for('get_list_of_items', item_type='armor') }}">
+            <div class="tab-header">{{ trans ('Armor', lang) }}</div>
+        </a>
+    </div>
+    <div class="content-item" data="#weapons">
+        <a class="content-header" href="{{ url_for('get_list_of_items', item_type='weapons') }}">
+            <div class="tab-header">{{ trans ('Weapons', lang) }}</div>
+        </a>
+    </div>
+    <div class="content-item" data="#shields">
+        <a class="content-header" href="{{ url_for('get_list_of_items', item_type='shields') }}">
+            <div class="tab-header">{{ trans ('Shields', lang) }}</div>
+        </a>
+    </div>
+    <div class="content-item" data="#materials">
+        <a class="content-header" href="{{ url_for('get_list_of_items', item_type='materials') }}">
+            <div class="tab-header">{{ trans ('Materials', lang) }}</div>
+        </a>
+    </div>
+    <div class="content-item" data="#runes">
+        <a class="content-header" href="{{ url_for('get_list_of_items', item_type='runes') }}">
+            <div class="tab-header">{{ trans ('Runes', lang) }}</div>
+        </a>
+    </div>
+    <div class="content-item" data="#snares">
+        <a class="content-header" href="{{ url_for('get_list_of_items', item_type='snares') }}">
+            <div class="tab-header">{{ trans ('Snares', lang) }}</div>
+        </a>
+    </div>
+    <div class="content-item" data="#staves">
+        <a class="content-header" href="{{ url_for('get_list_of_items', item_type='staves') }}">
+            <div class="tab-header">{{ trans ('Staves', lang) }}</div>
+        </a>
+    </div>
+    <div class="content-item" data="#wands">
+        <a class="content-header" href="{{ url_for('get_list_of_items', item_type='wands') }}">
+            <div class="tab-header">{{ trans ('Wands', lang) }}</div>
+        </a>
+    </div>
+    <div class="content-item" data="#structures">
+        <a class="content-header" href="{{ url_for('get_list_of_items', item_type='structures') }}">
+            <div class="tab-header">{{ trans ('Structures', lang) }}</div>
+        </a>
+    </div>
+</div>
+
+
+{#<div class="tabs-panel" id ="equipment-tabs-panel">#}
+{#    <div class="tablink tablink--eng" data-tab="#alchemical-items">#}
+{#        <div class="tablink--href" href="{{ url_for('get_list_of_items', item_type='alchemical-items') }}">#}
+{#            <div class="tab-header">{{ trans ('Alchemical Items', lang) }}</div>#}
+{#        </div>#}
+{#    </div>#}
+{#    <div class="tablink tablink--eng" data-tab="#adventuring-gear">#}
+{#        <div class="tablink--href" href="{{ url_for('get_list_of_items', item_type='adventuring-gear') }}">#}
+{#            <div class="tab-header">{{ trans ('Adventuring Gear', lang) }}</div>#}
+{#        </div>#}
+{#    </div>#}
+{##}
+{#    <div class="tablink tablink--eng" data-tab="#consumables">#}
+{#        <div class="tablink--href" href="{{ url_for('get_list_of_items', item_type='consumables') }}">#}
+{#            <div class="tab-header">{{ trans ('Consumables', lang) }}</div>#}
+{#        </div>#}
+{#    </div>#}
+{##}
+{#    <div class="tablink tablink--eng" data-tab="#held-items">#}
+{#        <div class="tablink--href" href="{{ url_for('get_list_of_items', item_type='held-items') }}">#}
+{#            <div class="tab-header">{{ trans ('Held Items', lang) }}</div>#}
+{#        </div>#}
+{#    </div>#}
+{#    <div class="tablink tablink--eng" data-tab="#worn-items">#}
+{#        <div class="tablink--href" href="{{ url_for('get_list_of_items', item_type='worn-items') }}">#}
+{#            <div class="tab-header">{{ trans ('Worn Items', lang) }}</div>#}
+{#        </div>#}
+{#    </div>#}
+{##}
+{#    <div class="tablink tablink--eng" data-tab="#armor">#}
+{#        <div class="tablink--href" href="{{ url_for('get_list_of_items', item_type='armor') }}">#}
+{#            <div class="tab-header">{{ trans ('Armor', lang) }}</div>#}
+{#        </div>#}
+{#    </div>#}
+{#    <div class="tablink tablink--eng" data-tab="#weapons">#}
+{#        <div class="tablink--href" href="{{ url_for('get_list_of_items', item_type='weapons') }}">#}
+{#            <div class="tab-header">{{ trans ('Weapons', lang) }}</div>#}
+{#        </div>#}
+{#    </div>#}
+{#    <div class="tablink tablink--eng" data-tab="#shields">#}
+{#        <div class="tablink--href" href="{{ url_for('get_list_of_items', item_type='shields') }}">#}
+{#            <div class="tab-header">{{ trans ('Shields', lang) }}</div>#}
+{#        </div>#}
+{#    </div>#}
+{#    <div class="tablink tablink--eng" data-tab="#materials">#}
+{#        <div class="tablink--href" href="{{ url_for('get_list_of_items', item_type='materials') }}">#}
+{#            <div class="tab-header">{{ trans ('Materials', lang) }}</div>#}
+{#        </div>#}
+{#    </div>#}
+{#    <div class="tablink tablink--eng" data-tab="#runes">#}
+{#        <div class="tablink--href" href="{{ url_for('get_list_of_items', item_type='runes') }}">#}
+{#            <div class="tab-header">{{ trans ('Runes', lang) }}</div>#}
+{#        </div>#}
+{#    </div>#}
+{#    <div class="tablink tablink--eng" data-tab="#snares">#}
+{#        <div class="tablink--href" href="{{ url_for('get_list_of_items', item_type='snares') }}">#}
+{#            <div class="tab-header">{{ trans ('Snares', lang) }}</div>#}
+{#        </div>#}
+{#    </div>#}
+{#    <div class="tablink tablink--eng" data-tab="#staves">#}
+{#        <div class="tablink--href" href="{{ url_for('get_list_of_items', item_type='staves') }}">#}
+{#            <div class="tab-header">{{ trans ('Staves', lang) }}</div>#}
+{#        </div>#}
+{#    </div>#}
+{#    <div class="tablink tablink--eng" data-tab="#wands">#}
+{#        <div class="tablink--href" href="{{ url_for('get_list_of_items', item_type='wands') }}">#}
+{#            <div class="tab-header">{{ trans ('Wands', lang) }}</div>#}
+{#        </div>#}
+{#    </div>#}
+{#    <div class="tablink tablink--eng" data-tab="#structures">#}
+{#        <div class="tablink--href" href="{{ url_for('get_list_of_items', item_type='structures') }}">#}
+{#            <div class="tab-header">{{ trans ('Structures', lang) }}</div>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+
+
+{% endblock %}

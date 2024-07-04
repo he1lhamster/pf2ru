@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ trans ('Ancestries', lang) }}
+{% endblock %}
+
+
+{% block body %}
+<h1 class="h1-header">{{ trans ('Ancestries',lang) }}</h1>
+
+<a class="textlink" href="{{ url_for('core_rulebook_chapter', chapter_name='ancestries-and-backgrounds') }}">{{ trans ('Click here to see rules for Ancestries.', lang) }} </a>
+
+    <table class="need-filters table--list" id="ancestries-list">
+        <thead>
+                <th class="table--list--header">Name
+                    <button class="sort-button" data-column="0">
+                        <img class="sort-button--icon" src="{{ url_for('static', path='icons/sort-arrows-icon.svg' ) }}" alt="Sort">
+                    </button>
+                </th>
+                <th class="table--list--header">Название
+                    <button class="sort-button" data-column="1">
+                        <img class="sort-button--icon" src="{{ url_for('static', path='icons/sort-arrows-icon.svg' ) }}" alt="Sort">
+                    </button>
+                </th>
+                <th class="table--list--header">Traits</th>
+                <th class="table--list--header">Дескрипторы</th>
+                <th class="table--list--header">{{ trans('HP', lang) }}
+                    <button class="sort-button" data-column="4">
+                        <img class="sort-button--icon" src="{{ url_for('static', path='icons/sort-arrows-icon.svg' ) }}" alt="Sort">
+                    </button>
+                </th>
+                <th class="table--list--header">{{ trans('Size', lang) }}</th>
+                <th class="table--list--header">{{ trans('Speed', lang) }}
+                    <button class="sort-button" data-column="6">
+                        <img class="sort-button--icon" src="{{ url_for('static', path='icons/sort-arrows-icon.svg' ) }}" alt="Sort">
+                    </button>
+                </th>
+                <th class="table--list--header">{{ trans('Ability Boosts', lang) }}</th>
+                <th class="table--list--header">{{ trans('Ability Flaws', lang) }}</th>
+            <tr>
+<!--                NAME-->
+                <th class="filter-cell table--list--filter">
+                    <input type="text" class="filter-input" data-column="0" placeholder="">
+                </th>
+<!--                RUS NAME-->
+                <th class="filter-cell">
+                    <input type="text" class="filter-input" data-column="1" placeholder="">
+                    <br>
+                    <input type="checkbox" class="checkbox-only-rus check-checkbox" data-column="1"> есть
+                </th>
+<!--                Traits-->
+                <th class="filter-cell" colspan="2">
+                    <input type="text" class="filter-input--traits" data-column="2" placeholder="">
+                    <button class="filter-button" data-column="2">
+                        <img class="filter-button--icon" src="{{ url_for('static', path='icons/plus-icon.svg' ) }}" alt="Add">
+                    </button>
+                    <div class="traits-filter traits-filter--2"></div>
+                </th>
+                <!--HP-->
+                <th class="filter-cell">
+<!--                    <input type="text" class="filter-input" data-column="4" placeholder="">-->
+                </th>
+                <!--SIZE-->
+                <th class="filter-cell">
+<!--                    <span class="choice-button" data-column="5" data="Tiny">T</span>-->
+<!--                    <span class="choice-button" data-column="5" data="Small">S</span>-->
+<!--                    <span class="choice-button" data-column="5" data="Medium">M</span>-->
+                </th>
+                <!--speed-->
+                <th class="filter-cell">
+                </th>
+                <!--ability boost-->
+                <th class="filter-cell">
+                </th>
+                <!--ability flaw-->
+                <th class="filter-cell">
+                </th>
+            </tr>
+            </thead>
+        <tbody>
+        {% for item in ancestries %}
+        <tr>
+            <td class="cell-traits-output" data="{{ item.name }}">
+                <span><span class="rhombus" itemID={{ item.id }} itemType="ancestries" itemLang="en" onclick="getItem(this)"></span>
+                <a class="item-link link--popup item-link--ancestries item-link--table" href="/ancestries/{{ item.name|lower }}?tab=details">{{ item.name }}</a></span>
+            </td>
+            <td class="cell-traits-output" data="{{ item.rus_name|none_to_hyphen }}">
+                {% if item.rus_name %}
+                <span><span class="rhombus" itemID={{ item.id }} itemType='ancestries' itemLang='ru' onclick="getItem(this)"></span>
+                <a class="item-link link--popup item-link--ancestries item-link--table" href="/ancestries/{{ item.name|lower }}?tab=details">{{ item.rus_name }}</a></span>
+                {% else %} -
+                {% endif %}
+            </td>
+            <td data="{{ item.traits_output|traits_to_text }}" class="cell-traits-output">{{ item.traits_output|to_traits_output|safe }}</td>
+            <td data="{{ item.rus_traits_output|traits_to_text }}" class="cell-traits-output">{{ item.rus_traits_output|to_traits_output|safe }}</td>
+            <td data="{{ item.hp }}"> {{ item.hp }} </td>
+            <td data="{{ item.size }}">{{ item.size }}</td>
+            <td data="{{ item.land_speed }}">{{ item.speed }}</td>
+            <td data="{{ item.ability_boost|none_to_hyphen }}">{{ item.ability_boost|none_to_hyphen }}</td>
+            <td data="{{ item.ability_flaw|none_to_hyphen }}">{{ item.ability_flaw|none_to_hyphen }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+
+{% endblock %}

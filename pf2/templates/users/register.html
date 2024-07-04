@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ trans('Register', lang) }}
+{% endblock %}
+
+
+{% block body %}
+<h1 class="h1-header">{{ trans('Register', lang) }}</h1>
+    <p>
+        Регистрация на сайте не сайте необязательна, весь контент доступен без каких-либо ограничений.
+        <br><br>
+        После регистрации <em>следопыт</em> получает в распоряжение <em>"Великолепный Особняк"</em> с возможностью добавлять страницы сайты и делать к ним заметки. В дальнейшем функционал будет развиваться.
+    </p>
+<form method="post" class="feedback-form" action="/users/auth/register" id="register-form">
+    <label class="feedback-label" for="email">{{ trans('Email:', lang) }}</label>
+    <input class="feedback-input" type="email" id="register-email" name="email" required>
+    <br>
+    <label class="feedback-label" for="username">{{ trans('Username:', lang) }}</label>
+    <input class="feedback-input" id="register-username" name="username" required>
+    <br>
+    <label class="feedback-label" for="password">{{ trans('Password:', lang) }}</label>
+    <input class="feedback-input" type="password" id="register-password" name="password" required>
+    <br>
+    <button type="submit" class="feedback-button ">{{ trans('Register', lang) }}</button>
+</form>
+
+    <button id="google-login" class="google-button register--google-button">{{ trans('Register with Google', lang) }}</button>
+
+
+    <script>
+        document.getElementById('register-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const email = document.getElementById('register-email').value;
+            const username = document.getElementById('register-username').value;
+            const password = document.getElementById('register-password').value;
+            const responseValid = await fetch('/users/is-valid-create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({'email': email, 'password': password, 'username': username })
+            });
+            if (responseValid.ok) {
+                const responseReg = await fetch('/users/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({'email': email, 'password': password, 'username': username })
+                 });
+
+                if (responseReg.ok) {
+                    alert ('Регистрация успешна. Проверьте почту для верификации аккаунта')
+                    window.location.href = '/'
+                } else {
+                    alert ('В процессе регистрации возникла ошибка. Пожалуйста, попробуйте заново')
+                    window.location.reload()
+                }
+
+            } else {
+                const result = await responseValid.json()
+                alert(result.detail)
+            }
+
+        });
+    </script>
+
+
+{% endblock %}

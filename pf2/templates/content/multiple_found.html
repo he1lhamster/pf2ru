@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ trans ('Result for:', lang) }} {{ item_name }}
+{% endblock %}
+
+
+{% block body %}
+<h1 class="h1-header">{{ trans ('Result for:', lang) }} {{ item_name }}</h1>
+
+{{ trans ('Found more than one {} with same name. Please select required item from list below. '.format(item_type), lang) }}
+
+{% for item in items %}
+    <div class="bordered-box">
+         <div class="box-simple-header"><a class="textlink" href="#">{{ item.id }}: {{ item.name }}</a></div>
+        <div>
+              Вступление к тексту и <span class="rhombus" itemID={{ item.id }} itemType={{ item_type|to_url }} onclick="getItem(this)"></span>
+        <a class="item-link" href="#">{{ item.name }}</a> и другой текст
+            <br>
+            Вступление к тексту и и другой текст и другой тексти другой тексти другой тексти другой тексти другой тексти другой тексти другой тексти другой тексти другой тексти <span class="rhombus" itemID={{ item.id }} itemType={{ item_type|to_url }} onclick="getItem(this)"></span>
+        <a class="item-link" href="#">gallop link text</a> другой тексти другой тексти другой тексти другой тексти другой тексти другой тексти другой тексти другой тексти другой тексти другой тексти другой текст
+        </div>
+    </div>
+
+{% endfor %}
+
+  <span class="rhombus"> </span>
+<a class="textlink">text</a>
+
+{% endblock %}

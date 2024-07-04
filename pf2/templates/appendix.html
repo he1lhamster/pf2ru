@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ trans('Appendix', lang) }}
+{% endblock %}
+
+
+{% block body %}
+<h1 class="h1-header">{{ trans('Appendix', lang) }}</h1>
+Данный раздел содержит дополнительную информацию и файлы по игре.
+    <h2 class="h2-header">
+        <a href="{{ url_for('files') }}" class="header-link ">{{ trans ('Files', lang) }}</a>
+    </h2>
+
+    <h2 class="h2-header">
+        <a href="{{ url_for('get_conditions') }}" class="header-link ">{{
+                                    trans ('Conditions', lang) }}</a>
+    </h2>
+
+    <h2 class="h2-header">
+       <a href="{{ url_for('get_actions') }}" class="header-link ">{{
+                                    trans ('Actions and Activities', lang) }}</a>
+    </h2>
+
+        <div class="index-item">
+            <a href="{{ url_for('get_actions').include_query_params(tab='basic-actions') }}" class="menu-h4-header leftmenu__menu-h4-header ">
+                                        {{ trans ('Basic Actions', lang) }}</a>
+            <a href="{{ url_for('get_actions').include_query_params(tab='exploration-actions') }}" class="menu-h4-header leftmenu__menu-h4-header ">
+                                        {{ trans ('Exploration Actions', lang) }}</a>
+            <a href="{{ url_for('get_actions').include_query_params(tab='downtime-actions') }}" class="menu-h4-header leftmenu__menu-h4-header ">
+                                        {{ trans ('Downtime Actions', lang) }}</a>
+        </div>
+
+
+{% endblock %}

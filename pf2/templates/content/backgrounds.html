@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ trans ('Backgrounds', lang) }}
+{% endblock %}
+
+
+{% block body %}
+<h1 class="h1-header">{{ trans ('Backgrounds',lang) }}</h1>
+
+<a class="textlink" href="{{ url_for('core_rulebook_chapter', chapter_name='ancestries-and-backgrounds') }}#backgrounds">{{ trans ('Click here to see rules for Backgrounds.', lang) }} </a>
+
+{#<div class="tabs-panel" id ="backgrounds-tabs-panel">#}
+{#    <div class="tablink tablink--eng" data-tab="#general">#}
+{#        <div class="tab-header">{{ trans ('General', lang) }}</div>#}
+{#    </div>#}
+{#    <div class="tablink tablink--eng" data-tab="#regional">#}
+{#        <div class="tab-header">{{ trans ('Regional', lang) }}</div>#}
+{#    </div>#}
+{#</div>#}
+
+{#<div class="tab-content tab-content--active" id="general">#}
+    <table class="need-filters table--list" id="backgrounds-list">
+        <thead>
+                <th class="table--list--header">Name
+                    <button class="sort-button" data-column="0">
+                        <img class="sort-button--icon" src="{{ url_for('static', path='icons/sort-arrows-icon.svg' ) }}" alt="Sort">
+                    </button>
+                </th>
+                <th class="table--list--header">Название
+                    <button class="sort-button" data-column="1">
+                        <img class="sort-button--icon" src="{{ url_for('static', path='icons/sort-arrows-icon.svg' ) }}" alt="Sort">
+                    </button>
+                </th>
+{#                 <th class="table--list--header">{{ trans ('Source', lang) }}</th>#}
+
+                <th class="table--list--header">{{ trans('Skills', lang) }}
+                </th>
+                <th class="table--list--header">{{ trans('Ability Boosts', lang) }}</th>
+                <th class="table--list--header">{{ trans('Feat', lang) }}</th>
+            <tr>
+<!--                NAME-->
+                <th class="filter-cell table--list--filter">
+                    <input type="text" class="filter-input" data-column="0" placeholder="">
+                </th>
+<!--                RUS NAME-->
+                <th class="filter-cell">
+                    <input type="text" class="filter-input" data-column="1" placeholder="">
+                    <br>
+                    <input type="checkbox" class="checkbox-only-rus check-checkbox" data-column="1"> есть
+                </th>
+{#<!--                Source-->#}
+{#                <th class="filter-cell">#}
+{#                </th>#}
+                <!--skills-->
+                <th class="filter-cell">
+                </th>
+                <!--ability boost-->
+                <th class="filter-cell">
+                </th>
+                <!--feat-->
+                <th class="filter-cell">
+                </th>
+            </tr>
+            </thead>
+        <tbody>
+        {% for item in general_bg %}
+        <tr>
+            <td class="cell-traits-output" data="{{ item.name }}">
+                <span><span class="rhombus" itemID={{ item.id }} itemType='backgrounds' itemLang='en' onclick="getItem(this)"></span>
+                <a class="item-link link--popup item-link--backgrounds item-link--table" href="/backgrounds/{{ item.name|lower }}">{{ item.name }}</a></span>
+            </td>
+            <td class="cell-traits-output" data="{{ item.rus_name|none_to_hyphen }}">
+                {% if item.rus_name %}
+                <span><span class="rhombus" itemID={{ item.id }} itemType='backgrounds' itemLang='ru' onclick="getItem(this)"></span>
+                <a class="item-link link--popup item-link--backgrounds item-link--table" href="/backgrounds/{{ item.name|lower }}">{{ item.rus_name }}</a></span>
+                {% else %} -
+                {% endif %}
+            </td>
+{#            <td data="{{ item.source|to_text }}">{{ item.source|to_text|safe }}</td>#}
+
+            <td data="{{ item.skill|none_to_hyphen|to_text }}">{{ item.skill|none_to_hyphen|to_a_links|safe }}</td>
+            <td data="{{ item.ability_boost|none_to_hyphen }}">{{ item.ability_boost|none_to_hyphen }}</td>
+            <td data="{{ item.feat|none_to_hyphen|to_text }}">{{ item.feat|none_to_hyphen|to_a_links|safe }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{#</div>#}
+
+{#<div class="tab-content tab-content--active" id="regional">#}
+{#    <table class="need-filters table--list" id="backgrounds-list">#}
+{#        <thead>#}
+{#                <th class="table--list--header">Name#}
+{#                    <button class="sort-button" data-column="0">#}
+{#                        <img class="sort-button--icon" src="{{ url_for('static', path='icons/sort-arrows-icon.svg' ) }}" alt="Sort">#}
+{#                    </button>#}
+{#                </th>#}
+{#                <th class="table--list--header">Название#}
+{#                    <button class="sort-button" data-column="1">#}
+{#                        <img class="sort-button--icon" src="{{ url_for('static', path='icons/sort-arrows-icon.svg' ) }}" alt="Sort">#}
+{#                    </button>#}
+{#                </th>#}
+{#                <th class="table--list--header">{{ trans('Source', lang) }}</th>#}
+{#                <th class="table--list--header">{{ trans('Type', lang) }}#}
+{#                </th>#}
+{##}
+{#                <th class="table--list--header">{{ trans('Skills', lang) }}#}
+{#                </th>#}
+{#                <th class="table--list--header">{{ trans('Ability Boosts', lang) }}</th>#}
+{#                <th class="table--list--header">{{ trans('Feat', lang) }}</th>#}
+{#            <tr>#}
+{#<!--                NAME-->#}
+{#                <th class="filter-cell table--list--filter">#}
+{#                    <input type="text" class="filter-input" data-column="0" placeholder="">#}
+{#                </th>#}
+{#<!--                RUS NAME-->#}
+{#                <th class="filter-cell">#}
+{#                    <input type="text" class="filter-input" data-column="1" placeholder="">#}
+{#                    <br>#}
+{#                    <input type="checkbox" class="checkbox-only-rus check-checkbox" data-column="1"> есть#}
+{#                </th>#}
+{#<!--                Traits-->#}
+{#                <th class="filter-cell">#}
+{##}
+{#                </th>#}
+{#                <!--type-->#}
+{#                <th class="filter-cell">#}
+{#                </th>#}
+{#                <!--skills-->#}
+{#                <th class="filter-cell">#}
+{#                </th>#}
+{#                <!--ability boost-->#}
+{#                <th class="filter-cell">#}
+{#                </th>#}
+{#                <!--feat-->#}
+{#                <th class="filter-cell">#}
+{#                </th>#}
+{#            </tr>#}
+{#            </thead>#}
+{#        <tbody>#}
+{#        {% for item in regional_bg %}#}
+{#        <tr>#}
+{#            <td data="{{ item.name }}">#}
+{#                <span><span class="rhombus" itemID={{ item.id }} itemType='backgrounds' itemLang='en' onclick="getItem(this)"></span>#}
+{#                <a class="item-link link--popup item-link--backgrounds item-link--table" href="/backgrounds/{{ item.name|lower }}">{{ item.name }}</a></span>#}
+{#            </td>#}
+{#            <td data="{{ item.rus_name|none_to_hyphen }}">#}
+{#                {% if item.rus_name %}#}
+{#                <span><span class="rhombus" itemID={{ item.id }} itemType='backgrounds' itemLang='ru' onclick="getItem(this)"></span>#}
+{#                <a class="item-link link--popup item-link--backgrounds item-link--table" href="/backgrounds/{{ item.name|lower }}">{{ item.rus_name }}</a></span>#}
+{#                {% else %} -#}
+{#                {% endif %}#}
+{#            </td>#}
+{#            <td data="{{ item.source|to_text }}" class="cell-traits-output">{{ item.source|to_text|safe }}</td>#}
+{#            <td data="{{ item.subcategory|none_to_hyphen }}">{{ item.subcategory|none_to_hyphen }}</td>#}
+{##}
+{#            <td data="{{ item.skill|none_to_hyphen|to_text }}">{{ item.skill|none_to_hyphen|to_a_links|safe }}</td>#}
+{#            <td data="{{ item.ability_boost|none_to_hyphen }}">{{ item.ability_boost|none_to_hyphen }}</td>#}
+{#            <td data="{{ item.feat|none_to_hyphen|to_text }}">{{ item.feat|none_to_hyphen|to_a_links|safe }}</td>#}
+{#        </tr>#}
+{#        {% endfor %}#}
+{#        </tbody>#}
+{#    </table>#}
+{##}
+{#</div>#}
+
+
+
+
+
+{% endblock %}

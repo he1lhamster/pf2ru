@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+{{ trans('Spells', lang) }}
+{% endblock %}
+
+{% block body %}
+    <h1 class="h1-header">{{ trans('Spells', lang) }}    </h1>
+<p>
+    <a href="{{ url_for('core_rulebook_chapter', chapter_name='spells') }}">{{ trans('Click here for the full rules on Spells.', lang) }}</a>
+</p>
+
+<div class="tabs-panel" id ="spells-tabs-panel">
+    <div class="tablink tablink--eng" data-tab="#spells" >
+        <div class="tablink--href" href="{{ url_for('get_spells').include_query_params(tab='spells') }}">
+            <div class="tab-header">{{ trans ('Spells', lang) }}</div>
+        </div>
+    </div>
+
+    <div class="tablink tablink--eng" data-tab="#arcane">
+        <div class="tablink--href" href="{{ url_for('get_spells').include_query_params(tab='arcane') }}">
+            <div class="tab-header">{{ trans ('Arcane', lang) }}</div>
+        </div>
+    </div>
+    <div class="tablink tablink--eng" data-tab="#divine">
+        <div class="tablink--href" href="{{ url_for('get_spells').include_query_params(tab='divine') }}">
+            <div class="tab-header">{{ trans ('Divine', lang) }}</div>
+        </div>
+    </div>
+    <div class="tablink tablink--eng" data-tab="#occult">
+        <div class="tablink--href" href="{{ url_for('get_spells').include_query_params(tab='occult') }}">
+            <div class="tab-header">{{ trans ('Occult', lang) }}</div>
+        </div>
+    </div>
+    <div class="tablink tablink--eng" data-tab="#primal">
+        <div class="tablink--href" href="{{ url_for('get_spells').include_query_params(tab='primal') }}">
+            <div class="tab-header">{{ trans ('Primal', lang) }}</div>
+        </div>
+    </div>
+        <div class="tablink tablink--eng" data-tab="#focus-spells">
+        <div class="tablink--href" href="{{ url_for('get_spells').include_query_params(tab='focus-spells') }}">
+            <div class="tab-header">{{ trans ('Focus Spells', lang) }}</div>
+        </div>
+    </div>
+
+
+</div>
+
+    <table class="need-filters table--list" id="spells-list">
+        <thead>
+                <th class="table--list--header">Name
+                    <button class="sort-button" data-column="0">
+                        <img class="sort-button--icon" src="{{ url_for('static', path='icons/sort-arrows-icon.svg' ) }}" alt="Sort">
+                    </button>
+                </th>
+                <th class="table--list--header">Название
+                    <button class="sort-button" data-column="1">
+                        <img class="sort-button--icon" src="{{ url_for('static', path='icons/sort-arrows-icon.svg' ) }}" alt="Sort">
+                    </button>
+                </th>
+                <th class="table--list--header">Traits</th>
+                <th class="table--list--header">Дескрипторы</th>
+
+                <th class="table--list--header">{{ trans('Level', lang) }}
+                    <button class="sort-button" data-column="4">
+                        <img class="sort-button--icon" src="{{ url_for('static', path='icons/sort-arrows-icon.svg' ) }}" alt="Sort">
+                    </button>
+                </th>
+
+                <th class="table--list--header">{{ trans('Actions', lang) }}</th>
+                <th class="table--list--header">{{ trans('School', lang) }}</th>
+                <th class="table--list--header">{{ trans('Traditions', lang) }}</th>
+
+            <tr>
+<!--                NAME-->
+                <th class="filter-cell table--list--filter">
+                    <input type="text" class="filter-input" data-column="0" placeholder="">
+                </th>
+<!--                RUS NAME-->
+                <th class="filter-cell">
+                    <input type="text" class="filter-input" data-column="1" placeholder="">
+                    <br>
+                    <input type="checkbox" class="checkbox-only-rus check-checkbox" data-column="1"> есть
+                </th>
+{#                TRAITS         #}
+                <th class="filter-cell" colspan="2">
+                    <input type="text" class="filter-input--traits" data-column="2" placeholder="">
+                    <button class="filter-button" data-column="2">
+                        <img class="filter-button--icon" src="{{ url_for('static', path='icons/plus-icon.svg' ) }}" alt="Add">
+                    </button>
+                    <div class="traits-filter traits-filter--2"></div>
+                </th>
+                <!--level-->
+                <th class="filter-cell">
+                  <input type="text" id="input-from" class="filter-input--range filter-input--range-from" data-column="4" placeholder="From">
+                  <input type="text" id="input-to" class="filter-input--range filter-input--range-to" data-column="4" placeholder="To">
+                </th>
+                <!--Actions-->
+                <th class="filter-cell table-action-filter-cell">
+                    <span class="action-filter" data-column="5" data="1">
+                        <img class="action-icon action-icon--filter" src="{{ url_for('static', path='icons/1action.png' ) }}" alt="1">
+                    </span>
+                    <span class="action-filter" data-column="5" data="2">
+                        <img class="action-icon action-icon--filter" src="{{ url_for('static', path='icons/2actions.png' ) }}" alt="2">
+                    </span>
+                    <span class="action-filter" data-column="5" data="3">
+                        <img class="action-icon action-icon--filter" src="{{ url_for('static', path='icons/3actions.png' ) }}" alt="3">
+                    </span>
+                    <span class="action-filter" data-column="5" data="4">
+                        <img class="action-icon action-icon--filter" src="{{ url_for('static', path='icons/0action.png' ) }}" alt="4">
+                    </span>
+                    <span class="action-filter" data-column="5" data="5">
+                        <img class="action-icon action-icon--filter" src="{{ url_for('static', path='icons/reaction.png' ) }}" alt="5">
+                    </span>
+                </th>
+                <!--School-->
+                <th class="filter-cell">
+                </th>
+                <!--Traditions-->
+                <th class="filter-cell">
+                </th>
+
+            </tr>
+            </thead>
+        <tbody>
+    {% for item in spells %}
+        <tr>
+            <td class="cell-traits-output" data="{{ item.name }}">
+                <span>
+                    <span class="rhombus" itemID={{ item.id }} itemType='spells' itemLang='en' onclick="getItem(this)"></span>
+                    <a class="item-link link--popup item-link--spells item-link--table" href="/spells/{{ item.name|to_url }}">{{ item.name }}</a>
+                </span>
+            </td>
+            <td class="cell-traits-output" data="{{ item.rus_name|none_to_hyphen }}">
+                {% if item.rus_name %}
+                    <span>
+                        <span class="rhombus" itemID={{ item.id }} itemType='spells' itemLang='ru' onclick="getItem(this)"></span>
+                        <a class="item-link link--popup item-link--spells item-link--table" href="/spells/{{ item.name|to_url }}">{{ item.rus_name|none_to_hyphen|capitalize }}</a>
+                    </span>
+                {% else %} -
+                {% endif %}
+            </td>
+            <td data="{{ item.traits_output|traits_to_text }}" class="cell-traits-output">{{ item.traits_output|to_traits_output|safe }}</td>
+            <td data="{{ item.rus_traits_output|traits_to_text }}" class="cell-traits-output">{{ item.rus_traits_output|to_traits_output|safe }}</td>
+            <td data="{{ item.level|lvl_to_int }}">{{ item.level }}
+{#                {% if lang=='ru' %}#}
+{#                    {{ item.rus_type_level }}#}
+{#                {% else %}#}
+{#                    {{ item.type_level }}#}
+{#                {% endif %}#}
+            </td>
+            <td data="{{item.actions|action_to_value}}">{{ item.actions|action_to_icon|safe }}</td>
+            <td data="{{ item.school|none_to_hyphen }}">{{ item.school|none_to_hyphen }}</td>
+            <td data="{{item.tradition|to_list}}">{{ item.tradition|to_list }}</td>
+
+        </tr>
+    {% endfor %}
+        </tbody>
+    </table>
+
+{##}
+{#<div class="tab-content tab-content--active" id="focus-spells">#}
+{#    focus#}
+{#</div>#}
+{##}
+{#<div class="tab-content tab-content--active" id="arcane-spells">#}
+{#    arcane#}
+{#</div>#}
+{#<div class="tab-content tab-content--active" id="divine-spells">#}
+{#    divine#}
+{#</div>#}
+{#<div class="tab-content tab-content--active" id="occult-spells">#}
+{#    occult#}
+{#</div>#}
+{#<div class="tab-content tab-content--active" id="primal-spells">#}
+{#    primal#}
+{#</div>#}
+
+{% endblock %}

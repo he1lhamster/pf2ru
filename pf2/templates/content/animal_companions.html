@@ -1,0 +1,220 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+{{ trans('Animal Companions', lang) }}
+{% endblock %}
+
+{% block body %}
+    <h1 class="h1-header">{{ trans('Animal Companions', lang) }}    </h1>
+<p>
+    <a href="{{ url_for('core_rulebook_chapter', chapter_name='classes') }}#animal-companions">{{ trans('Click here for the full rules on Animal Companions.', lang) }}</a>
+</p>
+<div class="tabs-panel" id ="animal-companions-tabs-panel">
+    <div class="tablink tablink--eng" data-tab="#animal-companions">
+        <div class="tab-header">{{ trans ('Animal Companions', lang) }}</div>
+    </div>
+    <div class="tablink tablink--eng" data-tab="#advanced-options">
+        <div class="tab-header">{{ trans ('Advanced Options', lang) }}</div>
+    </div>
+    <div class="tablink tablink--eng" data-tab="#specializations">
+        <div class="tab-header">{{ trans ('Specializations', lang) }}</div>
+    </div>
+</div>
+
+<div class="tab-content" id="animal-companions">
+    <table class="need-filters table--list" id="ancestries-list">
+        <thead>
+                <th class="table--list--header">Name
+                    <button class="sort-button" data-column="0">
+                        <img class="sort-button--icon" src="{{ url_for('static', path='icons/sort-arrows-icon.svg' ) }}" alt="Sort">
+                    </button>
+                </th>
+                <th class="table--list--header">Название
+                    <button class="sort-button" data-column="1">
+                        <img class="sort-button--icon" src="{{ url_for('static', path='icons/sort-arrows-icon.svg' ) }}" alt="Sort">
+                    </button>
+                </th>
+
+                <th class="table--list--header">{{ trans('HP', lang) }}
+                    <button class="sort-button" data-column="2">
+                        <img class="sort-button--icon" src="{{ url_for('static', path='icons/sort-arrows-icon.svg' ) }}" alt="Sort">
+                    </button>
+                </th>
+                <th class="table--list--header">{{ trans('Size', lang) }}</th>
+                <th class="table--list--header">{{ trans('Speed', lang) }}</th>
+                <th class="table--list--header">{{ trans('Skill', lang) }}</th>
+
+                <th class="table--list--header">{{ trans('STR', lang) }}
+                    <button class="sort-button" data-column="6">
+                        <img class="sort-button--icon" src="{{ url_for('static', path='icons/sort-arrows-icon.svg' ) }}" alt="Sort">
+                    </button>
+                </th>
+                <th class="table--list--header">{{ trans('DEX', lang) }}
+                    <button class="sort-button" data-column="7">
+                        <img class="sort-button--icon" src="{{ url_for('static', path='icons/sort-arrows-icon.svg' ) }}" alt="Sort">
+                    </button>
+                </th>
+                <th class="table--list--header">{{ trans('CON', lang) }}
+                    <button class="sort-button" data-column="8">
+                        <img class="sort-button--icon" src="{{ url_for('static', path='icons/sort-arrows-icon.svg' ) }}" alt="Sort">
+                    </button>
+                </th>
+            <tr>
+<!--                NAME-->
+                <th class="filter-cell table--list--filter">
+                    <input type="text" class="filter-input" data-column="0" placeholder="">
+                </th>
+<!--                RUS NAME-->
+                <th class="filter-cell">
+                    <input type="text" class="filter-input" data-column="1" placeholder="">
+                    <br>
+                    <input type="checkbox" class="checkbox-only-rus check-checkbox" data-column="1"> есть
+                </th>
+                <!--HP-->
+                <th class="filter-cell">
+                  <input type="text" id="input-from" class="filter-input--range filter-input--range-from" data-column="2" placeholder="From">
+                  <input type="text" id="input-to" class="filter-input--range filter-input--range-to" data-column="2" placeholder="To">
+                </th>
+                <!--Size-->
+                <th class="filter-cell">
+                </th>
+                <!--Speed-->
+                <th class="filter-cell">
+                </th>
+                <!--Skill-->
+                <th class="filter-cell">
+                </th>
+                <!--str-->
+                <th class="filter-cell">
+                  <input type="text" id="input-from" class="filter-input--range filter-input--range-from" data-column="6" placeholder="From">
+                  <input type="text" id="input-to" class="filter-input--range filter-input--range-to" data-column="6" placeholder="To">
+                </th>
+                <!--dex-->
+                <th class="filter-cell">
+                  <input type="text" id="input-from" class="filter-input--range filter-input--range-from" data-column="7" placeholder="From">
+                  <input type="text" id="input-to" class="filter-input--range filter-input--range-to" data-column="7" placeholder="To">
+                </th>
+                <!--con-->
+                <th class="filter-cell">
+                  <input type="text" id="input-from" class="filter-input--range filter-input--range-from" data-column="8" placeholder="From">
+                  <input type="text" id="input-to" class="filter-input--range filter-input--range-to" data-column="8" placeholder="To">
+                </th>
+            </tr>
+            </thead>
+        <tbody>
+    {% for item in animal_companions %}
+        <tr>
+            <td class="cell-traits-output" data="{{ item.name }}">
+                <span>
+                    <span class="rhombus" itemID={{ item.id }} itemType='animalcompanions' itemLang='en' onclick="getItem(this)"></span>
+                    <a class="item-link link--popup item-link--animalcompanions item-link--table" href="/animalcompanions/{{ item.name|to_url }}">{{ item.name }}</a>
+                </span>
+            </td>
+            <td class="cell-traits-output" data="{{ item.rus_name|none_to_hyphen }}">
+                {% if item.rus_name %}
+                    <span>
+                        <span class="rhombus" itemID={{ item.id }} itemType='animalcompanions' itemLang='ru' onclick="getItem(this)"></span>
+                        <a class="item-link link--popup item-link--animalcompanions item-link--table" href="/animalcompanions/{{ item.name|to_url }}">{{ item.rus_name|none_to_hyphen|capitalize }}</a>
+                    </span>
+                {% else %} -
+                {% endif %}
+            </td>
+            <td data="{{ item.hp }}"> {{ item.hp }} </td>
+            <td data="{{item.size}}">{{ item.size }}</td>
+            <td data="{{ item.speed }}"> <span>{{ item.speed }} </span></td>
+            <td data="{{ item.skill|none_to_hyphen|to_a_links|safe }}"> {{ item.skill|none_to_hyphen|to_a_links|safe }} </td>
+
+            <td data="{{ item.strength|none_to_hyphen }}"> {{ item.strength|none_to_hyphen }} </td>
+            <td data="{{ item.dexterity|none_to_hyphen }}"> {{ item.dexterity|none_to_hyphen }} </td>
+            <td data="{{ item.constitution|none_to_hyphen }}"> {{ item.constitution|none_to_hyphen }} </td>
+        </tr>
+    {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+
+<div class="tab-content" id="advanced-options">
+    <h1 class="h1-header">{{ trans ('Advanced Options', lang) }}</h1>
+
+    <div class="content-table">
+            {% for item in animal_advanced_options %}
+                <div class="content-item">
+                    <a class="content-header" href="#animal_advanced_option-{{ item.name|lower_no_spaces }}">
+                        {% if item.rus_name and lang=='ru' %}
+                            {{ item.rus_name }}
+                        {% else %}
+                            {{ item.name }}
+                        {% endif %}
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+
+    {% for item in animal_advanced_options %}
+    <a id="animal_advanced_option-{{ item.name|lower_no_spaces }}" class="anchor"></a>
+    <div class="item-output item-output--card">
+        <div class="item-output--card--header">
+            <a class="header-link" href="{{ url_for('get_item_page', item_type='animaladvancedoptions', item_id=item.id) }}">
+            {% if lang=='ru' and item.rus_name %}
+                {{ item.rus_name }}
+                {% else %}
+                {{ item.name }}
+            {% endif %}
+            </a>
+        </div>
+        <div class="item-output--body">
+            {% if item.rus_text_output and lang=='ru' %}
+                {{ item.rus_text_output|viewbox_r|safe }}
+            {% else %}
+                {{ item.text_output|viewbox_r|safe }}
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="tab-content" id="specializations">
+     <h1 class="h1-header">{{ trans ('Specializations', lang) }}</h1>
+
+    <div class="content-table">
+                {% for item in animal_specializations %}
+                    <div class="content-item">
+                        <a class="content-header" href="#animal_specialization-{{ item.name|lower_no_spaces }}">
+                            {% if item.rus_name and lang=='ru' %}
+                                {{ item.rus_name }}
+                            {% else %}
+                                {{ item.name }}
+                            {% endif %}
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+
+    {% for item in animal_specializations %}
+    <a id="animal_specialization-{{ item.name|lower_no_spaces }}" class="anchor"></a>
+
+    <div class="item-output item-output--card">
+        <div class="item-output--card--header">
+            <a class="header-link" href="{{ url_for('get_item_page', item_type='animalspecializations', item_id=item.id) }}">
+            {% if lang=='ru' and item.rus_name %}
+                {{ item.rus_name }}
+                {% else %}
+                {{ item.name }}
+            {% endif %}
+            </a>
+        </div>
+        <div class="item-output--body">
+            {% if item.rus_text_output and lang=='ru' %}
+                {{ item.rus_text_output|viewbox_r|safe }}
+            {% else %}
+                {{ item.text_output|viewbox_r|safe }}
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
