@@ -1,0 +1,420 @@
+/* normalize css*/
+/* Reset all margin, padding, and borders */
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+}
+
+/* Reset specific elements to browser defaults */
+body {
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+  font-family: inherit;
+}
+
+/* Set default display and styles for common elements */
+article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section {
+  display: block;
+}
+
+/* Reset list style */
+ol, ul {
+  list-style: none;
+}
+
+/* Reset table elements */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* Reset button styles */
+button {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Reset form elements */
+input, textarea, select, button {
+  font: inherit;
+  color: inherit;
+}
+
+/* Ensure images scale properly */
+img {
+  max-width: 100%;
+  height: auto;
+}
+/*-------------------*/
+
+@import "fonts/FFGoodProCond.css";
+@import "fonts/Roboto.css";
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('fonts/Roboto/Roboto-Regular.eot');
+    src: local('Roboto'), local('Roboto-Regular'),
+        url('fonts/Roboto/Roboto-Regular.eot?#iefix') format('embedded-opentype'),
+        url('fonts/Roboto/Roboto-Regular.woff2') format('woff2'),
+        url('fonts/Roboto/Roboto-Regular.woff') format('woff'),
+        url('fonts/Roboto/Roboto-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+  font-family: "Pathfinder2eActions";
+  src: url("fonts/Pathfinder2eActions.ttf");
+}
+
+//@font-face {
+//  font-family: "FF Good Pro Cond Light";
+//  src: url('fonts/FFGoodProCond-Light.woff2') format('woff2'),
+//       url('fonts/FFGoodProCond-Light.woff') format('woff');
+//  font-weight: normal;
+//  font-style: normal;
+//}
+
+.fullElement {
+  display: block;
+  font-size: 16px;
+  font-family: "Roboto";
+  line-height: normal;
+  text-size-adjust: auto;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+  .cards-main {
+    display: flex;
+    //display: none;
+    visibility: hidden;
+    flex-direction: row;
+  }
+
+.card {
+    /* border: 1px solid white; */
+    height: 88mm;
+    width: 63mm;
+    display: flex;
+    flex-direction: column;
+    padding: 1mm;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(0, 42, 23);
+    /* background-color: #d8c483; */
+    /* box-sizing: border-box; */
+    border: 1px solid white;
+    position: relative;
+    overflow: hidden;
+}
+
+
+.card2 {
+    transform:  rotate(180deg);
+}
+
+
+.card-text {
+  width: 230px;
+  font-size: 12px;
+  line-height: 1em;
+  font-family: "Roboto";
+  height: 100%;
+  padding: 3px;
+  overflow: hidden;
+  text-size-adjust: 100%;
+  //box-sizing: border-box;
+}
+
+
+.card-body {
+  /* background-color: rgb(238, 238, 238); */
+  width: 100%;
+  height: -webkit-fill-available;
+  height: -moz-available;
+  height: fill-available;
+
+  border: 1px solid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 5px;
+  background-color: white;
+  position: relative;
+}
+
+
+.header {
+    /* color: rgb(0,42,23); */
+    font-family: "FF Good Pro Cond Black";
+    font-weight: 600;
+    line-height: 0.9em;
+    font-variant: small-caps;
+    height: fit-content;
+    font-size: 20px;
+    max-height: 20mm;
+    width: -webkit-fill-available;
+    width: -moz-available;
+    width: fill-available;
+    padding: 3px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px solid rgb(0,42,23);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    background-color: rgb(237 236 211);
+
+    /* spell rgb(204 224 233)
+    equip rgb(226 210 162)
+    ritual rgb(212 190 213) */
+}
+
+.name {
+    align-self: center;
+    min-width: min-content;
+    max-width: 40mm;
+
+}
+
+.level-field {
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    min-width: max-content;
+    border-radius: 3px;
+    margin-left: auto;
+}
+
+.level {
+    align-self: end;
+
+}
+
+.level-text {
+    font-size: 0.8em;
+    line-height: 0.8em;
+    min-width: min-content;
+    align-self: end;
+}
+
+.traits {
+    margin: 0.3mm;
+    width: 62mm;
+    max-height: 20mm;
+    padding: 0.3mm;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+.item-trait {
+    background-color: #5e0000;
+    border: 0.5mm solid #d8c483;
+    color: white;
+    font-family: "FF Good Pro Cond News";
+    font-variant: small-caps;
+    font-weight: 300;
+    letter-spacing: 0.1mm;
+    padding: 1px 2px;
+    margin: 0 1px;
+    line-height: 1em;
+    font-size: 16px;
+}
+
+.trait-uncommon {
+  background-color: #c45500;
+}
+.trait-rare {
+  background-color: #0c1466;
+}
+.trait-unique {
+  background-color: #800080;
+}
+.trait-alignment {
+  background-color: #4287f5;
+}
+.trait-size {
+  background-color: #478c42;
+}
+
+.action-icon {
+  font-size: 1.5em;
+  font-family: "Pathfinder2eActions";
+  margin-left: 0.1em;
+  margin-right: 0.1em;
+  color: black
+
+}
+
+h2 {
+  font-family: "FF Good Pro Cond Black" !important;
+  font-size: 1em!important;
+  color: rgb(23, 42, 0) !important;
+  border-bottom: 1px solid rgb(23, 42, 0) !important;
+  text-transform: uppercase;
+  align-items: baseline;
+  display: flex;
+  margin: 2mm 0 0mm 0;
+}
+
+h3 {
+  font-family: "FF Good Pro Cond Black" !important;
+  font-size: 1.0em!important;
+  color: rgb(217, 196, 132) !important;
+  text-transform: uppercase;
+  align-items: baseline;
+  display: flex;
+  margin: 2mm 0 0mm 0;
+}
+
+.item-type {
+  display: inline-flex;
+  margin-left:auto;
+  min-width: fit-content;
+}
+
+.card-text hr {
+  margin: 0.5mm 0;
+}
+
+a {
+  text-decoration: underline;
+}
+
+.site-watermark {
+    font-size: 10px;
+    color: darkgrey;
+    font-family: 'FF GOOD PRO COND Medium';
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: auto;
+    padding: 0 3px;
+    height: min-content;
+    position: relative;
+    width: 100%;
+    line-height: 1em;
+}
+
+.site-watermark::before,
+.site-watermark::after {
+        content: '';
+        flex: 1;
+        border-bottom: 1.5px solid darkgrey;
+        margin: 0 10px;;
+    }
+
+.site-watermark2 {
+  text-transform: rotate(180deg);
+}
+
+/*
+table {
+  margin: auto;
+  padding: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+
+tr {
+  overflow: hidden;
+  max-height: min-content;
+  margin: 0;
+  padding: 0;
+  background-color: white;
+  border-top: 1px solid rgb(200,200,200);
+  display: table-row;
+}
+
+td{
+  display: table-cell;
+
+}
+
+tr td{
+  border-left: 0.2px solid rgb(200,200,200);
+  border-right: 0.2px solid rgb(200,200,200);
+}
+
+tr td:first-of-type {
+  border-left: none;
+}
+
+tr td:last-of-type {
+  border-right: none;
+}
+
+tr:nth-child(even) td {
+  background-color: rgb(242,242,242);
+}
+
+ thead {
+  display: table-row;
+}
+
+thead td {
+  background-color: rgb(217, 196, 132);
+  border-bottom: 1px solid black;
+
+}  */
+
+
+trow {
+  overflow: hidden;
+  max-height: min-content;
+  margin: 0;
+  padding: 0;
+  background-color: white;
+  border-top: 1px solid rgb(200,200,200);
+  display: table-row;
+  //display: flex;
+  //flex-direction: row;
+  width: inherit;
+}
+
+tdcell{
+  display: table-cell;
+  width: inherit;
+  //flex: 1;
+}
+
+trow tdcell{
+  border-left: 0.2px solid rgb(200,200,200);
+  border-right: 0.2px solid rgb(200,200,200);
+}
+
+trow tdcell:first-of-type {
+  border-left: none;
+}
+
+trow tdcell:last-of-type {
+  border-right: none;
+}
+
+trow:nth-child(even) tdcell {
+  background-color: rgb(242,242,242);
+}
+
+ thhead {
+  /*display: table-row;*/
+   display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+thhead tdcell {
+  background-color: rgb(217, 196, 132);
+  flex: 1;
+  //border-bottom: 1px solid black;
+
+}
